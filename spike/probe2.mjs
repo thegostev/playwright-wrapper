@@ -1,0 +1,33 @@
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { createConnection } from '@playwright/mcp';
+const log = (...a) => console.log('[probe]', ...a);
+const url = process.argv[2] || 'https://jobs.fortum.com';
+log('start', url);
+log('creating connection...');
+const [ct, st] = InMemoryTransport.createLinkedPair();
+const server = await createConnection({ browser:{ browserName:'chromium', launchOptions:{ headless:true } }, capabilities:['core'] });
+log('connection created');
+await server.connect(st);
+log('server connected');
+const client = new Client({ name:'probe', version:'0' }, { capabilities:{} });
+await client.connect(ct);
+log('client connected');
+log('navigating (this is where it likely hangs if Fortum blocks network-idle)...');
+const t0 = Date.now();
+try {
+  const nav = await client.callTool({ name:'browser_navigate', arguments:{ url } });
+  const txt = (nav.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+  log(`navigate done in ${((Date.now()-t0)/1000).toFixed(1)}s isError=${!!nav.isError} len=${txt.length}`);
+  log('navigate text head:', txt.slice(0,300).replace(/\n/g,' '));
+} catch(e){ log('navigate THREW:', String(e.message||e)); process.exit(1); }
+log('snapshotting...');
+const t1 = Date.now();
+const snap = await client.callTool({ name:'browser_snapshot', arguments:{} });
+const yaml = snap.content?.find(b=>b.type==='text')?.text || '';
+log(`snapshot done in ${((Date.now()-t1)/1000).toFixed(1)}s isError=${!!snap.isError} len=${yaml.length}`);
+log('--- snapshot first 1200 chars ---');
+console.log(yaml.slice(0,1200));
+log('link refs:', (yaml.match(/link [^\[]*\[ref=\w+\]/g)||[]).length);
+await client.close();
+log('done');
