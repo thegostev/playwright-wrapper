@@ -1,0 +1,25 @@
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { createConnection } from '@playwright/mcp';
+const log = (...a) => console.log('[probe3]', ...a);
+const [ct, st] = InMemoryTransport.createLinkedPair();
+const server = await createConnection({ browser:{ browserName:'chromium', launchOptions:{ headless:true } }, capabilities:['core'] });
+await server.connect(st);
+const client = new Client({ name:'probe3', version:'0' }, { capabilities:{} });
+await client.connect(ct);
+const snap2yaml = (s)=> (s.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+
+await client.callTool({ name:'browser_navigate', arguments:{ url:'https://jobs.fortum.com' } });
+await client.callTool({ name:'browser_snapshot', arguments:{} });
+log('clicked "View all jobs" (e155)...');
+const click = await client.callTool({ name:'browser_click', arguments:{ element:'View all jobs', target:'e155' } });
+log('click result head:', snap2yaml(click).slice(0,200).replace(/\n/g,' '));
+const snap = await client.callTool({ name:'browser_snapshot', arguments:{} });
+const yaml = snap2yaml(snap);
+log('post-click snapshot len:', yaml.length);
+log('--- first 1800 chars ---');
+console.log(yaml.slice(0,1800));
+log('link refs:', (yaml.match(/- link [^\[]*\[ref=\w+\]/g)||[]).length);
+log('cities:', (yaml.match(/Helsinki|Espoo|Vantaa|Stockholm|Finland|Sweden|Remote/gi)||[]).slice(0,12));
+await client.close();
+process.exit(0);
