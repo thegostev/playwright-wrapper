@@ -4,7 +4,7 @@
   "description": "Playwright for agentic efficiency. Use cases from browsing and scraping to E2E tests.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
   },
   "repository": {
     "type": "git",
