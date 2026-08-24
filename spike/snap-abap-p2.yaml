@@ -1,0 +1,804 @@
+### Page
+- Page URL: https://www.arbeitnow.com/?search=abap&page=2
+- Page Title: Jobs in Germany: Remote, Visa Sponsorship & English Speaking - August 2026
+- Console: 3 errors, 1 warnings
+### Snapshot
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e6]:
+    - navigation "Top" [ref=e7]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - link "Homepage" [ref=e13] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com
+            - img "arbeitnow" [ref=e14]
+          - generic [ref=e15]:
+            - text: by
+            - link "Adithya" [ref=e16] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/adithyasri/
+        - generic [ref=e19]:
+          - button "Popular" [ref=e22] [cursor=pointer]
+          - button "Locations" [ref=e25] [cursor=pointer]
+          - button "Categories" [ref=e28] [cursor=pointer]
+          - button "Tools" [ref=e31] [cursor=pointer]
+          - button "Blog" [ref=e34] [cursor=pointer]
+          - button "About" [ref=e37] [cursor=pointer]
+        - link "Post a Job" [ref=e41] [cursor=pointer]:
+          - /url: https://www.arbeitnow.com/job-board/post-job
+  - generic [ref=e45]:
+    - generic [ref=e46]:
+      - heading "Jobs in Germany" [level=1] [ref=e47]
+      - heading "10.136 open job positions across Germany, 393 added today" [level=2] [ref=e48]
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - button "Dismiss" [ref=e53] [cursor=pointer]
+        - generic [ref=e59]:
+          - paragraph [ref=e60]: Get the latest jobs in your inbox
+          - paragraph [ref=e61]: One quick weekly digest. No spam, unsubscribe anytime.
+      - generic [ref=e62]:
+        - generic [ref=e63]: Email address
+        - textbox "Email address" [ref=e64]:
+          - /placeholder: Enter your email
+        - button "Subscribe" [ref=e65] [cursor=pointer]
+    - generic [ref=e67]:
+      - generic [ref=e68]: Search
+      - generic [ref=e72]:
+        - generic [ref=e73]: Search for your next job
+        - textbox "Enter a job title, skill, location, etc" [ref=e74]: abap
+    - generic [ref=e76]:
+      - button "tag visa sponsorship" [ref=e77] [cursor=pointer]: visa sponsorship
+      - button "tag english speaking" [ref=e78] [cursor=pointer]: english speaking
+      - button "tag data" [ref=e79] [cursor=pointer]: data
+      - button "tag developer" [ref=e80] [cursor=pointer]: developer
+      - button "tag berlin" [ref=e81] [cursor=pointer]: berlin
+      - button "tag junior" [ref=e82] [cursor=pointer]: junior
+      - button "tag product" [ref=e83] [cursor=pointer]: product
+      - button "tag php" [ref=e84] [cursor=pointer]: php
+      - button "tag recruiter" [ref=e85] [cursor=pointer]: recruiter
+      - button "tag finance" [ref=e86] [cursor=pointer]: finance
+      - button "tag javascript" [ref=e87] [cursor=pointer]: javascript
+      - button "tag SEO" [ref=e88] [cursor=pointer]: SEO
+      - button "tag remote" [ref=e89] [cursor=pointer]: remote
+      - button "tag intern" [ref=e90] [cursor=pointer]: intern
+      - button "tag sales" [ref=e91] [cursor=pointer]: sales
+      - button "tag part time" [ref=e92] [cursor=pointer]: part time
+    - generic [ref=e93]:
+      - generic [ref=e95]:
+        - heading "Showing jobs for abap" [level=2] [ref=e96]
+        - generic [ref=e97]:
+          - generic "Sort by" [ref=e98]
+          - combobox "Sort by" [ref=e99]:
+            - option "Relevance" [selected]
+            - option "Newest"
+      - list [ref=e101]:
+        - listitem [ref=e102]:
+          - generic [ref=e103] [cursor=pointer]:
+            - link "View details for SAP SD Consultant" [ref=e105]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-sd-consultant-mannheim-397703
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - heading [level=3] [ref=e113]:
+                  - link "SAP SD Consultant" [ref=e114]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-sd-consultant-mannheim-397703
+                - generic [ref=e116]:
+                  - img "Company name" [ref=e117]
+                  - link "Jobs from Pertemps ERP" [ref=e120]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - generic [ref=e122]:
+                - button "Business Consulting" [ref=e123]
+                - button "berufserfahren" [ref=e124]
+              - generic [ref=e125]:
+                - paragraph [ref=e126]:
+                  - generic [ref=e127]: Mannheim
+                - paragraph [ref=e129]:
+                  - time [ref=e130]: 1mo
+        - listitem [ref=e131]:
+          - generic [ref=e132] [cursor=pointer]:
+            - link "View details for (Senior) Solution Architect SAP MDM (m/w/d)" [ref=e134]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-solution-architect-sap-mdm-heidelberg-15783
+            - generic [ref=e139]:
+              - generic [ref=e140]:
+                - heading [level=3] [ref=e142]:
+                  - link "(Senior) Solution Architect SAP MDM (m/w/d)" [ref=e143]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-solution-architect-sap-mdm-heidelberg-15783
+                - generic [ref=e145]:
+                  - img "Company name" [ref=e146]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e149]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e151]:
+                - button "Master Data Management" [ref=e152]
+                - button "Mid" [ref=e153]
+                - button "fulltime permanent" [ref=e154]
+              - generic [ref=e155]:
+                - paragraph [ref=e156]:
+                  - generic [ref=e157]: Heidelberg
+                - paragraph [ref=e159]:
+                  - time [ref=e160]: 3w
+        - listitem [ref=e161]:
+          - generic [ref=e162] [cursor=pointer]:
+            - link "View details for IT-Spezialisten (m/w/d) SAP, Entwicklung, Systemadministration & IT-Support" [ref=e164]:
+              - /url: https://www.arbeitnow.com/jobs/companies/trident-hamburg/it-spezialisten-sap-entwicklung-systemadministration-it-support-heeslingen-306313
+            - generic [ref=e169]:
+              - generic [ref=e170]:
+                - heading [level=3] [ref=e172]:
+                  - link "IT-Spezialisten (m/w/d) SAP, Entwicklung, Systemadministration & IT-Support" [ref=e173]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/trident-hamburg/it-spezialisten-sap-entwicklung-systemadministration-it-support-heeslingen-306313
+                - generic [ref=e175]:
+                  - img "Company name" [ref=e176]
+                  - link "Jobs from Trident Hamburg" [ref=e179]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/trident-hamburg
+                    - text: Trident Hamburg
+              - button "IT" [ref=e182]
+              - generic [ref=e183]:
+                - paragraph [ref=e184]:
+                  - generic [ref=e185]: Heeslingen
+                - paragraph [ref=e187]:
+                  - time [ref=e188]: 3w
+        - listitem [ref=e189]:
+          - generic [ref=e190] [cursor=pointer]:
+            - link "View details for SAP Senior CO Berater:in" [ref=e192]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-senior-co-beraterin-frankfurt-am-main-472489
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - heading [level=3] [ref=e200]:
+                  - link "SAP Senior CO Berater:in" [ref=e201]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-senior-co-beraterin-frankfurt-am-main-472489
+                - generic [ref=e203]:
+                  - img "Company name" [ref=e204]
+                  - link "Jobs from Pertemps ERP" [ref=e207]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - generic [ref=e209]:
+                - button "Remote" [ref=e210]
+                - button "IT" [ref=e211]
+              - generic [ref=e212]:
+                - paragraph [ref=e213]:
+                  - generic [ref=e214]: Frankfurt am Main
+                - paragraph [ref=e216]:
+                  - time [ref=e217]: 1mo
+        - listitem [ref=e218]:
+          - generic [ref=e219] [cursor=pointer]:
+            - link "View details for Senior SAP Logistics Consultant - Vollzeit (m/w/d)" [ref=e221]:
+              - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-senior-sap-logistics-consultant-vollzeit-passau-345580
+            - generic [ref=e226]:
+              - generic [ref=e227]:
+                - heading [level=3] [ref=e229]:
+                  - link "Senior SAP Logistics Consultant - Vollzeit (m/w/d)" [ref=e230]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-senior-sap-logistics-consultant-vollzeit-passau-345580
+                - generic [ref=e232]:
+                  - img "Company name" [ref=e233]
+                  - link "Jobs from 24-LOG GmbH" [ref=e236]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh
+                    - text: 24-LOG GmbH
+              - generic [ref=e238]:
+                - button "Remote" [ref=e239]
+                - button "Mid" [ref=e240]
+                - button "fulltime permanent" [ref=e241]
+              - generic [ref=e242]:
+                - paragraph [ref=e243]:
+                  - generic [ref=e244]: Passau
+                - paragraph [ref=e246]:
+                  - time [ref=e247]: 1mo
+        - listitem [ref=e248]:
+          - generic [ref=e249] [cursor=pointer]:
+            - link "View details for Senior SAP Logistics Developer - Vollzeit (m/w/d)" [ref=e251]:
+              - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-senior-sap-logistics-developer-vollzeit-passau-410291
+            - generic [ref=e256]:
+              - generic [ref=e257]:
+                - heading [level=3] [ref=e259]:
+                  - link "Senior SAP Logistics Developer - Vollzeit (m/w/d)" [ref=e260]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-senior-sap-logistics-developer-vollzeit-passau-410291
+                - generic [ref=e262]:
+                  - img "Company name" [ref=e263]
+                  - link "Jobs from 24-LOG GmbH" [ref=e266]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh
+                    - text: 24-LOG GmbH
+              - generic [ref=e268]:
+                - button "Remote" [ref=e269]
+                - button "Mid" [ref=e270]
+                - button "fulltime permanent" [ref=e271]
+              - generic [ref=e272]:
+                - paragraph [ref=e273]:
+                  - generic [ref=e274]: Passau
+                - paragraph [ref=e276]:
+                  - time [ref=e277]: 1mo
+        - listitem [ref=e278]:
+          - generic [ref=e279] [cursor=pointer]:
+            - link "View details for (Senior) SAP S4/HANA Customer Service & CRM Consultant (m/w/d)" [ref=e281]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-s4-hana-customer-service-crm-consultant-berlin-96130
+            - generic [ref=e286]:
+              - generic [ref=e287]:
+                - heading [level=3] [ref=e289]:
+                  - link "(Senior) SAP S4/HANA Customer Service & CRM Consultant (m/w/d)" [ref=e290]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-s4-hana-customer-service-crm-consultant-berlin-96130
+                - generic [ref=e292]:
+                  - img "Company name" [ref=e293]
+                  - link "Jobs from Natuvion GmbH" [ref=e296]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e298]:
+                - button "Utilities" [ref=e299]
+                - button "Remote" [ref=e300]
+                - button "Experienced" [ref=e301]
+                - button "fulltime permanent" [ref=e302]
+              - generic [ref=e303]:
+                - paragraph [ref=e304]:
+                  - generic [ref=e305]: Berlin
+                - paragraph [ref=e307]:
+                  - time [ref=e308]: 1mo
+        - listitem [ref=e309]:
+          - generic [ref=e310] [cursor=pointer]:
+            - link "View details for Werkstudent / Praktikant (m/w/d) | Development & AI Engineering für SAP Business AI" [ref=e312]:
+              - /url: https://www.arbeitnow.com/jobs/companies/nfaculty-gmbh/werkstudent-praktikant-development-ai-engineering-fur-sap-business-ai-stuttgart-48578
+            - generic [ref=e317]:
+              - generic [ref=e318]:
+                - heading [level=3] [ref=e320]:
+                  - link "Werkstudent / Praktikant (m/w/d) | Development & AI Engineering für SAP Business AI" [ref=e321]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/nfaculty-gmbh/werkstudent-praktikant-development-ai-engineering-fur-sap-business-ai-stuttgart-48578
+                - generic [ref=e323]:
+                  - img "Company name" [ref=e324]
+                  - link "Jobs from nfaculty GmbH" [ref=e327]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/nfaculty-gmbh
+                    - text: nfaculty GmbH
+              - generic [ref=e329]:
+                - button "Remote" [ref=e330]
+                - button "Consulting" [ref=e331]
+                - button "Engineering" [ref=e332]
+                - button "Working student" [ref=e333]
+                - generic "Salary Information" [ref=e335]:
+                  - img "salary" [ref=e336]
+                  - text: 17 €
+              - generic [ref=e337]:
+                - paragraph [ref=e338]:
+                  - generic [ref=e339]: Stuttgart
+                - paragraph [ref=e341]:
+                  - time [ref=e342]: 1w
+        - listitem [ref=e343]:
+          - generic [ref=e344] [cursor=pointer]:
+            - link "View details for SAP S/4HANA Utilities / IS-U Migration Architect (m/w/d)" [ref=e346]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-sap-s-4hana-utilities-is-u-migration-architect-berlin-324986
+            - generic [ref=e351]:
+              - generic [ref=e352]:
+                - heading [level=3] [ref=e354]:
+                  - link "SAP S/4HANA Utilities / IS-U Migration Architect (m/w/d)" [ref=e355]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-sap-s-4hana-utilities-is-u-migration-architect-berlin-324986
+                - generic [ref=e357]:
+                  - img "Company name" [ref=e358]
+                  - link "Jobs from Natuvion GmbH" [ref=e361]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e363]:
+                - button "Technical Migration" [ref=e364]
+                - button "Remote" [ref=e365]
+                - button "Mid" [ref=e366]
+                - button "fulltime permanent" [ref=e367]
+              - generic [ref=e368]:
+                - paragraph [ref=e369]:
+                  - generic [ref=e370]: Berlin
+                - paragraph [ref=e372]:
+                  - time [ref=e373]: 1mo
+        - listitem [ref=e374]:
+          - generic [ref=e375] [cursor=pointer]:
+            - link "View details for Senior Berater SAP Analytics (w/m/d)" [ref=e377]:
+              - /url: https://www.arbeitnow.com/jobs/companies/westernacher/senior-berater-sap-analytics-heidelberg-germany-184708
+            - generic [ref=e382]:
+              - generic [ref=e383]:
+                - heading [level=3] [ref=e385]:
+                  - link "Senior Berater SAP Analytics (w/m/d)" [ref=e386]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/westernacher/senior-berater-sap-analytics-heidelberg-germany-184708
+                - generic [ref=e388]:
+                  - img "Company name" [ref=e389]
+                  - link "Jobs from Westernacher Consulting" [ref=e392]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/westernacher
+                    - text: Westernacher Consulting
+              - generic [ref=e394]:
+                - button "Europe" [ref=e395]
+                - button "Experienced Professional" [ref=e396]
+              - generic [ref=e397]:
+                - paragraph [ref=e398]:
+                  - generic [ref=e399]: Heidelberg
+                - paragraph [ref=e401]:
+                  - time [ref=e402]: 4w
+        - listitem [ref=e403]:
+          - generic [ref=e404] [cursor=pointer]:
+            - link "View details for (Senior) Consultant SAP System Performance Optimierungen (m/w/d)" [ref=e406]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-system-performance-optimierungen-heidelberg-475036
+            - generic [ref=e411]:
+              - generic [ref=e412]:
+                - heading [level=3] [ref=e414]:
+                  - link "(Senior) Consultant SAP System Performance Optimierungen (m/w/d)" [ref=e415]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-system-performance-optimierungen-heidelberg-475036
+                - generic [ref=e417]:
+                  - img "Company name" [ref=e418]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e421]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e423]:
+                - button "Consulting" [ref=e424]
+                - button "high school coursework" [ref=e425]
+                - button "Full-time permanent" [ref=e426]
+                - button "mid" [ref=e427]
+              - generic [ref=e428]:
+                - paragraph [ref=e429]:
+                  - generic [ref=e430]: Heidelberg
+                - paragraph [ref=e432]:
+                  - time [ref=e433]: 1mo
+        - listitem [ref=e434]:
+          - generic [ref=e435] [cursor=pointer]:
+            - link "View details for SAP Finance (FI/CO) Migration Architect (m/w/d)" [ref=e437]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-sap-finance-fi-co-migration-architect-berlin-108475
+            - generic [ref=e442]:
+              - generic [ref=e443]:
+                - heading [level=3] [ref=e445]:
+                  - link "SAP Finance (FI/CO) Migration Architect (m/w/d)" [ref=e446]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-sap-finance-fi-co-migration-architect-berlin-108475
+                - generic [ref=e448]:
+                  - img "Company name" [ref=e449]
+                  - link "Jobs from Natuvion GmbH" [ref=e452]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e454]:
+                - button "Technical Migration" [ref=e455]
+                - button "Remote" [ref=e456]
+                - button "Experienced" [ref=e457]
+                - button "fulltime permanent" [ref=e458]
+              - generic [ref=e459]:
+                - paragraph [ref=e460]:
+                  - generic [ref=e461]: Berlin
+                - paragraph [ref=e463]:
+                  - time [ref=e464]: 2w
+        - listitem [ref=e465]:
+          - generic [ref=e466] [cursor=pointer]:
+            - link "View details for Senior Consultant SAP Data Transformation & Migration (m/w/d)" [ref=e468]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-data-transformation-migration-heidelberg-355830
+            - generic [ref=e473]:
+              - generic [ref=e474]:
+                - heading [level=3] [ref=e476]:
+                  - link "Senior Consultant SAP Data Transformation & Migration (m/w/d)" [ref=e477]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-data-transformation-migration-heidelberg-355830
+                - generic [ref=e479]:
+                  - img "Company name" [ref=e480]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e483]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e485]:
+                - button "SLT Finance" [ref=e486]
+                - button "Mid" [ref=e487]
+                - button "fulltime permanent" [ref=e488]
+              - generic [ref=e489]:
+                - paragraph [ref=e490]:
+                  - generic [ref=e491]: Heidelberg
+                - paragraph [ref=e493]:
+                  - time [ref=e494]: 3w
+        - listitem [ref=e495]:
+          - generic [ref=e496] [cursor=pointer]:
+            - link "View details for (Senior) SAP Consultant PSCD / PSM (m/w/d)" [ref=e498]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-pscd-psm-berlin-119052
+            - generic [ref=e503]:
+              - generic [ref=e504]:
+                - heading [level=3] [ref=e506]:
+                  - link "(Senior) SAP Consultant PSCD / PSM (m/w/d)" [ref=e507]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-pscd-psm-berlin-119052
+                - generic [ref=e509]:
+                  - img "Company name" [ref=e510]
+                  - link "Jobs from Natuvion GmbH" [ref=e513]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e515]:
+                - button "Public Business" [ref=e516]
+                - button "Remote" [ref=e517]
+                - button "Mid" [ref=e518]
+                - button "fulltime permanent" [ref=e519]
+              - generic [ref=e520]:
+                - paragraph [ref=e521]:
+                  - generic [ref=e522]: Berlin
+                - paragraph [ref=e524]:
+                  - time [ref=e525]: 1w
+        - listitem [ref=e526]:
+          - generic [ref=e527] [cursor=pointer]:
+            - link "View details for Technical SAP Product Owner (m/w/d)" [ref=e529]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-technical-sap-product-owner-berlin-118589
+            - generic [ref=e534]:
+              - generic [ref=e535]:
+                - heading [level=3] [ref=e537]:
+                  - link "Technical SAP Product Owner (m/w/d)" [ref=e538]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-technical-sap-product-owner-berlin-118589
+                - generic [ref=e540]:
+                  - img "Company name" [ref=e541]
+                  - link "Jobs from Natuvion GmbH" [ref=e544]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e546]:
+                - button "Product Development" [ref=e547]
+                - button "Remote" [ref=e548]
+                - button "Experienced" [ref=e549]
+                - button "fulltime permanent" [ref=e550]
+              - generic [ref=e551]:
+                - paragraph [ref=e552]:
+                  - generic [ref=e553]: Berlin
+                - paragraph [ref=e555]:
+                  - time [ref=e556]: 1w
+        - listitem [ref=e557]:
+          - generic [ref=e558] [cursor=pointer]:
+            - link "View details for (Senior) Consultant SAP Cloud und Process Integration (m/w/d)" [ref=e560]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-cloud-und-process-integration-heidelberg-362443
+            - generic [ref=e565]:
+              - generic [ref=e566]:
+                - heading [level=3] [ref=e568]:
+                  - link "(Senior) Consultant SAP Cloud und Process Integration (m/w/d)" [ref=e569]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-cloud-und-process-integration-heidelberg-362443
+                - generic [ref=e571]:
+                  - img "Company name" [ref=e572]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e575]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e577]:
+                - button "Enterprise Integration" [ref=e578]
+                - button "Mid" [ref=e579]
+                - button "fulltime permanent" [ref=e580]
+              - generic [ref=e581]:
+                - paragraph [ref=e582]:
+                  - generic [ref=e583]: Heidelberg
+                - paragraph [ref=e585]:
+                  - time [ref=e586]: 3w
+        - listitem [ref=e587]:
+          - generic [ref=e588] [cursor=pointer]:
+            - link "View details for Senior Consultant / Architect SAP Business Technology Platform (SAP BTP) (m/w/d)" [ref=e590]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-architect-sap-business-technology-platform-sap-btp-heidelberg-36524
+            - generic [ref=e595]:
+              - generic [ref=e596]:
+                - heading [level=3] [ref=e598]:
+                  - link "Senior Consultant / Architect SAP Business Technology Platform (SAP BTP) (m/w/d)" [ref=e599]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-architect-sap-business-technology-platform-sap-btp-heidelberg-36524
+                - generic [ref=e601]:
+                  - img "Company name" [ref=e602]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e605]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e607]:
+                - button "Cloud Platform" [ref=e608]
+                - button "Mid" [ref=e609]
+                - button "fulltime permanent" [ref=e610]
+              - generic [ref=e611]:
+                - paragraph [ref=e612]:
+                  - generic [ref=e613]: Heidelberg
+                - paragraph [ref=e615]:
+                  - time [ref=e616]: 3w
+        - listitem [ref=e617]:
+          - generic [ref=e618] [cursor=pointer]:
+            - link "View details for (Senior) Consultant SAP System Performance Optimisation (m/w/d)" [ref=e620]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-system-performance-optimisation-heidelberg-177219
+            - generic [ref=e625]:
+              - generic [ref=e626]:
+                - heading [level=3] [ref=e628]:
+                  - link "(Senior) Consultant SAP System Performance Optimisation (m/w/d)" [ref=e629]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-system-performance-optimisation-heidelberg-177219
+                - generic [ref=e631]:
+                  - img "Company name" [ref=e632]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e635]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e637]:
+                - button "SLT Finance" [ref=e638]
+                - button "Mid" [ref=e639]
+                - button "fulltime permanent" [ref=e640]
+              - generic [ref=e641]:
+                - paragraph [ref=e642]:
+                  - generic [ref=e643]: Heidelberg
+                - paragraph [ref=e645]:
+                  - time [ref=e646]: 3w
+        - listitem [ref=e647]:
+          - generic [ref=e648] [cursor=pointer]:
+            - link "View details for Inhouse Integration Entwickler im Bereich Tax Technology & E-Invoicing (m/w/d)" [ref=e650]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/inhouse-integration-entwickler-im-bereich-tax-technology-e-invoicing-berlin-10481
+            - generic [ref=e655]:
+              - generic [ref=e656]:
+                - heading [level=3] [ref=e658]:
+                  - link "Inhouse Integration Entwickler im Bereich Tax Technology & E-Invoicing (m/w/d)" [ref=e659]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/inhouse-integration-entwickler-im-bereich-tax-technology-e-invoicing-berlin-10481
+                - generic [ref=e661]:
+                  - img "Company name" [ref=e662]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e665]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e667]:
+                - button "Managed Cloud Services" [ref=e668]
+                - button "Experienced" [ref=e669]
+                - button "fulltime permanent" [ref=e670]
+              - generic [ref=e671]:
+                - paragraph [ref=e672]:
+                  - generic [ref=e673]: Berlin
+                - paragraph [ref=e675]:
+                  - time [ref=e676]: 3w
+        - listitem [ref=e677]:
+          - generic [ref=e678] [cursor=pointer]:
+            - link "View details for Senior SAP FI/CO - Consultant (m/w/d)" [ref=e680]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-fi-co-consultant-berlin-448904
+            - generic [ref=e685]:
+              - generic [ref=e686]:
+                - heading [level=3] [ref=e688]:
+                  - link "Senior SAP FI/CO - Consultant (m/w/d)" [ref=e689]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-fi-co-consultant-berlin-448904
+                - generic [ref=e691]:
+                  - img "Company name" [ref=e692]
+                  - link "Jobs from Natuvion GmbH" [ref=e695]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e697]:
+                - button "Public Business" [ref=e698]
+                - button "Remote" [ref=e699]
+                - button "Experienced" [ref=e700]
+                - button "fulltime permanent" [ref=e701]
+              - generic [ref=e702]:
+                - paragraph [ref=e703]:
+                  - generic [ref=e704]: Berlin
+                - paragraph [ref=e706]:
+                  - time [ref=e707]: 1mo
+        - listitem [ref=e708]:
+          - generic [ref=e709] [cursor=pointer]:
+            - link "View details for (Senior) Data Migration Architect (m/w/d)" [ref=e711]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-data-migration-architect-berlin-97694
+            - generic [ref=e716]:
+              - generic [ref=e717]:
+                - heading [level=3] [ref=e719]:
+                  - link "(Senior) Data Migration Architect (m/w/d)" [ref=e720]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-data-migration-architect-berlin-97694
+                - generic [ref=e722]:
+                  - img "Company name" [ref=e723]
+                  - link "Jobs from Natuvion GmbH" [ref=e726]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e728]:
+                - button "Public Business" [ref=e729]
+                - button "Remote" [ref=e730]
+                - button "Experienced" [ref=e731]
+                - button "fulltime permanent" [ref=e732]
+              - generic [ref=e733]:
+                - paragraph [ref=e734]:
+                  - generic [ref=e735]: Berlin
+                - paragraph [ref=e737]:
+                  - time [ref=e738]: 1mo
+        - listitem [ref=e739]:
+          - generic [ref=e740] [cursor=pointer]:
+            - link "View details for (Senior) SAP Consultant Public Business (m/w/d)" [ref=e742]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-public-business-berlin-57363
+            - generic [ref=e747]:
+              - generic [ref=e748]:
+                - heading [level=3] [ref=e750]:
+                  - link "(Senior) SAP Consultant Public Business (m/w/d)" [ref=e751]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-public-business-berlin-57363
+                - generic [ref=e753]:
+                  - img "Company name" [ref=e754]
+                  - link "Jobs from Natuvion GmbH" [ref=e757]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e759]:
+                - button "Public Business" [ref=e760]
+                - button "Remote" [ref=e761]
+                - button "Mid" [ref=e762]
+                - button "fulltime permanent" [ref=e763]
+              - generic [ref=e764]:
+                - paragraph [ref=e765]:
+                  - generic [ref=e766]: Berlin
+                - paragraph [ref=e768]:
+                  - time [ref=e769]: 1mo
+        - listitem [ref=e770]:
+          - generic [ref=e771] [cursor=pointer]:
+            - link "View details for (Senior) SAP IS-U / SAP S/4HANA FI-CA Consultant (m/w/d)" [ref=e773]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-fi-ca-consultant-berlin-161542
+            - generic [ref=e778]:
+              - generic [ref=e779]:
+                - heading [level=3] [ref=e781]:
+                  - link "(Senior) SAP IS-U / SAP S/4HANA FI-CA Consultant (m/w/d)" [ref=e782]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-fi-ca-consultant-berlin-161542
+                - generic [ref=e784]:
+                  - img "Company name" [ref=e785]
+                  - link "Jobs from Natuvion GmbH" [ref=e788]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e790]:
+                - button "Utilities" [ref=e791]
+                - button "Remote" [ref=e792]
+                - button "Mid" [ref=e793]
+                - button "fulltime permanent" [ref=e794]
+              - generic [ref=e795]:
+                - paragraph [ref=e796]:
+                  - generic [ref=e797]: Berlin
+                - paragraph [ref=e799]:
+                  - time [ref=e800]: 1mo
+        - listitem [ref=e801]:
+          - generic [ref=e802] [cursor=pointer]:
+            - link "View details for (Senior) SAP IS-U / SAP S/4HANA Utilities Consultant (m/w/d)" [ref=e804]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-utilities-consultant-walldorf-262056
+            - generic [ref=e809]:
+              - generic [ref=e810]:
+                - heading [level=3] [ref=e812]:
+                  - link "(Senior) SAP IS-U / SAP S/4HANA Utilities Consultant (m/w/d)" [ref=e813]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-utilities-consultant-walldorf-262056
+                - generic [ref=e815]:
+                  - img "Company name" [ref=e816]
+                  - link "Jobs from Natuvion GmbH" [ref=e819]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e821]:
+                - button "Utilities" [ref=e822]
+                - button "Remote" [ref=e823]
+                - button "Mid" [ref=e824]
+                - button "fulltime" [ref=e825]
+              - generic [ref=e826]:
+                - paragraph [ref=e827]:
+                  - generic [ref=e828]: Walldorf
+                - paragraph [ref=e830]:
+                  - time [ref=e831]: 1mo
+        - listitem [ref=e832]:
+          - generic [ref=e833] [cursor=pointer]:
+            - link "View details for (Senior) SAP IS-U Consultant (m/w/d) FI-CA" [ref=e835]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-consultant-fi-ca-berlin-405012
+            - generic [ref=e840]:
+              - generic [ref=e841]:
+                - heading [level=3] [ref=e843]:
+                  - link "(Senior) SAP IS-U Consultant (m/w/d) FI-CA" [ref=e844]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-consultant-fi-ca-berlin-405012
+                - generic [ref=e846]:
+                  - img "Company name" [ref=e847]
+                  - link "Jobs from Natuvion GmbH" [ref=e850]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e852]:
+                - button "Utilities" [ref=e853]
+                - button "Remote" [ref=e854]
+                - button "Mid" [ref=e855]
+                - button "fulltime permanent" [ref=e856]
+              - generic [ref=e857]:
+                - paragraph [ref=e858]:
+                  - generic [ref=e859]: Berlin
+                - paragraph [ref=e861]:
+                  - time [ref=e862]: 1mo
+        - listitem [ref=e863]:
+          - generic [ref=e864] [cursor=pointer]:
+            - link "View details for (Senior) SAP Consultant ERP/EWM/Utilities – Data Migration (m/w/d)" [ref=e866]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-erp-ewm-utilities-data-migration-berlin-194786
+            - generic [ref=e871]:
+              - generic [ref=e872]:
+                - heading [level=3] [ref=e874]:
+                  - link "(Senior) SAP Consultant ERP/EWM/Utilities – Data Migration (m/w/d)" [ref=e875]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-erp-ewm-utilities-data-migration-berlin-194786
+                - generic [ref=e877]:
+                  - img "Company name" [ref=e878]
+                  - link "Jobs from Natuvion GmbH" [ref=e881]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e883]:
+                - button "Technical Migration" [ref=e884]
+                - button "Remote" [ref=e885]
+                - button "Experienced" [ref=e886]
+                - button "fulltime permanent" [ref=e887]
+              - generic [ref=e888]:
+                - paragraph [ref=e889]:
+                  - generic [ref=e890]: Berlin
+                - paragraph [ref=e892]:
+                  - time [ref=e893]: 1mo
+        - listitem [ref=e894]:
+          - generic [ref=e895] [cursor=pointer]:
+            - link "View details for (Senior) SAP IS-U / SAP S/4HANA Marktkommunikation Consultant (m/w/d)" [ref=e897]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-marktkommunikation-consultant-berlin-158687
+            - generic [ref=e902]:
+              - generic [ref=e903]:
+                - heading [level=3] [ref=e905]:
+                  - link "(Senior) SAP IS-U / SAP S/4HANA Marktkommunikation Consultant (m/w/d)" [ref=e906]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-marktkommunikation-consultant-berlin-158687
+                - generic [ref=e908]:
+                  - img "Company name" [ref=e909]
+                  - link "Jobs from Natuvion GmbH" [ref=e912]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e914]:
+                - button "Utilities" [ref=e915]
+                - button "Remote" [ref=e916]
+                - button "Mid" [ref=e917]
+                - button "fulltime permanent" [ref=e918]
+              - generic [ref=e919]:
+                - paragraph [ref=e920]:
+                  - generic [ref=e921]: Berlin
+                - paragraph [ref=e923]:
+                  - time [ref=e924]: 1mo
+        - listitem [ref=e925]:
+          - generic [ref=e926] [cursor=pointer]:
+            - link "View details for Senior SAP IS-U Consultant (m/w/d) Energiedatenmanagement – Aufbau eines neuen EDM Teams" [ref=e928]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-consultant-energiedatenmanagement-aufbau-eines-neuen-edm-teams-berlin-163533
+            - generic [ref=e933]:
+              - generic [ref=e934]:
+                - heading [level=3] [ref=e936]:
+                  - link "Senior SAP IS-U Consultant (m/w/d) Energiedatenmanagement – Aufbau eines neuen EDM Teams" [ref=e937]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-consultant-energiedatenmanagement-aufbau-eines-neuen-edm-teams-berlin-163533
+                - generic [ref=e939]:
+                  - img "Company name" [ref=e940]
+                  - link "Jobs from Natuvion GmbH" [ref=e943]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e945]:
+                - button "Utilities" [ref=e946]
+                - button "Remote" [ref=e947]
+                - button "Mid" [ref=e948]
+                - button "fulltime permanent" [ref=e949]
+              - generic [ref=e950]:
+                - paragraph [ref=e951]:
+                  - generic [ref=e952]: Berlin
+                - paragraph [ref=e954]:
+                  - time [ref=e955]: 1mo
+        - listitem [ref=e956]:
+          - generic [ref=e957] [cursor=pointer]:
+            - link "View details for Technical Architect" [ref=e959]:
+              - /url: https://www.arbeitnow.com/jobs/companies/workato/technical-architect-berlin-194426
+            - generic [ref=e964]:
+              - generic [ref=e965]:
+                - heading [level=3] [ref=e967]:
+                  - link "Technical Architect" [ref=e968]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/workato/technical-architect-berlin-194426
+                - generic [ref=e970]:
+                  - img "Company name" [ref=e971]
+                  - link "Jobs from workato" [ref=e974]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/workato
+                    - text: workato
+              - button "Sales and Customer Success" [ref=e977]
+              - generic [ref=e978]:
+                - paragraph [ref=e979]:
+                  - generic [ref=e980]: Berlin
+                - paragraph [ref=e982]:
+                  - time [ref=e983]: 2w
+        - listitem [ref=e984]:
+          - generic [ref=e985] [cursor=pointer]:
+            - link "View details for (Senior) SAP Consultant - Digital Transformation (m/w/d)" [ref=e987]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-digital-transformation-berlin-298785
+            - generic [ref=e992]:
+              - generic [ref=e993]:
+                - heading [level=3] [ref=e995]:
+                  - link "(Senior) SAP Consultant - Digital Transformation (m/w/d)" [ref=e996]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-digital-transformation-berlin-298785
+                - generic [ref=e998]:
+                  - img "Company name" [ref=e999]
+                  - link "Jobs from Natuvion GmbH" [ref=e1002]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e1004]:
+                - button "Technical Migration" [ref=e1005]
+                - button "Remote" [ref=e1006]
+                - button "Experienced" [ref=e1007]
+                - button "fulltime permanent" [ref=e1008]
+              - generic [ref=e1009]:
+                - paragraph [ref=e1010]:
+                  - generic [ref=e1011]: Berlin
+                - paragraph [ref=e1013]:
+                  - time [ref=e1014]: 1mo
+        - listitem [ref=e1015]:
+          - generic [ref=e1016] [cursor=pointer]:
+            - link "View details for SAP Integration Architect" [ref=e1018]:
+              - /url: https://www.arbeitnow.com/jobs/companies/parloa/sap-integration-architect-174545
+            - generic [ref=e1023]:
+              - generic [ref=e1024]:
+                - heading [level=3] [ref=e1026]:
+                  - link "SAP Integration Architect" [ref=e1027]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/parloa/sap-integration-architect-174545
+                - generic [ref=e1029]:
+                  - img "Company name" [ref=e1030]
+                  - link "Jobs from parloa" [ref=e1033]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/parloa
+                    - text: parloa
+              - button "Solution Engineering & Services" [ref=e1036]
+              - generic [ref=e1037]:
+                - paragraph [ref=e1038]
+                - paragraph [ref=e1040]:
+                  - time [ref=e1041]: 1mo
+      - navigation "Pagination" [ref=e1042]:
+        - paragraph [ref=e1044]: Showing 2 of 2 pages
+        - navigation "Pagination" [ref=e1046]:
+          - link "« Previous" [ref=e1047] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?search=abap
+          - link "1" [ref=e1048] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?search=abap
+          - link "2" [ref=e1049] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?search=abap&page=2
+          - generic [ref=e1050]: Next »
+```

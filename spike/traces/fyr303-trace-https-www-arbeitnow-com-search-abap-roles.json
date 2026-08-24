@@ -1,0 +1,477 @@
+{
+  "targetUrl": "https://www.arbeitnow.com/?search=abap",
+  "kind": "roles",
+  "model": "minimax-m3",
+  "forcedModel": "",
+  "fallbackUsed": false,
+  "done": true,
+  "pass": true,
+  "expected": 66,
+  "count": 66,
+  "items": [
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwickler-munich-7122",
+      "location": "Munich",
+      "title": "SAP ABAP Entwickler"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwicklerin-mannheim-430123",
+      "location": "Mannheim",
+      "title": "SAP ABAP-Entwickler:in"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-senior-abap-entwickler-munich-110649",
+      "location": "Munich",
+      "title": "SAP Senior ABAP Entwickler"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwickler-dresden-314811",
+      "location": "Dresden",
+      "title": "SAP ABAP Entwickler (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/qorelo/sap-btp-abap-technical-consultant-berlin-96129",
+      "location": "Berlin",
+      "title": "SAP BTP & ABAP Technical Consultant"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-abap-entwickler-heidelberg-89344",
+      "location": "Heidelberg",
+      "title": "(Senior) ABAP Entwickler (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/onapsis/sap-abap-software-engineer-heidelberg-442384",
+      "location": "Heidelberg",
+      "title": "SAP ABAP Software Engineer (m/f/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/andcompany-gmbh/senior-sap-abap-entwickler-hamburg-236754",
+      "location": "Hamburg",
+      "title": "Senior SAP ABAP-Entwickler (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/onapsis/sap-abap-software-engineer-heidelberg-baden-wurttemberg-438341",
+      "location": "Heidelberg",
+      "title": "SAP ABAP Software Engineer (m/f/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-abap-hcm-developer-heidelberg-111285",
+      "location": "Heidelberg",
+      "title": "(Senior) ABAP HCM Developer (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/neoimpulse-gmbh/senior-developer-sap-abap-schwerpunkt-ewm-ismaning-247763",
+      "location": "Ismaning",
+      "title": "Senior) Developer SAP ABAP - Schwerpunkt EWM (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-team-lead-sap-abap-development-data-migration-berlin-106136",
+      "location": "Berlin",
+      "title": "Team Lead SAP ABAP Development – Data Migration (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-technical-migration-berlin-371945",
+      "location": "Berlin",
+      "title": "(Senior) SAP ABAP Developer/ Architect – Technical Migration (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/inhouse-abap-entwickler-im-bereich-managed-cloud-services-dortmund-126923",
+      "location": "Dortmund",
+      "title": "Inhouse ABAP Entwickler im Bereich Managed Cloud Services (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-fi-co-abap-application-developer-berlin-151324",
+      "location": "Berlin",
+      "title": "Senior SAP IS-U & FI/CO ABAP Application Developer (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-product-development-berlin-167907",
+      "location": "Berlin",
+      "title": "(Senior) SAP ABAP Developer/Architect – Product Development (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-sap-abap-entwickler-fokus-output-management-formulare-vollzeit-passau-346762",
+      "location": "Passau",
+      "title": "SAP ABAP Entwickler – Fokus Output Management & Formulare - Vollzeit (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-fi-co-abap-application-developer-berlin-321532",
+      "location": "Berlin",
+      "title": "Senior SAP IS-U & FI/CO ABAP Application Developer (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/software4professionals-gmbh-co-kg/software-tester-sap-automatisiertes-testing-mit-abap-fiori-und-python-stuttgart-235516",
+      "location": "Stuttgart",
+      "title": "Software-Tester (m/w/d) SAP® - Automatisiertes Testing mit ABAP, Fiori und Python"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-data-management-ilm-berlin-57685",
+      "location": "Berlin",
+      "title": "(Senior) SAP ABAP Developer / Architect – Data Management & ILM (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-sap-abap-entwickler-fokus-cloud-api-integration-rest-odata-btp-vollzeit-passau-462992",
+      "location": "Passau",
+      "title": "SAP ABAP Entwickler – Fokus Cloud & API Integration (REST, OData, BTP) – Vollzeit (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/sap-re-fx-inhouse-berater-oberhausen-215089",
+      "location": "Oberhausen",
+      "title": "SAP RE-FX Inhouse Berater (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/workist-gmbh/sap-sd-consultant-developer-ai-integration-berlin-182883",
+      "location": "Berlin",
+      "title": "SAP SD Consultant/Developer – AI Integration (f/m/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/bit-consulting/director-of-sap-consulting-medtech-life-sciences-freiburg-235211",
+      "location": "Freiburg im Breisgau",
+      "title": "Director of SAP Consulting – MedTech & Life Sciences (m/f/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-gts-consultant-cologne-229654",
+      "location": "Cologne",
+      "title": "SAP GTS Consultant (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/incycling-gmbh/sap-developer-erfurt-227550",
+      "location": "Erfurt",
+      "title": "SAP Developer"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/biomatch-gmbh/inhouse-consultant-sap-s-4hana-fi-asslar-364524",
+      "location": "Aßlar",
+      "title": "Inhouse Consultant SAP S/4HANA FI (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/hubside-die-recruitingwerkstatt/inhouse-sap-fi-co-berater-munich-112462",
+      "location": "Munich",
+      "title": "Inhouse SAP FI/CO Berater (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/sap-entwickler-frankfurt-am-main-69970",
+      "location": "Frankfurt am Main",
+      "title": "SAP Entwickler (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/senior-sap-entwickler-cologne-385154",
+      "location": "Cologne",
+      "title": "(Senior) SAP Entwickler (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/sap-technical-consultant-solution-architect-heidelberg-196411",
+      "location": "Heidelberg",
+      "title": "SAP Technical Consultant / Solution Architect (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/amer-sports/sap-technical-architect-scm-ewm-mm-distribution-tm-garching-366312",
+      "location": "Garching",
+      "title": "SAP Technical Architect, SCM (EWM, MM, Distribution & TM) (m/f/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/entwickler-sap-global-trade-services-gts-heidelberg-50451",
+      "location": "Heidelberg",
+      "title": "Entwickler SAP Global Trade Services (GTS) (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-sap-hcm-allrounder-heidelberg-473116",
+      "location": "Heidelberg",
+      "title": "(Senior) SAP HCM Allrounder (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-ewm-berater-bielefeld-258750",
+      "location": "Bielefeld",
+      "title": "SAP EWM Berater"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-sd-consultant-mannheim-397703",
+      "location": "Mannheim",
+      "title": "SAP SD Consultant"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-solution-architect-sap-mdm-heidelberg-15783",
+      "location": "Heidelberg",
+      "title": "(Senior) Solution Architect SAP MDM (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/trident-hamburg/it-spezialisten-sap-entwicklung-systemadministration-it-support-heeslingen-306313",
+      "location": "Heeslingen",
+      "title": "IT-Spezialisten (m/w/d) SAP, Entwicklung, Systemadministration & IT-Support"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-senior-co-beraterin-frankfurt-am-main-472489",
+      "location": "Frankfurt am Main",
+      "title": "SAP Senior CO Berater:in"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-senior-sap-logistics-consultant-vollzeit-passau-345580",
+      "location": "Passau",
+      "title": "Senior SAP Logistics Consultant - Vollzeit (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-senior-sap-logistics-developer-vollzeit-passau-410291",
+      "location": "Passau",
+      "title": "Senior SAP Logistics Developer - Vollzeit (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-s4-hana-customer-service-crm-consultant-berlin-96130",
+      "location": "Berlin",
+      "title": "(Senior) SAP S4/HANA Customer Service & CRM Consultant (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/nfaculty-gmbh/werkstudent-praktikant-development-ai-engineering-fur-sap-business-ai-stuttgart-48578",
+      "location": "Stuttgart",
+      "title": "Werkstudent / Praktikant (m/w/d) | Development & AI Engineering für SAP Business AI"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-sap-s-4hana-utilities-is-u-migration-architect-berlin-324986",
+      "location": "Berlin",
+      "title": "SAP S/4HANA Utilities / IS-U Migration Architect (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/westernacher/senior-berater-sap-analytics-heidelberg-germany-184708",
+      "location": "Heidelberg",
+      "title": "Senior Berater SAP Analytics (w/m/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-system-performance-optimierungen-heidelberg-475036",
+      "location": "Heidelberg",
+      "title": "(Senior) Consultant SAP System Performance Optimierungen (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-sap-finance-fi-co-migration-architect-berlin-108475",
+      "location": "Berlin",
+      "title": "SAP Finance (FI/CO) Migration Architect (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-data-transformation-migration-heidelberg-355830",
+      "location": "Heidelberg",
+      "title": "Senior Consultant SAP Data Transformation & Migration (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-pscd-psm-berlin-119052",
+      "location": "Berlin",
+      "title": "(Senior) SAP Consultant PSCD / PSM (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-technical-sap-product-owner-berlin-118589",
+      "location": "Berlin",
+      "title": "Technical SAP Product Owner (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-cloud-und-process-integration-heidelberg-362443",
+      "location": "Heidelberg",
+      "title": "(Senior) Consultant SAP Cloud und Process Integration (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-architect-sap-business-technology-platform-sap-btp-heidelberg-36524",
+      "location": "Heidelberg",
+      "title": "Senior Consultant / Architect SAP Business Technology Platform (SAP BTP) (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-consultant-sap-system-performance-optimisation-heidelberg-177219",
+      "location": "Heidelberg",
+      "title": "(Senior) Consultant SAP System Performance Optimisation (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/inhouse-integration-entwickler-im-bereich-tax-technology-e-invoicing-berlin-10481",
+      "location": "Berlin",
+      "title": "Inhouse Integration Entwickler im Bereich Tax Technology & E-Invoicing (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-fi-co-consultant-berlin-448904",
+      "location": "Berlin",
+      "title": "Senior SAP FI/CO - Consultant (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-data-migration-architect-berlin-97694",
+      "location": "Berlin",
+      "title": "(Senior) Data Migration Architect (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-public-business-berlin-57363",
+      "location": "Berlin",
+      "title": "(Senior) SAP Consultant Public Business (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-fi-ca-consultant-berlin-161542",
+      "location": "Berlin",
+      "title": "(Senior) SAP IS-U / SAP S/4HANA FI-CA Consultant (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-utilities-consultant-walldorf-262056",
+      "location": "Walldorf",
+      "title": "(Senior) SAP IS-U / SAP S/4HANA Utilities Consultant (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-consultant-fi-ca-berlin-405012",
+      "location": "Berlin",
+      "title": "(Senior) SAP IS-U Consultant (m/w/d) FI-CA"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-erp-ewm-utilities-data-migration-berlin-194786",
+      "location": "Berlin",
+      "title": "(Senior) SAP Consultant ERP/EWM/Utilities – Data Migration (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-sap-s-4hana-marktkommunikation-consultant-berlin-158687",
+      "location": "Berlin",
+      "title": "(Senior) SAP IS-U / SAP S/4HANA Marktkommunikation Consultant (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-consultant-energiedatenmanagement-aufbau-eines-neuen-edm-teams-berlin-163533",
+      "location": "Berlin",
+      "title": "Senior SAP IS-U Consultant (m/w/d) Energiedatenmanagement – Aufbau eines neuen EDM Teams"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/workato/technical-architect-berlin-194426",
+      "location": "Berlin",
+      "title": "Technical Architect"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-consultant-digital-transformation-berlin-298785",
+      "location": "Berlin",
+      "title": "(Senior) SAP Consultant - Digital Transformation (m/w/d)"
+    },
+    {
+      "link": "https://www.arbeitnow.com/jobs/companies/parloa/sap-integration-architect-174545",
+      "location": "",
+      "title": "SAP Integration Architect"
+    }
+  ],
+  "paginationSelfReport": {
+    "end_cue": "Showing 2 of 2 pages; Next » rendered as disabled generic (not a link)",
+    "last_page_reached": true,
+    "pages_visited": 2,
+    "stated_total": 66
+  },
+  "notes": "Searched arbeitnow.com for \"abap\". The board paginates with 2 pages of results. Page 1 (https://www.arbeitnow.com/?search=abap) listed 36 roles; page 2 (https://www.arbeitnow.com/?search=abap&page=2) listed 30 roles. End of list confirmed by \"Showing 2 of 2 pages\" text and the \"Next »\" control being a non-link generic element on page 2. Total roles collected: 66.",
+  "cueLog": [
+    {
+      "step": 2,
+      "url": "https://www.arbeitnow.com/?search=abap",
+      "cues": {
+        "next_link": [
+          "link \"Next »\" [ref=e1158] [cursor=pointer]:"
+        ],
+        "of_pages": [
+          "of 2 pages"
+        ],
+        "page_links": [
+          "/url: https://www.arbeitnow.com/?search=abap&page=2",
+          "/url: https://www.arbeitnow.com/?search=abap&page=2"
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "url": "https://www.arbeitnow.com/?search=abap&page=2",
+      "cues": {
+        "prev": [
+          "link \"« Previous\" [ref=f3e1047] [cursor=pointer]:"
+        ],
+        "of_pages": [
+          "of 2 pages"
+        ],
+        "page_links": [
+          "/url: https://www.arbeitnow.com/?search=abap&page=2"
+        ]
+      }
+    }
+  ],
+  "trace": [
+    {
+      "step": 1,
+      "model": "minimax-m3",
+      "finish": "tool_calls",
+      "usage": {
+        "prompt_tokens": 2014,
+        "completion_tokens": 84,
+        "total_tokens": 2098
+      },
+      "tool_calls": [
+        {
+          "name": "browser_navigate",
+          "args": "{\"url\":\"https://www.arbeitnow.com/?search=abap\"}"
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "model": "minimax-m3",
+      "finish": "tool_calls",
+      "usage": {
+        "prompt_tokens": 2217,
+        "completion_tokens": 81,
+        "total_tokens": 2298
+      },
+      "tool_calls": [
+        {
+          "name": "browser_snapshot",
+          "args": "{}"
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "model": "minimax-m3",
+      "finish": "tool_calls",
+      "usage": {
+        "prompt_tokens": 15368,
+        "completion_tokens": 89,
+        "total_tokens": 15457
+      },
+      "tool_calls": [
+        {
+          "name": "browser_navigate",
+          "args": "{\"url\":\"https://www.arbeitnow.com/?search=abap\\u0026page=2\"}"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "model": "minimax-m3",
+      "finish": "tool_calls",
+      "usage": {
+        "prompt_tokens": 15628,
+        "completion_tokens": 50,
+        "total_tokens": 15678
+      },
+      "tool_calls": [
+        {
+          "name": "browser_snapshot",
+          "args": "{}"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "model": "minimax-m3",
+      "finish": "tool_calls",
+      "usage": {
+        "prompt_tokens": 29051,
+        "completion_tokens": 5673,
+        "total_tokens": 34724
+      },
+      "tool_calls": [
+        {
+          "name": "submit_extraction",
+          "args": "{\"roles\":[{\"link\":\"https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-aba"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "event": "submit_extraction",
+      "count": 66,
+      "pagination": {
+        "end_cue": "Showing 2 of 2 pages; Next » rendered as disabled generic (not a link)",
+        "last_page_reached": true,
+        "pages_visited": 2,
+        "stated_total": 66
+      },
+      "notes": "Searched arbeitnow.com for \"abap\". The board paginates with 2 pages of results. Page 1 (https://www.arbeitnow.com/?search=abap) listed 36 roles; page 2 (https://www.arbeitnow.com/?search=abap&page=2) listed 30 roles. End of list confirmed by \"Showing 2 of 2 pages\" text and the \"Next »\" control being a non-link generic element on page 2. Total roles collected: 66."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+### Page
+- Page URL: https://quotes.toscrape.com/scroll
+- Page Title: Quotes to Scrape
+### Snapshot
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - heading [level=1] [ref=e5]:
+        - link "Quotes to Scrape" [ref=e6] [cursor=pointer]:
+          - /url: /
+      - paragraph [ref=e8]:
+        - link "Login" [ref=e9] [cursor=pointer]:
+          - /url: /login
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]: “The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”
+        - generic [ref=e15]: by Albert Einstein
+        - generic [ref=e16]: "Tags: change deep-thoughts thinking world"
+      - generic [ref=e17]:
+        - generic [ref=e18]: “It is our choices, Harry, that show what we truly are, far more than our abilities.”
+        - generic [ref=e19]: by J.K. Rowling
+        - generic [ref=e20]: "Tags: abilities choices"
+      - generic [ref=e21]:
+        - generic [ref=e22]: “There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”
+        - generic [ref=e23]: by Albert Einstein
+        - generic [ref=e24]: "Tags: inspirational life live miracle miracles"
+      - generic [ref=e25]:
+        - generic [ref=e26]: “The person, be it gentleman or lady, who has not pleasure in a good novel, must be intolerably stupid.”
+        - generic [ref=e27]: by Jane Austen
+        - generic [ref=e28]: "Tags: aliteracy books classic humor"
+      - generic [ref=e29]:
+        - generic [ref=e30]: “Imperfection is beauty, madness is genius and it's better to be absolutely ridiculous than absolutely boring.”
+        - generic [ref=e31]: by Marilyn Monroe
+        - generic [ref=e32]: "Tags: be-yourself inspirational"
+      - generic [ref=e33]:
+        - generic [ref=e34]: “Try not to become a man of success. Rather become a man of value.”
+        - generic [ref=e35]: by Albert Einstein
+        - generic [ref=e36]: "Tags: adulthood success value"
+      - generic [ref=e37]:
+        - generic [ref=e38]: “It is better to be hated for what you are than to be loved for what you are not.”
+        - generic [ref=e39]: by André Gide
+        - generic [ref=e40]: "Tags: life love"
+      - generic [ref=e41]:
+        - generic [ref=e42]: “I have not failed. I've just found 10,000 ways that won't work.”
+        - generic [ref=e43]: by Thomas A. Edison
+        - generic [ref=e44]: "Tags: edison failure inspirational paraphrased"
+      - generic [ref=e45]:
+        - generic [ref=e46]: “A woman is like a tea bag; you never know how strong it is until it's in hot water.”
+        - generic [ref=e47]: by Eleanor Roosevelt
+        - generic [ref=e48]: "Tags: misattributed-eleanor-roosevelt"
+      - generic [ref=e49]:
+        - generic [ref=e50]: “A day without sunshine is like, you know, night.”
+        - generic [ref=e51]: by Steve Martin
+        - generic [ref=e52]: "Tags: humor obvious simile"
+  - contentinfo [ref=e53]:
+    - generic [ref=e54]:
+      - paragraph [ref=e55]:
+        - text: "Quotes by:"
+        - link "GoodReads.com" [ref=e56] [cursor=pointer]:
+          - /url: https://www.goodreads.com/quotes
+      - paragraph [ref=e57]:
+        - text: Made with ❤ by
+        - link "Zyte" [ref=e58] [cursor=pointer]:
+          - /url: https://www.zyte.com
+```

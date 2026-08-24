@@ -1,0 +1,1285 @@
+### Page
+- Page URL: https://www.arbeitnow.com/
+- Page Title: Jobs in Germany: Remote, Visa Sponsorship & English Speaking - August 2026
+- Console: 2 errors, 1 warnings
+### Snapshot
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e6]:
+    - navigation "Top" [ref=e7]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - link "Homepage" [ref=e13] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com
+            - img "arbeitnow" [ref=e14]
+          - generic [ref=e15]:
+            - text: by
+            - link "Adithya" [ref=e16] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/adithyasri/
+        - generic [ref=e19]:
+          - button "Popular" [ref=e22] [cursor=pointer]
+          - button "Locations" [ref=e25] [cursor=pointer]
+          - button "Categories" [ref=e28] [cursor=pointer]
+          - button "Tools" [ref=e31] [cursor=pointer]
+          - button "Blog" [ref=e34] [cursor=pointer]
+          - button "About" [ref=e37] [cursor=pointer]
+        - link "Post a Job" [ref=e41] [cursor=pointer]:
+          - /url: https://www.arbeitnow.com/job-board/post-job
+  - generic [ref=e45]:
+    - generic [ref=e46]:
+      - heading "Jobs in Germany" [level=1] [ref=e47]
+      - heading "10.136 open job positions across Germany, 393 added today" [level=2] [ref=e48]
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - button "Dismiss" [ref=e53] [cursor=pointer]
+        - generic [ref=e59]:
+          - paragraph [ref=e60]: Get the latest jobs in your inbox
+          - paragraph [ref=e61]: One quick weekly digest. No spam, unsubscribe anytime.
+      - generic [ref=e62]:
+        - generic [ref=e63]: Email address
+        - textbox "Email address" [ref=e64]:
+          - /placeholder: Enter your email
+        - button "Subscribe" [ref=e65] [cursor=pointer]
+    - generic [ref=e67]:
+      - generic [ref=e68]: Search
+      - generic [ref=e72]:
+        - generic [ref=e73]: Search for your next job
+        - textbox "Enter a job title, skill, location, etc" [ref=e74]
+    - generic [ref=e76]:
+      - button "tag visa sponsorship" [ref=e77] [cursor=pointer]: visa sponsorship
+      - button "tag english speaking" [ref=e78] [cursor=pointer]: english speaking
+      - button "tag data" [ref=e79] [cursor=pointer]: data
+      - button "tag developer" [ref=e80] [cursor=pointer]: developer
+      - button "tag berlin" [ref=e81] [cursor=pointer]: berlin
+      - button "tag junior" [ref=e82] [cursor=pointer]: junior
+      - button "tag product" [ref=e83] [cursor=pointer]: product
+      - button "tag php" [ref=e84] [cursor=pointer]: php
+      - button "tag recruiter" [ref=e85] [cursor=pointer]: recruiter
+      - button "tag finance" [ref=e86] [cursor=pointer]: finance
+      - button "tag javascript" [ref=e87] [cursor=pointer]: javascript
+      - button "tag SEO" [ref=e88] [cursor=pointer]: SEO
+      - button "tag remote" [ref=e89] [cursor=pointer]: remote
+      - button "tag intern" [ref=e90] [cursor=pointer]: intern
+      - button "tag sales" [ref=e91] [cursor=pointer]: sales
+      - button "tag part time" [ref=e92] [cursor=pointer]: part time
+    - generic [ref=e93]:
+      - generic [ref=e95]:
+        - heading "Recent Jobs" [level=2] [ref=e96]
+        - generic [ref=e97]:
+          - generic "Sort by" [ref=e98]
+          - combobox "Sort by" [ref=e99]:
+            - option "Relevance" [selected]
+            - option "Newest"
+      - list [ref=e101]:
+        - listitem [ref=e102]:
+          - generic [ref=e103] [cursor=pointer]:
+            - link "View details for Project Officer EC-FFPA (maternity cover)" [ref=e105]:
+              - /url: https://www.arbeitnow.com/jobs/companies/fairtrade-labelling-organizations-international-ev/project-officer-ec-ffpa-maternity-cover-bonn-452624
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - heading [level=3] [ref=e113]:
+                  - generic "Featured Job" [ref=e114]
+                  - link "Project Officer EC-FFPA (maternity cover)" [ref=e117]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/fairtrade-labelling-organizations-international-ev/project-officer-ec-ffpa-maternity-cover-bonn-452624
+                - generic [ref=e119]:
+                  - img "Company name" [ref=e120]
+                  - link "Jobs from Fairtrade Labelling Organizations International e.V." [ref=e123]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/fairtrade-labelling-organizations-international-ev
+                    - text: Fairtrade Labelling Organizations International e.V.
+              - generic [ref=e125]:
+                - button "Marketing" [ref=e126]
+                - button "Produkt" [ref=e127]
+                - button "Vollzeit" [ref=e128]
+              - generic [ref=e129]:
+                - paragraph [ref=e130]:
+                  - generic [ref=e131]: Bonn
+                - paragraph [ref=e133]:
+                  - time [ref=e134]: 2w
+        - listitem [ref=e135]:
+          - generic [ref=e136] [cursor=pointer]:
+            - link "View details for Data Analytics, Data Science & AI Weiterbildung mit IHK-Abschluss | 100 % Remote" [ref=e138]:
+              - /url: https://www.arbeitnow.com/jobs/companies/datasmart-point-gmbh/data-analytics-data-science-ai-weiterbildung-mit-ihk-abschluss-100-remote-berlin-452130
+            - generic [ref=e143]:
+              - generic [ref=e144]:
+                - heading [level=3] [ref=e146]:
+                  - generic "Featured Job" [ref=e147]
+                  - link "Data Analytics, Data Science & AI Weiterbildung mit IHK-Abschluss | 100 % Remote" [ref=e150]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/datasmart-point-gmbh/data-analytics-data-science-ai-weiterbildung-mit-ihk-abschluss-100-remote-berlin-452130
+                - generic [ref=e152]:
+                  - img "Company name" [ref=e153]
+                  - link "Jobs from DataSmart Point GmbH" [ref=e156]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/datasmart-point-gmbh
+                    - text: DataSmart Point GmbH
+              - generic [ref=e158]:
+                - button "Remote" [ref=e159]
+                - button "Data Scientist" [ref=e160]
+                - button "Apprenticeship" [ref=e161]
+                - generic "Salary Information" [ref=e163]:
+                  - img "salary" [ref=e164]
+                  - text: 48.000 - 57.000 €
+              - generic [ref=e165]:
+                - paragraph [ref=e166]:
+                  - generic [ref=e167]: Berlin
+                - paragraph [ref=e169]:
+                  - time [ref=e170]: 2w
+        - listitem [ref=e171]:
+          - generic [ref=e172] [cursor=pointer]:
+            - link "View details for Global Volunteer Program - Training & International Placement" [ref=e174]:
+              - /url: https://www.arbeitnow.com/jobs/companies/humana-people-to-people/global-volunteer-program-training-international-placement-international-in-danemark-afrika-und-asien-111137
+            - generic [ref=e179]:
+              - generic [ref=e180]:
+                - heading [level=3] [ref=e182]:
+                  - generic "Featured Job" [ref=e183]
+                  - link "Global Volunteer Program - Training & International Placement" [ref=e186]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/humana-people-to-people/global-volunteer-program-training-international-placement-international-in-danemark-afrika-und-asien-111137
+                - generic [ref=e188]:
+                  - img "Company name" [ref=e189]
+                  - link "Jobs from Humana People to People" [ref=e192]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/humana-people-to-people
+                    - text: Humana People to People
+              - button "Internship" [ref=e195]
+              - generic [ref=e196]:
+                - paragraph [ref=e197]:
+                  - generic [ref=e198]: International in Dänemark, Afrika und Asien
+                - paragraph [ref=e200]:
+                  - time [ref=e201]: 1mo
+        - listitem [ref=e202]:
+          - generic [ref=e203] [cursor=pointer]:
+            - link "View details for Compiler Engineer (P&R Heuristics)" [ref=e205]:
+              - /url: https://www.arbeitnow.com/jobs/companies/ubitium-gmbh/compiler-engineer-pr-heuristics-rulzheim-61783
+            - generic [ref=e210]:
+              - generic [ref=e211]:
+                - heading [level=3] [ref=e213]:
+                  - link "Compiler Engineer (P&R Heuristics)" [ref=e214]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/ubitium-gmbh/compiler-engineer-pr-heuristics-rulzheim-61783
+                - generic [ref=e216]:
+                  - img "Company name" [ref=e217]
+                  - link "Jobs from Ubitium GmbH" [ref=e220]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/ubitium-gmbh
+                    - text: Ubitium GmbH
+              - generic [ref=e222]:
+                - button "Engineering" [ref=e223]
+                - button "professional / experienced" [ref=e224]
+              - generic [ref=e225]:
+                - paragraph [ref=e226]:
+                  - generic [ref=e227]: Rülzheim
+                - paragraph [ref=e229]:
+                  - time [ref=e230]: 35m
+        - listitem [ref=e231]:
+          - generic [ref=e232] [cursor=pointer]:
+            - link "View details for Synthesis Engineer" [ref=e234]:
+              - /url: https://www.arbeitnow.com/jobs/companies/ubitium-gmbh/synthesis-engineer-rulzheim-223725
+            - generic [ref=e239]:
+              - generic [ref=e240]:
+                - heading [level=3] [ref=e242]:
+                  - link "Synthesis Engineer" [ref=e243]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/ubitium-gmbh/synthesis-engineer-rulzheim-223725
+                - generic [ref=e245]:
+                  - img "Company name" [ref=e246]
+                  - link "Jobs from Ubitium GmbH" [ref=e249]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/ubitium-gmbh
+                    - text: Ubitium GmbH
+              - generic [ref=e251]:
+                - button "Engineering" [ref=e252]
+                - button "professional / experienced" [ref=e253]
+              - generic [ref=e254]:
+                - paragraph [ref=e255]:
+                  - generic [ref=e256]: Rülzheim
+                - paragraph [ref=e258]:
+                  - time [ref=e259]: 35m
+        - listitem [ref=e260]:
+          - generic [ref=e261] [cursor=pointer]:
+            - link "View details for Teamleiter (m/w/d) im Finanzvertrieb (German Speaking)" [ref=e263]:
+              - /url: https://www.arbeitnow.com/jobs/companies/andreas-plumari-buro-fur-deutsche-vermogensberatung/teamleiter-im-finanzvertrieb-german-speaking-donaueschingen-105618
+              - generic [ref=e264]: AP
+            - generic [ref=e268]:
+              - generic [ref=e269]:
+                - heading [level=3] [ref=e271]:
+                  - link "Teamleiter (m/w/d) im Finanzvertrieb (German Speaking)" [ref=e272]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/andreas-plumari-buro-fur-deutsche-vermogensberatung/teamleiter-im-finanzvertrieb-german-speaking-donaueschingen-105618
+                - generic [ref=e274]:
+                  - img "Company name" [ref=e275]
+                  - link "Jobs from Andreas Plumari, Büro für Deutsche Vermögensberatung" [ref=e278]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/andreas-plumari-buro-fur-deutsche-vermogensberatung
+                    - text: Andreas Plumari, Büro für Deutsche Vermögensberatung
+              - generic [ref=e280]:
+                - button "Finance" [ref=e281]
+                - button "vocational" [ref=e282]
+                - button "Full-time fixed-term" [ref=e283]
+                - button "mid" [ref=e284]
+              - generic [ref=e285]:
+                - paragraph [ref=e286]:
+                  - generic [ref=e287]: Donaueschingen
+                - paragraph [ref=e289]:
+                  - time [ref=e290]: 45m
+        - listitem [ref=e291]:
+          - generic [ref=e292] [cursor=pointer]:
+            - link "View details for Director Amazon - Germany" [ref=e294]:
+              - /url: https://www.arbeitnow.com/jobs/companies/sharkninjaoperatingllc/director-amazon-germany-frankfurt-am-main-431006
+            - generic [ref=e299]:
+              - generic [ref=e300]:
+                - heading [level=3] [ref=e302]:
+                  - link "Director Amazon - Germany" [ref=e303]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sharkninjaoperatingllc/director-amazon-germany-frankfurt-am-main-431006
+                - generic [ref=e305]:
+                  - img "Company name" [ref=e306]
+                  - link "Jobs from Sharkninjaoperatingllc" [ref=e309]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sharkninjaoperatingllc
+                    - text: Sharkninjaoperatingllc
+              - button "31000 - Amazon" [ref=e312]
+              - generic [ref=e313]:
+                - paragraph [ref=e314]:
+                  - generic [ref=e315]: Frankfurt
+                - paragraph [ref=e317]:
+                  - time [ref=e318]: 2h
+        - listitem [ref=e319]:
+          - generic [ref=e320] [cursor=pointer]:
+            - link "View details for Staff Engineer / Technical Lead Azure/.NET" [ref=e322]:
+              - /url: https://www.arbeitnow.com/jobs/companies/berlinbrands/staff-engineer-technical-lead-azure-net-berlin-193182
+            - generic [ref=e327]:
+              - generic [ref=e328]:
+                - heading [level=3] [ref=e330]:
+                  - link "Staff Engineer / Technical Lead Azure/.NET" [ref=e331]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/berlinbrands/staff-engineer-technical-lead-azure-net-berlin-193182
+                - generic [ref=e333]:
+                  - img "Company name" [ref=e334]
+                  - link "Jobs from Berlinbrands" [ref=e337]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/berlinbrands
+                    - text: Berlinbrands
+              - button "Tech & Process" [ref=e340]
+              - generic [ref=e341]:
+                - paragraph [ref=e342]:
+                  - generic [ref=e343]: Berlin
+                - paragraph [ref=e345]:
+                  - time [ref=e346]: 2h
+        - listitem [ref=e347]:
+          - generic [ref=e348] [cursor=pointer]:
+            - link "View details for Werkstudent Projektmanager Social Media (m/w/d)" [ref=e350]:
+              - /url: https://www.arbeitnow.com/jobs/companies/realstudio-gmbh/werkstudent-projektmanager-social-media-berlin-449045
+            - generic [ref=e355]:
+              - generic [ref=e356]:
+                - heading [level=3] [ref=e358]:
+                  - link "Werkstudent Projektmanager Social Media (m/w/d)" [ref=e359]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/realstudio-gmbh/werkstudent-projektmanager-social-media-berlin-449045
+                - generic [ref=e361]:
+                  - img "Company name" [ref=e362]
+                  - link "Jobs from RealStudio GmbH" [ref=e365]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/realstudio-gmbh
+                    - text: RealStudio GmbH
+              - generic [ref=e367]:
+                - button "Remote" [ref=e368]
+                - button "Social Media Manager" [ref=e369]
+                - button "Working student" [ref=e370]
+              - generic [ref=e371]:
+                - paragraph [ref=e372]:
+                  - generic [ref=e373]: Berlin
+                - paragraph [ref=e375]:
+                  - time [ref=e376]: 2h
+        - listitem [ref=e377]:
+          - generic [ref=e378] [cursor=pointer]:
+            - link "View details for Senior Specialist Financial Controlling & Automation (m/w/d)" [ref=e380]:
+              - /url: https://www.arbeitnow.com/jobs/companies/paul-tech-ag/senior-specialist-financial-controlling-automation-mannheim-81032
+              - generic [ref=e381]: PT
+            - generic [ref=e385]:
+              - generic [ref=e386]:
+                - heading [level=3] [ref=e388]:
+                  - link "Senior Specialist Financial Controlling & Automation (m/w/d)" [ref=e389]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/paul-tech-ag/senior-specialist-financial-controlling-automation-mannheim-81032
+                - generic [ref=e391]:
+                  - img "Company name" [ref=e392]
+                  - link "Jobs from PAUL Tech AG" [ref=e395]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/paul-tech-ag
+                    - text: PAUL Tech AG
+              - generic [ref=e397]:
+                - button "Finance" [ref=e398]
+                - button "berufserfahren" [ref=e399]
+              - generic [ref=e400]:
+                - paragraph [ref=e401]:
+                  - generic [ref=e402]: Mannheim
+                - paragraph [ref=e404]:
+                  - time [ref=e405]: 2h
+        - listitem [ref=e406]:
+          - generic [ref=e407] [cursor=pointer]:
+            - link "View details for Senior Fullstack Engineer (m/f/d)" [ref=e409]:
+              - /url: https://www.arbeitnow.com/jobs/companies/entyre-pflegewegweiser/senior-fullstack-engineer-berlin-293820
+            - generic [ref=e414]:
+              - generic [ref=e415]:
+                - heading [level=3] [ref=e417]:
+                  - link "Senior Fullstack Engineer (m/f/d)" [ref=e418]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/entyre-pflegewegweiser/senior-fullstack-engineer-berlin-293820
+                - generic [ref=e420]:
+                  - img "Company name" [ref=e421]
+                  - link "Jobs from Entyre & Pflegewegweiser" [ref=e424]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/entyre-pflegewegweiser
+                    - text: Entyre & Pflegewegweiser
+              - generic [ref=e426]:
+                - button "Engineering" [ref=e427]
+                - button "Experienced" [ref=e428]
+                - button "fulltime permanent" [ref=e429]
+              - generic [ref=e430]:
+                - paragraph [ref=e431]:
+                  - generic [ref=e432]: Berlin
+                - paragraph [ref=e434]:
+                  - time [ref=e435]: 2h
+        - listitem [ref=e436]:
+          - generic [ref=e437] [cursor=pointer]:
+            - link "View details for Werkstudent (m/w/d) in der Anwendungsforschung" [ref=e439]:
+              - /url: https://www.arbeitnow.com/jobs/companies/arcus-planung-beratung-bauplanungsgesellschaft-mbh/werkstudent-in-der-anwendungsforschung-berlin-434035
+            - generic [ref=e444]:
+              - generic [ref=e445]:
+                - heading [level=3] [ref=e447]:
+                  - link "Werkstudent (m/w/d) in der Anwendungsforschung" [ref=e448]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/arcus-planung-beratung-bauplanungsgesellschaft-mbh/werkstudent-in-der-anwendungsforschung-berlin-434035
+                - generic [ref=e450]:
+                  - img "Company name" [ref=e451]
+                  - link "Jobs from ARCUS Planung + Beratung Bauplanungsgesellschaft mbH" [ref=e454]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/arcus-planung-beratung-bauplanungsgesellschaft-mbh
+                    - text: ARCUS Planung + Beratung Bauplanungsgesellschaft mbH
+              - generic [ref=e456]:
+                - button "GTL-Projektgesellschaft" [ref=e457]
+                - button "Mid" [ref=e458]
+                - button "fulltime fixed term" [ref=e459]
+              - generic [ref=e460]:
+                - paragraph [ref=e461]:
+                  - generic [ref=e462]: Berlin
+                - paragraph [ref=e464]:
+                  - time [ref=e465]: 2h
+        - listitem [ref=e466]:
+          - generic [ref=e467] [cursor=pointer]:
+            - link "View details for Werkstudent Sales Development (m/w/d)" [ref=e469]:
+              - /url: https://www.arbeitnow.com/jobs/companies/comdesk-gmbh/werkstudent-sales-development-munchen-299612
+            - generic [ref=e474]:
+              - generic [ref=e475]:
+                - heading [level=3] [ref=e477]:
+                  - link "Werkstudent Sales Development (m/w/d)" [ref=e478]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/comdesk-gmbh/werkstudent-sales-development-munchen-299612
+                - generic [ref=e480]:
+                  - img "Company name" [ref=e481]
+                  - link "Jobs from Comdesk Gmbh" [ref=e484]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/comdesk-gmbh
+                    - text: Comdesk Gmbh
+              - generic [ref=e486]:
+                - button "Student" [ref=e487]
+                - button "Working student" [ref=e488]
+              - generic [ref=e489]:
+                - paragraph [ref=e490]:
+                  - generic [ref=e491]: Munich
+                - paragraph [ref=e493]:
+                  - time [ref=e494]: 2h
+        - listitem [ref=e495]:
+          - generic [ref=e496] [cursor=pointer]:
+            - link "View details for Account Executive (m/w/d)" [ref=e498]:
+              - /url: https://www.arbeitnow.com/jobs/companies/comdesk-gmbh/account-executive-munchen-74939
+            - generic [ref=e503]:
+              - generic [ref=e504]:
+                - heading [level=3] [ref=e506]:
+                  - link "Account Executive (m/w/d)" [ref=e507]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/comdesk-gmbh/account-executive-munchen-74939
+                - generic [ref=e509]:
+                  - img "Company name" [ref=e510]
+                  - link "Jobs from Comdesk Gmbh" [ref=e513]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/comdesk-gmbh
+                    - text: Comdesk Gmbh
+              - generic [ref=e515]:
+                - button "Experienced" [ref=e516]
+                - button "Permanent" [ref=e517]
+              - generic [ref=e518]:
+                - paragraph [ref=e519]:
+                  - generic [ref=e520]: Munich
+                - paragraph [ref=e522]:
+                  - time [ref=e523]: 2h
+        - listitem [ref=e524]:
+          - generic [ref=e525] [cursor=pointer]:
+            - link "View details for Pflichtpraktikant Mandantenbetreuung (x/w/m)" [ref=e527]:
+              - /url: https://www.arbeitnow.com/jobs/companies/flightright-group/pflichtpraktikant-mandantenbetreuung-berlin-83696
+            - generic [ref=e532]:
+              - generic [ref=e533]:
+                - heading [level=3] [ref=e535]:
+                  - link "Pflichtpraktikant Mandantenbetreuung (x/w/m)" [ref=e536]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/flightright-group/pflichtpraktikant-mandantenbetreuung-berlin-83696
+                - generic [ref=e538]:
+                  - img "Company name" [ref=e539]
+                  - link "Jobs from Flightright Group" [ref=e542]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/flightright-group
+                    - text: Flightright Group
+              - generic [ref=e544]:
+                - button "Kanzlei" [ref=e545]
+                - button "Legal Tech" [ref=e546]
+                - button "Digital" [ref=e547]
+                - button "Entry" [ref=e548]
+                - button "Intern" [ref=e549]
+              - generic [ref=e550]:
+                - paragraph [ref=e551]:
+                  - generic [ref=e552]: Berlin
+                - paragraph [ref=e554]:
+                  - time [ref=e555]: 2h
+        - listitem [ref=e556]:
+          - generic [ref=e557] [cursor=pointer]:
+            - link "View details for Pflichtpraktikant Mandantenbetreuung (x/w/m)" [ref=e559]:
+              - /url: https://www.arbeitnow.com/jobs/companies/flightright-group/pflichtpraktikant-mandantenbetreuung-berlin-99459
+            - generic [ref=e564]:
+              - generic [ref=e565]:
+                - heading [level=3] [ref=e567]:
+                  - link "Pflichtpraktikant Mandantenbetreuung (x/w/m)" [ref=e568]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/flightright-group/pflichtpraktikant-mandantenbetreuung-berlin-99459
+                - generic [ref=e570]:
+                  - img "Company name" [ref=e571]
+                  - link "Jobs from Flightright Group" [ref=e574]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/flightright-group
+                    - text: Flightright Group
+              - generic [ref=e576]:
+                - button "Kanzlei" [ref=e577]
+                - button "Verkehrsrecht" [ref=e578]
+                - button "Legal Tech" [ref=e579]
+                - button "Entry" [ref=e580]
+                - button "Intern" [ref=e581]
+              - generic [ref=e582]:
+                - paragraph [ref=e583]:
+                  - generic [ref=e584]: Berlin
+                - paragraph [ref=e586]:
+                  - time [ref=e587]: 2h
+        - listitem [ref=e588]:
+          - generic [ref=e589] [cursor=pointer]:
+            - link "View details for Senior Partnership Manager (w/m/d)" [ref=e591]:
+              - /url: https://www.arbeitnow.com/jobs/companies/hero-software/senior-partnership-manager-berlin-115418
+            - generic [ref=e596]:
+              - generic [ref=e597]:
+                - heading [level=3] [ref=e599]:
+                  - link "Senior Partnership Manager (w/m/d)" [ref=e600]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/hero-software/senior-partnership-manager-berlin-115418
+                - generic [ref=e602]:
+                  - img "Company name" [ref=e603]
+                  - link "Jobs from Hero Software" [ref=e606]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/hero-software
+                    - text: Hero Software
+              - generic [ref=e608]:
+                - button "Marketing" [ref=e609]
+                - button "Computer Software" [ref=e610]
+                - button "Full time" [ref=e611]
+                - button "mid-senior" [ref=e612]
+              - generic [ref=e613]:
+                - paragraph [ref=e614]:
+                  - generic [ref=e615]: Berlin
+                - paragraph [ref=e617]:
+                  - time [ref=e618]: 2h
+        - listitem [ref=e619]:
+          - generic [ref=e620] [cursor=pointer]:
+            - link "View details for Senior Partnership Manager (w/m/d)" [ref=e622]:
+              - /url: https://www.arbeitnow.com/jobs/companies/hero-software/senior-partnership-manager-hanover-251581
+            - generic [ref=e627]:
+              - generic [ref=e628]:
+                - heading [level=3] [ref=e630]:
+                  - link "Senior Partnership Manager (w/m/d)" [ref=e631]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/hero-software/senior-partnership-manager-hanover-251581
+                - generic [ref=e633]:
+                  - img "Company name" [ref=e634]
+                  - link "Jobs from Hero Software" [ref=e637]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/hero-software
+                    - text: Hero Software
+              - generic [ref=e639]:
+                - button "Marketing" [ref=e640]
+                - button "Computer Software" [ref=e641]
+                - button "Full time" [ref=e642]
+                - button "mid-senior" [ref=e643]
+              - generic [ref=e644]:
+                - paragraph [ref=e645]:
+                  - generic [ref=e646]: Hanover
+                - paragraph [ref=e648]:
+                  - time [ref=e649]: 2h
+        - listitem [ref=e650]:
+          - generic [ref=e651] [cursor=pointer]:
+            - link "View details for Head of Engineering" [ref=e653]:
+              - /url: https://www.arbeitnow.com/jobs/companies/deeploi-this-is-it/head-of-engineering-munchen-104347
+              - generic [ref=e654]: DE
+            - generic [ref=e658]:
+              - generic [ref=e659]:
+                - heading [level=3] [ref=e661]:
+                  - link "Head of Engineering" [ref=e662]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/deeploi-this-is-it/head-of-engineering-munchen-104347
+                - generic [ref=e664]:
+                  - img "Company name" [ref=e665]
+                  - link "Jobs from deeploi - This is IT" [ref=e668]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/deeploi-this-is-it
+                    - text: deeploi - This is IT
+              - generic [ref=e670]:
+                - button "Leadership" [ref=e671]
+                - button "ownership" [ref=e672]
+                - button "TypeScript" [ref=e673]
+                - button "Experienced" [ref=e674]
+                - button "Permanent" [ref=e675]
+              - generic [ref=e676]:
+                - paragraph [ref=e677]:
+                  - generic [ref=e678]: Munich
+                - paragraph [ref=e680]:
+                  - time [ref=e681]: 2h
+        - listitem [ref=e682]:
+          - generic [ref=e683] [cursor=pointer]:
+            - link "View details for Chief of Staff" [ref=e685]:
+              - /url: https://www.arbeitnow.com/jobs/companies/deeploi-this-is-it/chief-of-staff-berlin-308512
+              - generic [ref=e686]: DE
+            - generic [ref=e690]:
+              - generic [ref=e691]:
+                - heading [level=3] [ref=e693]:
+                  - link "Chief of Staff" [ref=e694]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/deeploi-this-is-it/chief-of-staff-berlin-308512
+                - generic [ref=e696]:
+                  - img "Company name" [ref=e697]
+                  - link "Jobs from deeploi - This is IT" [ref=e700]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/deeploi-this-is-it
+                    - text: deeploi - This is IT
+              - generic [ref=e702]:
+                - button "Management" [ref=e703]
+                - button "Leadership" [ref=e704]
+                - button "Strategic Thinking" [ref=e705]
+                - button "Experienced" [ref=e706]
+                - button "Permanent" [ref=e707]
+              - generic [ref=e708]:
+                - paragraph [ref=e709]:
+                  - generic [ref=e710]: Berlin
+                - paragraph [ref=e712]:
+                  - time [ref=e713]: 2h
+        - listitem [ref=e714]:
+          - generic [ref=e715] [cursor=pointer]:
+            - link "View details for Werkstudent (m/w/d) Projekt-, Asset- und Kostenmanagement - Bereich Real Estate" [ref=e717]:
+              - /url: https://www.arbeitnow.com/jobs/companies/taeurope/werkstudent-projekt-asset-und-kostenmanagement-bereich-real-estate-deutschlandweit-204438
+            - generic [ref=e722]:
+              - generic [ref=e723]:
+                - heading [level=3] [ref=e725]:
+                  - link "Werkstudent (m/w/d) Projekt-, Asset- und Kostenmanagement - Bereich Real Estate" [ref=e726]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/taeurope/werkstudent-projekt-asset-und-kostenmanagement-bereich-real-estate-deutschlandweit-204438
+                - generic [ref=e728]:
+                  - img "Company name" [ref=e729]
+                  - link "Jobs from Taeurope" [ref=e732]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/taeurope
+                    - text: Taeurope
+              - generic [ref=e734]:
+                - button "Real Estate" [ref=e735]
+                - button "project management" [ref=e736]
+                - button "Projekte" [ref=e737]
+                - button "Student" [ref=e738]
+                - button "Intern" [ref=e739]
+              - generic [ref=e740]:
+                - paragraph [ref=e741]:
+                  - generic [ref=e742]: Deutschlandweit
+                - paragraph [ref=e744]:
+                  - time [ref=e745]: 2h
+        - listitem [ref=e746]:
+          - generic [ref=e747] [cursor=pointer]:
+            - link "View details for Senior Technical Asset Manager - Real Estate (m/w/d)" [ref=e749]:
+              - /url: https://www.arbeitnow.com/jobs/companies/taeurope/senior-technical-asset-manager-real-estate-deutschlandweit-157635
+            - generic [ref=e754]:
+              - generic [ref=e755]:
+                - heading [level=3] [ref=e757]:
+                  - link "Senior Technical Asset Manager - Real Estate (m/w/d)" [ref=e758]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/taeurope/senior-technical-asset-manager-real-estate-deutschlandweit-157635
+                - generic [ref=e760]:
+                  - img "Company name" [ref=e761]
+                  - link "Jobs from Taeurope" [ref=e764]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/taeurope
+                    - text: Taeurope
+              - generic [ref=e766]:
+                - button "Projectmanagement" [ref=e767]
+                - button "Projektmanagement" [ref=e768]
+                - button "Technical Asset Management" [ref=e769]
+                - button "Experienced" [ref=e770]
+                - button "Permanent" [ref=e771]
+              - generic [ref=e772]:
+                - paragraph [ref=e773]:
+                  - generic [ref=e774]: Deutschlandweit
+                - paragraph [ref=e776]:
+                  - time [ref=e777]: 2h
+        - listitem [ref=e778]:
+          - generic [ref=e779] [cursor=pointer]:
+            - link "View details for Werkstudent Projektkoordination Wohnungswirtschaft NE3 (m/w/d)" [ref=e781]:
+              - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-werkstudent-projektkoordination-wohnungswirtschaft-ne3-485097
+              - generic [ref=e782]: OG
+            - generic [ref=e786]:
+              - generic [ref=e787]:
+                - heading [level=3] [ref=e789]:
+                  - link "Werkstudent Projektkoordination Wohnungswirtschaft NE3 (m/w/d)" [ref=e790]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-werkstudent-projektkoordination-wohnungswirtschaft-ne3-485097
+                - generic [ref=e792]:
+                  - img "Company name" [ref=e793]
+                  - link "Jobs from OXG Glasfaser GmbH" [ref=e796]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh
+                    - text: OXG Glasfaser GmbH
+              - generic [ref=e798]:
+                - button "Werkstudium" [ref=e799]
+                - button "Projektkoordination" [ref=e800]
+                - button "NE3" [ref=e801]
+                - button "Student" [ref=e802]
+                - button "Intern" [ref=e803]
+              - generic [ref=e804]:
+                - paragraph [ref=e805]:
+                  - generic [ref=e806]: Düsseldorf
+                - paragraph [ref=e808]:
+                  - time [ref=e809]: 2h
+        - listitem [ref=e810]:
+          - generic [ref=e811] [cursor=pointer]:
+            - link "View details for Lead / Senior Manager Fiber Customer Activation and Service provisioning (m/w/d)" [ref=e813]:
+              - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-lead-senior-manager-fiber-customer-activation-and-service-provisioning-203230
+              - generic [ref=e814]: OG
+            - generic [ref=e818]:
+              - generic [ref=e819]:
+                - heading [level=3] [ref=e821]:
+                  - link "Lead / Senior Manager Fiber Customer Activation and Service provisioning (m/w/d)" [ref=e822]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-lead-senior-manager-fiber-customer-activation-and-service-provisioning-203230
+                - generic [ref=e824]:
+                  - img "Company name" [ref=e825]
+                  - link "Jobs from OXG Glasfaser GmbH" [ref=e828]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh
+                    - text: OXG Glasfaser GmbH
+              - generic [ref=e830]:
+                - button "Projektmanagement" [ref=e831]
+                - button "Fiber" [ref=e832]
+                - button "Glasfaser" [ref=e833]
+                - button "Experienced" [ref=e834]
+                - button "Permanent" [ref=e835]
+              - generic [ref=e836]:
+                - paragraph [ref=e837]:
+                  - generic [ref=e838]: Düsseldorf
+                - paragraph [ref=e840]:
+                  - time [ref=e841]: 2h
+        - listitem [ref=e842]:
+          - generic [ref=e843] [cursor=pointer]:
+            - link "View details for (Senior) Projekt- und Prozessmanager Customer Activation (m/w/d)" [ref=e845]:
+              - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-senior-projekt-und-prozessmanager-customer-activation-70909
+              - generic [ref=e846]: OG
+            - generic [ref=e850]:
+              - generic [ref=e851]:
+                - heading [level=3] [ref=e853]:
+                  - link "(Senior) Projekt- und Prozessmanager Customer Activation (m/w/d)" [ref=e854]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-senior-projekt-und-prozessmanager-customer-activation-70909
+                - generic [ref=e856]:
+                  - img "Company name" [ref=e857]
+                  - link "Jobs from OXG Glasfaser GmbH" [ref=e860]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh
+                    - text: OXG Glasfaser GmbH
+              - generic [ref=e862]:
+                - button "Projektmanagement" [ref=e863]
+                - button "Customer Activation" [ref=e864]
+                - button "Fiber" [ref=e865]
+                - button "Experienced" [ref=e866]
+                - button "Permanent" [ref=e867]
+              - generic [ref=e868]:
+                - paragraph [ref=e869]:
+                  - generic [ref=e870]: Düsseldorf
+                - paragraph [ref=e872]:
+                  - time [ref=e873]: 2h
+        - listitem [ref=e874]:
+          - generic [ref=e875] [cursor=pointer]:
+            - link "View details for (Senior) IT Product Owner Data Platform (m/w/d)" [ref=e877]:
+              - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-senior-it-product-owner-data-platform-146430
+              - generic [ref=e878]: OG
+            - generic [ref=e882]:
+              - generic [ref=e883]:
+                - heading [level=3] [ref=e885]:
+                  - link "(Senior) IT Product Owner Data Platform (m/w/d)" [ref=e886]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh/remote-senior-it-product-owner-data-platform-146430
+                - generic [ref=e888]:
+                  - img "Company name" [ref=e889]
+                  - link "Jobs from OXG Glasfaser GmbH" [ref=e892]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/oxg-glasfaser-gmbh
+                    - text: OXG Glasfaser GmbH
+              - generic [ref=e894]:
+                - button "Experienced" [ref=e895]
+                - button "Permanent" [ref=e896]
+              - generic [ref=e897]:
+                - paragraph [ref=e898]:
+                  - generic [ref=e899]: Düsseldorf
+                - paragraph [ref=e901]:
+                  - time [ref=e902]: 2h
+        - listitem [ref=e903]:
+          - generic [ref=e904] [cursor=pointer]:
+            - link "View details for Produktmanager – PC-Hardware (m/w/d)" [ref=e906]:
+              - /url: https://www.arbeitnow.com/jobs/companies/mifcom/produktmanager-pc-hardware-munchen-496183
+            - generic [ref=e911]:
+              - generic [ref=e912]:
+                - heading [level=3] [ref=e914]:
+                  - link "Produktmanager – PC-Hardware (m/w/d)" [ref=e915]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/mifcom/produktmanager-pc-hardware-munchen-496183
+                - generic [ref=e917]:
+                  - img "Company name" [ref=e918]
+                  - link "Jobs from Mifcom" [ref=e921]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/mifcom
+                    - text: Mifcom
+              - generic [ref=e923]:
+                - button "produkt" [ref=e924]
+                - button "produktmanagement" [ref=e925]
+                - button "konfiguration" [ref=e926]
+                - button "Experienced" [ref=e927]
+                - button "Permanent" [ref=e928]
+              - generic [ref=e929]:
+                - paragraph [ref=e930]:
+                  - generic [ref=e931]: Munich
+                - paragraph [ref=e933]:
+                  - time [ref=e934]: 2h
+        - listitem [ref=e935]:
+          - generic [ref=e936] [cursor=pointer]:
+            - link "View details for Junior SEA Manager (m/w/d) - München" [ref=e938]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-sea-manager-munchen-munich-487732
+            - generic [ref=e943]:
+              - generic [ref=e944]:
+                - heading [level=3] [ref=e946]:
+                  - link "Junior SEA Manager (m/w/d) - München" [ref=e947]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-sea-manager-munchen-munich-487732
+                - generic [ref=e949]:
+                  - img "Company name" [ref=e950]
+                  - link "Jobs from Cyrus Digital GmbH" [ref=e953]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh
+                    - text: Cyrus Digital GmbH
+              - generic [ref=e955]:
+                - button "Online Marketing" [ref=e956]
+                - button "berufserfahren" [ref=e957]
+                - generic "Salary Information" [ref=e959]:
+                  - img "salary" [ref=e960]
+                  - text: 30.000 - 40.000 €
+              - generic [ref=e961]:
+                - paragraph [ref=e962]:
+                  - generic [ref=e963]: Munich
+                - paragraph [ref=e965]:
+                  - time [ref=e966]: 3h
+        - listitem [ref=e967]:
+          - generic [ref=e968] [cursor=pointer]:
+            - link "View details for Junior E-Commerce Manager (m/w/d) - München" [ref=e970]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-e-commerce-manager-munchen-munich-429132
+            - generic [ref=e975]:
+              - generic [ref=e976]:
+                - heading [level=3] [ref=e978]:
+                  - link "Junior E-Commerce Manager (m/w/d) - München" [ref=e979]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-e-commerce-manager-munchen-munich-429132
+                - generic [ref=e981]:
+                  - img "Company name" [ref=e982]
+                  - link "Jobs from Cyrus Digital GmbH" [ref=e985]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh
+                    - text: Cyrus Digital GmbH
+              - generic [ref=e987]:
+                - button "Online Marketing" [ref=e988]
+                - button "berufserfahren" [ref=e989]
+                - generic "Salary Information" [ref=e991]:
+                  - img "salary" [ref=e992]
+                  - text: 30.000 - 40.000 €
+              - generic [ref=e993]:
+                - paragraph [ref=e994]:
+                  - generic [ref=e995]: Munich
+                - paragraph [ref=e997]:
+                  - time [ref=e998]: 3h
+        - listitem [ref=e999]:
+          - generic [ref=e1000] [cursor=pointer]:
+            - link "View details for Junior Performane Marketing Manager (m/w/d) - München" [ref=e1002]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-performane-marketing-manager-munchen-munich-216616
+            - generic [ref=e1007]:
+              - generic [ref=e1008]:
+                - heading [level=3] [ref=e1010]:
+                  - link "Junior Performane Marketing Manager (m/w/d) - München" [ref=e1011]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-performane-marketing-manager-munchen-munich-216616
+                - generic [ref=e1013]:
+                  - img "Company name" [ref=e1014]
+                  - link "Jobs from Cyrus Digital GmbH" [ref=e1017]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh
+                    - text: Cyrus Digital GmbH
+              - generic [ref=e1019]:
+                - button "Online Marketing" [ref=e1020]
+                - button "berufserfahren" [ref=e1021]
+                - generic "Salary Information" [ref=e1023]:
+                  - img "salary" [ref=e1024]
+                  - text: 30.000 - 40.000 €
+              - generic [ref=e1025]:
+                - paragraph [ref=e1026]:
+                  - generic [ref=e1027]: Munich
+                - paragraph [ref=e1029]:
+                  - time [ref=e1030]: 3h
+        - listitem [ref=e1031]:
+          - generic [ref=e1032] [cursor=pointer]:
+            - link "View details for Online Marketing Trainee (m/w/d) - München" [ref=e1034]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/online-marketing-trainee-munchen-munich-186023
+            - generic [ref=e1039]:
+              - generic [ref=e1040]:
+                - heading [level=3] [ref=e1042]:
+                  - link "Online Marketing Trainee (m/w/d) - München" [ref=e1043]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/online-marketing-trainee-munchen-munich-186023
+                - generic [ref=e1045]:
+                  - img "Company name" [ref=e1046]
+                  - link "Jobs from Cyrus Digital GmbH" [ref=e1049]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh
+                    - text: Cyrus Digital GmbH
+              - generic [ref=e1051]:
+                - button "Training" [ref=e1052]
+                - button "Development" [ref=e1053]
+                - button "Internship" [ref=e1054]
+                - button "hilfstätigkeit / student" [ref=e1055]
+                - generic "Salary Information" [ref=e1057]:
+                  - img "salary" [ref=e1058]
+                  - text: 30.000 - 40.000 €
+              - generic [ref=e1059]:
+                - paragraph [ref=e1060]:
+                  - generic [ref=e1061]: Munich
+                - paragraph [ref=e1063]:
+                  - time [ref=e1064]: 3h
+        - listitem [ref=e1065]:
+          - generic [ref=e1066] [cursor=pointer]:
+            - link "View details for Junior Digital Marketing Manager (m/w/d) - München" [ref=e1068]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-digital-marketing-manager-munchen-munich-417303
+            - generic [ref=e1073]:
+              - generic [ref=e1074]:
+                - heading [level=3] [ref=e1076]:
+                  - link "Junior Digital Marketing Manager (m/w/d) - München" [ref=e1077]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-digital-marketing-manager-munchen-munich-417303
+                - generic [ref=e1079]:
+                  - img "Company name" [ref=e1080]
+                  - link "Jobs from Cyrus Digital GmbH" [ref=e1083]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh
+                    - text: Cyrus Digital GmbH
+              - generic [ref=e1085]:
+                - button "Online Marketing" [ref=e1086]
+                - button "berufserfahren" [ref=e1087]
+                - generic "Salary Information" [ref=e1089]:
+                  - img "salary" [ref=e1090]
+                  - text: 30.000 - 40.000 €
+              - generic [ref=e1091]:
+                - paragraph [ref=e1092]:
+                  - generic [ref=e1093]: Munich
+                - paragraph [ref=e1095]:
+                  - time [ref=e1096]: 3h
+        - listitem [ref=e1097]:
+          - generic [ref=e1098] [cursor=pointer]:
+            - link "View details for Projektmanager Learning & Development (m/w/d)" [ref=e1100]:
+              - /url: https://www.arbeitnow.com/jobs/companies/carmen-zimmermann-personalberatung/projektmanager-learning-development-monchengladbach-404868
+            - generic [ref=e1105]:
+              - generic [ref=e1106]:
+                - heading [level=3] [ref=e1108]:
+                  - link "Projektmanager Learning & Development (m/w/d)" [ref=e1109]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/carmen-zimmermann-personalberatung/projektmanager-learning-development-monchengladbach-404868
+                - generic [ref=e1111]:
+                  - img "Company name" [ref=e1112]
+                  - link "Jobs from Carmen Zimmermann Personalberatung" [ref=e1115]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/carmen-zimmermann-personalberatung
+                    - text: Carmen Zimmermann Personalberatung
+              - generic [ref=e1117]:
+                - button "Training" [ref=e1118]
+                - button "Development" [ref=e1119]
+                - button "berufserfahren" [ref=e1120]
+                - generic "Salary Information" [ref=e1122]:
+                  - img "salary" [ref=e1123]
+                  - text: 85.000 €
+              - generic [ref=e1124]:
+                - paragraph [ref=e1125]:
+                  - generic [ref=e1126]: Mönchengladbach
+                - paragraph [ref=e1128]:
+                  - time [ref=e1129]: 3h
+        - listitem [ref=e1130]:
+          - generic [ref=e1131] [cursor=pointer]:
+            - link "View details for Junior Marketing & Sales Manager (m/w/d)" [ref=e1133]:
+              - /url: https://www.arbeitnow.com/jobs/companies/growthside/junior-marketing-sales-manager-frankfurt-am-main-408109
+            - generic [ref=e1138]:
+              - generic [ref=e1139]:
+                - heading [level=3] [ref=e1141]:
+                  - link "Junior Marketing & Sales Manager (m/w/d)" [ref=e1142]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/growthside/junior-marketing-sales-manager-frankfurt-am-main-408109
+                - generic [ref=e1144]:
+                  - img "Company name" [ref=e1145]
+                  - link "Jobs from Growthside" [ref=e1148]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/growthside
+                    - text: Growthside
+              - generic [ref=e1150]:
+                - button "Marketing and Communication" [ref=e1151]
+                - generic "Salary Information" [ref=e1153]:
+                  - img "salary" [ref=e1154]
+                  - text: 38.400 - 50.000 €
+              - generic [ref=e1155]:
+                - paragraph [ref=e1156]:
+                  - generic [ref=e1157]: Frankfurt am Main
+                - paragraph [ref=e1159]:
+                  - time [ref=e1160]: 3h
+        - listitem [ref=e1161]:
+          - generic [ref=e1162] [cursor=pointer]:
+            - link "View details for Founder's Associate | VC-backed startup | First commercial hire" [ref=e1164]:
+              - /url: https://www.arbeitnow.com/jobs/companies/anytax/founders-associate-vc-backed-startup-first-commercial-hire-berlin-275943
+            - generic [ref=e1169]:
+              - generic [ref=e1170]:
+                - heading [level=3] [ref=e1172]:
+                  - link "Founder's Associate | VC-backed startup | First commercial hire" [ref=e1173]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/anytax/founders-associate-vc-backed-startup-first-commercial-hire-berlin-275943
+                - generic [ref=e1175]:
+                  - img "Company name" [ref=e1176]
+                  - link "Jobs from AnyTax" [ref=e1179]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/anytax
+                    - text: AnyTax
+              - generic [ref=e1181]:
+                - button "Business Development" [ref=e1182]
+                - button "Internship" [ref=e1183]
+              - generic [ref=e1184]:
+                - paragraph [ref=e1185]:
+                  - generic [ref=e1186]: Berlin
+                - paragraph [ref=e1188]:
+                  - time [ref=e1189]: 4h
+        - listitem [ref=e1190]:
+          - generic [ref=e1191] [cursor=pointer]:
+            - link "View details for Project Manager Promotion Operations (m/w/d)" [ref=e1193]:
+              - /url: https://www.arbeitnow.com/jobs/companies/caspar-company-gmbh/project-manager-promotion-operations-hamburg-437009
+            - generic [ref=e1198]:
+              - generic [ref=e1199]:
+                - heading [level=3] [ref=e1201]:
+                  - link "Project Manager Promotion Operations (m/w/d)" [ref=e1202]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/caspar-company-gmbh/project-manager-promotion-operations-hamburg-437009
+                - generic [ref=e1204]:
+                  - img "Company name" [ref=e1205]
+                  - link "Jobs from caspar company GmbH" [ref=e1208]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/caspar-company-gmbh
+                    - text: caspar company GmbH
+              - generic [ref=e1210]:
+                - button "Marketing and Communication" [ref=e1211]
+                - button "berufserfahren" [ref=e1212]
+                - generic "Salary Information" [ref=e1214]:
+                  - img "salary" [ref=e1215]
+                  - text: 48.000 - 72.000 €
+              - generic [ref=e1216]:
+                - paragraph [ref=e1217]:
+                  - generic [ref=e1218]: Hamburg
+                - paragraph [ref=e1220]:
+                  - time [ref=e1221]: 4h
+        - listitem [ref=e1222]:
+          - generic [ref=e1223] [cursor=pointer]:
+            - link "View details for IT System Administrator(m/w/d)" [ref=e1225]:
+              - /url: https://www.arbeitnow.com/jobs/companies/axs-germany-gmbh/it-system-administrator-hamburg-258773
+            - generic [ref=e1230]:
+              - generic [ref=e1231]:
+                - heading [level=3] [ref=e1233]:
+                  - link "IT System Administrator(m/w/d)" [ref=e1234]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/axs-germany-gmbh/it-system-administrator-hamburg-258773
+                - generic [ref=e1236]:
+                  - img "Company name" [ref=e1237]
+                  - link "Jobs from AXS Germany GmbH" [ref=e1240]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/axs-germany-gmbh
+                    - text: AXS Germany GmbH
+              - generic [ref=e1242]:
+                - button "System and Network Administration" [ref=e1243]
+                - button "berufserfahren" [ref=e1244]
+              - generic [ref=e1245]:
+                - paragraph [ref=e1246]:
+                  - generic [ref=e1247]: Hamburg
+                - paragraph [ref=e1249]:
+                  - time [ref=e1250]: 4h
+        - listitem [ref=e1251]:
+          - generic [ref=e1252] [cursor=pointer]:
+            - link "View details for (Junior) Event Manager:in" [ref=e1254]:
+              - /url: https://www.arbeitnow.com/jobs/companies/vf-nutrition-gmbh/junior-event-managerin-berlin-465657
+            - generic [ref=e1259]:
+              - generic [ref=e1260]:
+                - heading [level=3] [ref=e1262]:
+                  - link "(Junior) Event Manager:in" [ref=e1263]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/vf-nutrition-gmbh/junior-event-managerin-berlin-465657
+                - generic [ref=e1265]:
+                  - img "Company name" [ref=e1266]
+                  - link "Jobs from VF Nutrition GmbH" [ref=e1269]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/vf-nutrition-gmbh
+                    - text: VF Nutrition GmbH
+              - generic [ref=e1271]:
+                - button "Marketing and Communication" [ref=e1272]
+                - button "berufseinstieg" [ref=e1273]
+              - generic [ref=e1274]:
+                - paragraph [ref=e1275]:
+                  - generic [ref=e1276]: Berlin
+                - paragraph [ref=e1278]:
+                  - time [ref=e1279]: 4h
+        - listitem [ref=e1280]:
+          - generic [ref=e1281] [cursor=pointer]:
+            - link "View details for Manager Finance Transformation (all genders)" [ref=e1283]:
+              - /url: https://www.arbeitnow.com/jobs/companies/nfon/manager-finance-transformation-all-genders-munich-98546
+            - generic [ref=e1288]:
+              - generic [ref=e1289]:
+                - heading [level=3] [ref=e1291]:
+                  - link "Manager Finance Transformation (all genders)" [ref=e1292]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/nfon/manager-finance-transformation-all-genders-munich-98546
+                - generic [ref=e1294]:
+                  - img "Company name" [ref=e1295]
+                  - link "Jobs from NFON" [ref=e1298]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/nfon
+                    - text: NFON
+              - generic [ref=e1300]:
+                - button "Finance" [ref=e1301]
+                - button "berufserfahren" [ref=e1302]
+              - generic [ref=e1303]:
+                - paragraph [ref=e1304]:
+                  - generic [ref=e1305]: Munich
+                - paragraph [ref=e1307]:
+                  - time [ref=e1308]: 4h
+        - listitem [ref=e1309]:
+          - generic [ref=e1310] [cursor=pointer]:
+            - link "View details for SAP SD Consultant/Developer – AI Integration (f/m/d)" [ref=e1312]:
+              - /url: https://www.arbeitnow.com/jobs/companies/workist-gmbh/sap-sd-consultant-developer-ai-integration-berlin-182883
+            - generic [ref=e1317]:
+              - generic [ref=e1318]:
+                - heading [level=3] [ref=e1320]:
+                  - link "SAP SD Consultant/Developer – AI Integration (f/m/d)" [ref=e1321]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/workist-gmbh/sap-sd-consultant-developer-ai-integration-berlin-182883
+                - generic [ref=e1323]:
+                  - img "Company name" [ref=e1324]
+                  - link "Jobs from Workist GmbH" [ref=e1327]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/workist-gmbh
+                    - text: Workist GmbH
+              - generic [ref=e1329]:
+                - button "Software Development" [ref=e1330]
+                - button "professional / experienced" [ref=e1331]
+                - generic "Salary Information" [ref=e1333]:
+                  - img "salary" [ref=e1334]
+                  - text: 60.000 - 90.000 €
+              - generic [ref=e1335]:
+                - paragraph [ref=e1336]:
+                  - generic [ref=e1337]: Berlin
+                - paragraph [ref=e1339]:
+                  - time [ref=e1340]: 4h
+        - listitem [ref=e1341]:
+          - generic [ref=e1342] [cursor=pointer]:
+            - link "View details for Werkstudent Vertrieb / Finanzberatung (m/w/d) – Praxis statt Theorie" [ref=e1344]:
+              - /url: https://www.arbeitnow.com/jobs/companies/shereen-patzelt/werkstudent-vertrieb-finanzberatung-praxis-statt-theorie-chemnitz-179046
+              - generic [ref=e1345]: SP
+            - generic [ref=e1349]:
+              - generic [ref=e1350]:
+                - heading [level=3] [ref=e1352]:
+                  - link "Werkstudent Vertrieb / Finanzberatung (m/w/d) – Praxis statt Theorie" [ref=e1353]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/shereen-patzelt/werkstudent-vertrieb-finanzberatung-praxis-statt-theorie-chemnitz-179046
+                - generic [ref=e1355]:
+                  - img "Company name" [ref=e1356]
+                  - link "Jobs from Shereen Patzelt" [ref=e1359]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/shereen-patzelt
+                    - text: Shereen Patzelt
+              - generic [ref=e1361]:
+                - button "Finance" [ref=e1362]
+                - button "high school or equivalent" [ref=e1363]
+                - button "Full-time permanent" [ref=e1364]
+                - button "entry" [ref=e1365]
+              - generic [ref=e1366]:
+                - paragraph [ref=e1367]:
+                  - generic [ref=e1368]: Chemnitz
+                - paragraph [ref=e1370]:
+                  - time [ref=e1371]: 4h
+        - listitem [ref=e1372]:
+          - generic [ref=e1373] [cursor=pointer]:
+            - link "View details for Teamlead SEA / Google Ads (w/m/d), Vollzeit" [ref=e1375]:
+              - /url: https://www.arbeitnow.com/jobs/companies/ondevi-gmbh/teamlead-sea-google-ads-vollzeit-munich-153230
+            - generic [ref=e1380]:
+              - generic [ref=e1381]:
+                - heading [level=3] [ref=e1383]:
+                  - link "Teamlead SEA / Google Ads (w/m/d), Vollzeit" [ref=e1384]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/ondevi-gmbh/teamlead-sea-google-ads-vollzeit-munich-153230
+                - generic [ref=e1386]:
+                  - img "Company name" [ref=e1387]
+                  - link "Jobs from ondevi GmbH" [ref=e1390]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/ondevi-gmbh
+                    - text: ondevi GmbH
+              - generic [ref=e1392]:
+                - button "Marketing and Communication" [ref=e1393]
+                - button "teamleitung" [ref=e1394]
+              - generic [ref=e1395]:
+                - paragraph [ref=e1396]:
+                  - generic [ref=e1397]: Munich
+                - paragraph [ref=e1399]:
+                  - time [ref=e1400]: 5h
+        - listitem [ref=e1401]:
+          - generic [ref=e1402] [cursor=pointer]:
+            - link "View details for PHP-Entwickler / Fachinformatiker für Anwendungsentwicklung (m/w/d) | Berlin-Mitte | Vollzeit" [ref=e1404]:
+              - /url: https://www.arbeitnow.com/jobs/companies/tenmedia-gmbh/php-entwickler-fachinformatiker-fur-anwendungsentwicklung-berlin-mitte-vollzeit-418
+            - generic [ref=e1409]:
+              - generic [ref=e1410]:
+                - heading [level=3] [ref=e1412]:
+                  - link "PHP-Entwickler / Fachinformatiker für Anwendungsentwicklung (m/w/d) | Berlin-Mitte | Vollzeit" [ref=e1413]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/tenmedia-gmbh/php-entwickler-fachinformatiker-fur-anwendungsentwicklung-berlin-mitte-vollzeit-418
+                - generic [ref=e1415]:
+                  - img "Company name" [ref=e1416]
+                  - link "Jobs from TenMedia GmbH" [ref=e1419]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/tenmedia-gmbh
+                    - text: TenMedia GmbH
+              - button "Software Development" [ref=e1422]
+              - generic [ref=e1423]:
+                - paragraph [ref=e1424]:
+                  - generic [ref=e1425]: Berlin
+                - paragraph [ref=e1427]:
+                  - time [ref=e1428]: 5h
+        - listitem [ref=e1429]:
+          - generic [ref=e1430] [cursor=pointer]:
+            - link "View details for Werkstudent:in in unserem Marketing + Communications Team (all genders)" [ref=e1432]:
+              - /url: https://www.arbeitnow.com/jobs/companies/accenture/werkstudentin-in-unserem-marketing-communications-team-all-genders-munich-419600
+            - generic [ref=e1437]:
+              - generic [ref=e1438]:
+                - heading [level=3] [ref=e1440]:
+                  - link "Werkstudent:in in unserem Marketing + Communications Team (all genders)" [ref=e1441]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/accenture/werkstudentin-in-unserem-marketing-communications-team-all-genders-munich-419600
+                - generic [ref=e1443]:
+                  - img "Company name" [ref=e1444]
+                  - link "Jobs from Accenture" [ref=e1447]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/accenture
+                    - text: Accenture
+              - generic [ref=e1449]:
+                - button "Marketing and Communication" [ref=e1450]
+                - button "Working student" [ref=e1451]
+                - button "hilfstätigkeit / student" [ref=e1452]
+              - generic [ref=e1453]:
+                - paragraph [ref=e1454]:
+                  - generic [ref=e1455]: Munich
+                - paragraph [ref=e1457]:
+                  - time [ref=e1458]: 5h
+        - listitem [ref=e1459]:
+          - generic [ref=e1460] [cursor=pointer]:
+            - link "View details for Contract Platform Engineer" [ref=e1462]:
+              - /url: https://www.arbeitnow.com/jobs/companies/yldcom/contract-platform-engineer-berlin-257326
+            - generic [ref=e1467]:
+              - generic [ref=e1468]:
+                - heading [level=3] [ref=e1470]:
+                  - link "Contract Platform Engineer" [ref=e1471]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/yldcom/contract-platform-engineer-berlin-257326
+                - generic [ref=e1473]:
+                  - img "Company name" [ref=e1474]
+                  - link "Jobs from YLD.com" [ref=e1477]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/yldcom
+                    - text: YLD.com
+              - generic [ref=e1479]:
+                - button "Remote" [ref=e1480]
+                - button "Engineering" [ref=e1481]
+                - button "Freelance" [ref=e1482]
+              - generic [ref=e1483]:
+                - paragraph [ref=e1484]:
+                  - generic [ref=e1485]: Berlin
+                - paragraph [ref=e1487]:
+                  - time [ref=e1488]: 5h
+        - listitem [ref=e1489]:
+          - generic [ref=e1490] [cursor=pointer]:
+            - link "View details for Senior AI Architect & Consultant (m/w/d)" [ref=e1492]:
+              - /url: https://www.arbeitnow.com/jobs/companies/mayflower-gmbh/senior-ai-architect-consultant-wurzburg-57514
+            - generic [ref=e1497]:
+              - generic [ref=e1498]:
+                - heading [level=3] [ref=e1500]:
+                  - link "Senior AI Architect & Consultant (m/w/d)" [ref=e1501]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/mayflower-gmbh/senior-ai-architect-consultant-wurzburg-57514
+                - generic [ref=e1503]:
+                  - img "Company name" [ref=e1504]
+                  - link "Jobs from Mayflower GmbH" [ref=e1507]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/mayflower-gmbh
+                    - text: Mayflower GmbH
+              - generic [ref=e1509]:
+                - button "Software Development" [ref=e1510]
+                - button "berufserfahren" [ref=e1511]
+              - generic [ref=e1512]:
+                - paragraph [ref=e1513]:
+                  - generic [ref=e1514]: Würzburg
+                - paragraph [ref=e1516]:
+                  - time [ref=e1517]: 5h
+        - listitem [ref=e1518]:
+          - generic [ref=e1519] [cursor=pointer]:
+            - link "View details for Team Lead (f/m/x) Content Operations – France" [ref=e1521]:
+              - /url: https://www.arbeitnow.com/jobs/companies/bonial-international-gmbh/team-lead-content-operations-france-berlin-443433
+            - generic [ref=e1526]:
+              - generic [ref=e1527]:
+                - heading [level=3] [ref=e1529]:
+                  - link "Team Lead (f/m/x) Content Operations – France" [ref=e1530]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/bonial-international-gmbh/team-lead-content-operations-france-berlin-443433
+                - generic [ref=e1532]:
+                  - img "Company name" [ref=e1533]
+                  - link "Jobs from Bonial International GmbH" [ref=e1536]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/bonial-international-gmbh
+                    - text: Bonial International GmbH
+              - generic [ref=e1538]:
+                - button "Marketing and Communication" [ref=e1539]
+                - button "professional / experienced" [ref=e1540]
+              - generic [ref=e1541]:
+                - paragraph [ref=e1542]:
+                  - generic [ref=e1543]: Berlin
+                - paragraph [ref=e1545]:
+                  - time [ref=e1546]: 5h
+        - listitem [ref=e1547]:
+          - generic [ref=e1548] [cursor=pointer]:
+            - link "View details for HR-Manager in Teilzeit (m/w/d)" [ref=e1550]:
+              - /url: https://www.arbeitnow.com/jobs/companies/talenthafen-gmbh/hr-manager-in-teilzeit-hamburg-354175
+            - generic [ref=e1555]:
+              - generic [ref=e1556]:
+                - heading [level=3] [ref=e1558]:
+                  - link "HR-Manager in Teilzeit (m/w/d)" [ref=e1559]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/talenthafen-gmbh/hr-manager-in-teilzeit-hamburg-354175
+                - generic [ref=e1561]:
+                  - img "Company name" [ref=e1562]
+                  - link "Jobs from talenthafen GmbH" [ref=e1565]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/talenthafen-gmbh
+                    - text: talenthafen GmbH
+              - button "Recruitment and Selection" [ref=e1568]
+              - generic [ref=e1569]:
+                - paragraph [ref=e1570]:
+                  - generic [ref=e1571]: Hamburg
+                - paragraph [ref=e1573]:
+                  - time [ref=e1574]: 5h
+        - listitem [ref=e1575]:
+          - generic [ref=e1576] [cursor=pointer]:
+            - link "View details for AI Automation Engineer (d/m/f)" [ref=e1578]:
+              - /url: https://www.arbeitnow.com/jobs/companies/scout24/ai-automation-engineer-berlin-30716
+            - generic [ref=e1583]:
+              - generic [ref=e1584]:
+                - heading [level=3] [ref=e1586]:
+                  - link "AI Automation Engineer (d/m/f)" [ref=e1587]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/scout24/ai-automation-engineer-berlin-30716
+                - generic [ref=e1589]:
+                  - img "Company name" [ref=e1590]
+                  - link "Jobs from Scout24" [ref=e1593]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/scout24
+                    - text: Scout24
+              - button "Engineering" [ref=e1596]
+              - generic [ref=e1597]:
+                - paragraph [ref=e1598]:
+                  - generic [ref=e1599]: Berlin
+                - paragraph [ref=e1601]:
+                  - time [ref=e1602]: 5h
+        - listitem [ref=e1603]:
+          - generic [ref=e1604] [cursor=pointer]:
+            - link "View details for Senior Field Service Engineer (f/m/d)" [ref=e1606]:
+              - /url: https://www.arbeitnow.com/jobs/companies/orbem/senior-field-service-engineer-munich-355484
+            - generic [ref=e1611]:
+              - generic [ref=e1612]:
+                - heading [level=3] [ref=e1614]:
+                  - link "Senior Field Service Engineer (f/m/d)" [ref=e1615]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/orbem/senior-field-service-engineer-munich-355484
+                - generic [ref=e1617]:
+                  - img "Company name" [ref=e1618]
+                  - link "Jobs from Orbem" [ref=e1621]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/orbem
+                    - text: Orbem
+              - generic [ref=e1623]:
+                - button "Operations" [ref=e1624]
+                - button "Full Time" [ref=e1625]
+                - generic "Salary Information" [ref=e1627]:
+                  - img "salary" [ref=e1628]
+                  - text: 70.000 - 75.000 €
+              - generic [ref=e1629]:
+                - paragraph [ref=e1630]:
+                  - generic [ref=e1631]: Munich
+                - paragraph [ref=e1633]:
+                  - time [ref=e1634]: 5h
+      - navigation "Pagination" [ref=e1635]:
+        - paragraph [ref=e1637]: Showing 1 of 200 pages
+        - navigation "Pagination" [ref=e1639]:
+          - generic [ref=e1640]: « Previous
+          - link "1" [ref=e1641] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/
+          - link "2" [ref=e1642] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=2
+          - link "3" [ref=e1643] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=3
+          - link "4" [ref=e1644] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=4
+          - link "5" [ref=e1645] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=5
+          - link "6" [ref=e1646] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=6
+          - link "7" [ref=e1647] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=7
+          - link "8" [ref=e1648] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=8
+          - link "9" [ref=e1649] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=9
+          - link "10" [ref=e1650] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=10
+          - generic [ref=e1651]: ...
+          - link "199" [ref=e1652] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=199
+          - link "200" [ref=e1653] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=200
+          - link "Next »" [ref=e1654] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?page=2
+```
