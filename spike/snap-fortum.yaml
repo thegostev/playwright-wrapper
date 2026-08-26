@@ -1,0 +1,223 @@
+### Page
+- Page URL: https://jobs.fortum.com/search/
+- Page Title: Fortum Jobs
+### Snapshot
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic:
+        - link "Skip to main content":
+          - /url: "#content"
+      - text: 
+      - navigation "Header" [ref=e4]:
+        - generic [ref=e6]:
+          - link [ref=e9] [cursor=pointer]:
+            - /url: /
+          - list [ref=e14]:
+            - listitem
+            - listitem [ref=e15]:
+              - link "View Profile" [ref=e17] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e18]:
+              - link "Employee Login" [ref=e20] [cursor=pointer]:
+                - /url: javascript:;
+        - generic [ref=e23]:
+          - list [ref=e29]:
+            - listitem [ref=e30]:
+              - link "Fortum careers" [ref=e31] [cursor=pointer]:
+                - /url: https://www.fortum.com/careers
+            - listitem [ref=e32]:
+              - link "Life at Fortum" [ref=e33] [cursor=pointer]:
+                - /url: https://www.fortum.com/about-us/careers/life-fortum
+            - listitem [ref=e34]:
+              - link "Meet our people" [ref=e35] [cursor=pointer]:
+                - /url: https://www.fortum.com/about-us/careers/meet-us
+            - listitem [ref=e36]:
+              - link "For students" [ref=e37] [cursor=pointer]:
+                - /url: https://www.fortum.com/about-us/careers/opportunities-students
+            - listitem [ref=e38]:
+              - link "FAQ & Contact" [ref=e39] [cursor=pointer]:
+                - /url: https://www.fortum.com/about-us/careers/frequently-asked-questions-contact
+          - generic [ref=e40]:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - list
+    - main [ref=e42]:
+      - generic [ref=e43]:
+        - navigation "Breadcrumb" [ref=e45]:
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Home" [ref=e48] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e49]: "|"
+            - listitem [ref=e50]:
+              - text: at Fortum
+              - generic [ref=e51]: (current page)
+        - heading "Search results for \"\"." [level=1] [ref=e52]
+        - search [ref=e55]:
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - generic [ref=e59]:
+                - textbox "Search by Keyword" [ref=e61]
+                - textbox "Search by Location" [ref=e63]
+              - button "Show Fewer Options" [expanded] [ref=e66] [cursor=pointer]
+              - generic [ref=e241]: Loading...
+            - button "Search Jobs" [ref=e71] [cursor=pointer]
+        - generic [ref=e75]:
+          - generic "Results 1 – 18" [ref=e76]: Results 1 – 18 of 18
+          - text: Page 1 of 1
+        - table "Search results for . Page 1 of 1, Results 1 to 18 of 18" [ref=e78]:
+          - rowgroup [ref=e79]:
+            - row [ref=e80]:
+              - columnheader [ref=e81]:
+                - button "Title" [ref=e83] [cursor=pointer]
+              - columnheader [ref=e84]:
+                - button "Job Category" [ref=e86] [cursor=pointer]
+              - columnheader [ref=e87]:
+                - button "Location" [ref=e89] [cursor=pointer]
+          - rowgroup [ref=e90]:
+            - row [ref=e91]:
+              - cell [ref=e92]:
+                - 'link "Nordic Nuclear Trainee Program: Specialist, New Nuclear Engineering" [ref=e94] [cursor=pointer]':
+                  - /url: /Fortum/job/Espoo-Nordic-Nuclear-Trainee-Program-Specialist%2C-New-Nuclear-Engineering/1365355455/
+              - cell "Engineering" [ref=e95]
+              - cell "Espoo, FI" [ref=e96]
+            - row [ref=e97]:
+              - cell [ref=e98]:
+                - link "Senior Organizational Coach" [ref=e100] [cursor=pointer]:
+                  - /url: /Fortum/job/Espoo-Senior-Organizational-Coach/1365383755/
+              - cell "IT, Digital and Innovation" [ref=e101]
+              - cell "Espoo, FI +4 more…" [ref=e102]
+            - row [ref=e104]:
+              - cell [ref=e105]:
+                - 'link "Nordic Nuclear Trainee Program: Design Engineer, Nuclear Safety" [ref=e107] [cursor=pointer]':
+                  - /url: /Fortum/job/Espoo-Nordic-Nuclear-Trainee-Program-Design-Engineer%2C-Nuclear-Safety/1365355255/
+              - cell "Engineering" [ref=e108]
+              - cell "Espoo, FI" [ref=e109]
+            - row [ref=e110]:
+              - cell [ref=e111]:
+                - link "AP Accountant (12-Month Contract)" [ref=e113] [cursor=pointer]:
+                  - /url: /Fortum/job/Gda%C5%84sk-AP-Accountant-%2812-Month-Contract%29/1362097255/
+              - cell "Finance" [ref=e114]
+              - cell "Gdańsk, PL" [ref=e115]
+            - row [ref=e116]:
+              - cell [ref=e117]:
+                - link "Młodszy Specjalista ds. Danych Pomiarowych i Fakturowania" [ref=e119] [cursor=pointer]:
+                  - /url: /Fortum/job/Gda%C5%84sk-M%C5%82odszy-Specjalista-ds_-Danych-Pomiarowych-i-Fakturowania/1365249255/
+              - cell "Sales and Customer Service" [ref=e120]
+              - cell "Gdańsk, PL" [ref=e121]
+            - row [ref=e122]:
+              - cell [ref=e123]:
+                - link "Sourcing Manager (Civil Works & Mechanical Equipment)" [ref=e125] [cursor=pointer]:
+                  - /url: /Fortum/job/Sth-Solna-Sourcing-Manager-%28Civil-Works-&-Mechanical-Equipment%29/1365276055/
+              - cell "Procurement & Logistics" [ref=e126]
+              - cell "Sth Solna, SE" [ref=e127]
+            - row [ref=e128]:
+              - cell [ref=e129]:
+                - link "Intraday Trader" [ref=e131] [cursor=pointer]:
+                  - /url: /Fortum/job/Sth-Solna-Intraday-Trader/1365147555/
+              - cell "Trading and Portfolio Management" [ref=e132]
+              - cell "Sth Solna, SE" [ref=e133]
+            - row [ref=e134]:
+              - cell [ref=e135]:
+                - link "Talent Acquisition Partner" [ref=e137] [cursor=pointer]:
+                  - /url: /Fortum/job/Espoo-Talent-Acquisition-Partner/1364937655/
+              - cell "Human Resources" [ref=e138]
+              - cell "Espoo, FI" [ref=e139]
+            - row [ref=e140]:
+              - cell [ref=e141]:
+                - link "Balance Settlement Specialist" [ref=e143] [cursor=pointer]:
+                  - /url: /Fortum/job/Sth-Solna-Balance-Settlement-Specialist/1364780055/
+              - cell "Trading and Portfolio Management" [ref=e144]
+              - cell "Sth Solna, SE" [ref=e145]
+            - row [ref=e146]:
+              - cell [ref=e147]:
+                - link "Legal Trainee" [ref=e149] [cursor=pointer]:
+                  - /url: /Fortum/job/Sth-Solna-Legal-Trainee/1364627255/
+              - cell "Public Relations, Regulatory and Legal" [ref=e150]
+              - cell "Sth Solna, SE" [ref=e151]
+            - row [ref=e152]:
+              - cell [ref=e153]:
+                - link "Asiakkuuspäällikkö myyntitiimiin" [ref=e155] [cursor=pointer]:
+                  - /url: /Fortum/job/Espoo-Asiakkuusp%C3%A4%C3%A4llikk%C3%B6-myyntitiimiin/1364601455/
+              - cell "Sales and Customer Service" [ref=e156]
+              - cell "Espoo, FI" [ref=e157]
+            - row [ref=e158]:
+              - cell [ref=e159]:
+                - link "Specjalista/ka ds. Efektywności Energetycznej" [ref=e161] [cursor=pointer]:
+                  - /url: /Fortum/job/Gda%C5%84sk-Specjalistaka-ds_-Efektywno%C5%9Bci-Energetycznej/1364572055/
+              - cell "Sales and Customer Service" [ref=e162]
+              - cell "Gdańsk, PL" [ref=e163]
+            - row [ref=e164]:
+              - cell [ref=e165]:
+                - link "Junior Software Engineer" [ref=e167] [cursor=pointer]:
+                  - /url: /Fortum/job/Espoo-Junior-Software-Engineer/1364566155/
+              - cell "IT, Digital and Innovation" [ref=e168]
+              - cell "Espoo, FI" [ref=e169]
+            - row [ref=e170]:
+              - cell [ref=e171]:
+                - link "Junior Travel and Expense Specialist" [ref=e173] [cursor=pointer]:
+                  - /url: /Fortum/job/Gda%C5%84sk-Junior-Travel-and-Expense-Specialist/1363510755/
+              - cell "Finance" [ref=e174]
+              - cell "Gdańsk, PL" [ref=e175]
+            - row [ref=e176]:
+              - cell [ref=e177]:
+                - link "Junior AP Accountant (12-Month Contract)" [ref=e179] [cursor=pointer]:
+                  - /url: /Fortum/job/Gda%C5%84sk-Junior-AP-Accountant-%2812-Month-Contract%29/1363405755/
+              - cell "Finance" [ref=e180]
+              - cell "Gdańsk, PL" [ref=e181]
+            - row [ref=e182]:
+              - cell [ref=e183]:
+                - link "Senior Training & Quality Specialist" [ref=e185] [cursor=pointer]:
+                  - /url: /Fortum/job/Oslo-Senior-Training-&-Quality-Specialist/1363255955/
+              - cell "Sales and Customer Service" [ref=e186]
+              - cell "Oslo, NO +1 more…" [ref=e187]
+            - row [ref=e189]:
+              - cell [ref=e190]:
+                - link "Auotmationsingenjör" [ref=e192] [cursor=pointer]:
+                  - /url: /Fortum/job/Karlstad-Auotmationsingenj%C3%B6r/1358935855/
+              - cell "Operations and Maintenance" [ref=e193]
+              - cell "Karlstad, SE +1 more…" [ref=e194]
+            - row [ref=e196]:
+              - cell [ref=e197]:
+                - link "Specjalista/ka ds. BDO i Logistyki" [ref=e199] [cursor=pointer]:
+                  - /url: /Fortum/job/Zawiercie-Specjalistaka-ds_-BDO-i-Logistyki/1362219755/
+              - cell "Operations and Maintenance" [ref=e200]
+              - cell "Zawiercie, PL" [ref=e201]
+        - generic [ref=e205]:
+          - generic "Results 1 – 18" [ref=e206]: Results 1 – 18 of 18
+          - text: Page 1 of 1
+    - contentinfo [ref=e208]:
+      - generic [ref=e211]:
+        - list [ref=e212]:
+          - listitem [ref=e213]:
+            - link "This is Fortum" [ref=e214] [cursor=pointer]:
+              - /url: https://www.fortum.com/fortum
+          - listitem [ref=e215]:
+            - link "View all jobs" [ref=e216] [cursor=pointer]:
+              - /url: /search/
+          - listitem [ref=e217]:
+            - link "Join Talent Community" [ref=e218] [cursor=pointer]:
+              - /url: /lp/Join Talent Community/148d483a39c97aa6/
+          - listitem [ref=e219]:
+            - link "Privacy" [ref=e220] [cursor=pointer]:
+              - /url: https://www.fortum.com/legal/privacy
+        - list [ref=e222]:
+          - listitem [ref=e223]:
+            - link "Follow us on LinkedIn" [ref=e224] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/fortum/
+              - generic [ref=e225]: Opens in a new tab.
+          - listitem [ref=e228]:
+            - link "Follow us on X" [ref=e229] [cursor=pointer]:
+              - /url: https://www.twitter.com/fortum
+              - generic [ref=e230]: Opens in a new tab.
+          - listitem [ref=e233]:
+            - link "Visit our YouTube channel" [ref=e234] [cursor=pointer]:
+              - /url: https://www.youtube.com/user/fortum
+              - generic [ref=e235]: Opens in a new tab.
+      - paragraph [ref=e240]: © Fortum 2023-2026. All rights reserved
+  - generic: Yes No   Yes No Yes No   Yes No Yes No   Yes No Yes No Yes No Yes No
+```

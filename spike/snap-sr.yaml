@@ -1,0 +1,648 @@
+### Page
+- Page URL: https://www.smartrecruiterscareers.com/
+- Page Title: Career Opportunities at SmartRecruiters
+- Console: 9 errors, 11 warnings
+### Snapshot
+```yaml
+- generic [active] [ref=e1]:
+  - text: Google Tag Manager 
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Visit SmartRecruiters.com" [ref=e5] [cursor=pointer]:
+        - /url: https://www.smartrecruiters.com/
+      - button "hide redirect link container" [ref=e6] [cursor=pointer]: 
+    - generic [ref=e7]:
+      - text: 
+      - generic [ref=e8]:
+        - link [ref=e10] [cursor=pointer]:
+          - /url: /
+          - figure [ref=e11]:
+            - img "company logo" [ref=e12]
+        - navigation "Main navigation" [ref=e13]:
+          - list [ref=e14]:
+            - listitem [ref=e15]:
+              - link "Our Culture" [ref=e17] [cursor=pointer]:
+                - /url: /#WinningTogether
+            - listitem [ref=e18]:
+              - link "Our Jobs" [ref=e20] [cursor=pointer]:
+                - /url: /jobs
+            - listitem [ref=e21]:
+              - link "Our Stories" [ref=e23] [cursor=pointer]:
+                - /url: /posts
+            - listitem [ref=e24]:
+              - link "Our Sustainability" [ref=e26] [cursor=pointer]:
+                - /url: /our-sustainability-journey
+  - main [ref=e27]:
+    - generic [ref=e29]:
+      - generic [ref=e33]:
+        - heading "The Age of Superhuman Hiring™" [level=1] [ref=e35]:
+          - generic [ref=e36]: The Age of
+          - generic [ref=e37]: Superhuman Hiring™
+        - heading "Our mission is bold. Our team? Wonderfully human." [level=2] [ref=e39]
+        - generic [ref=e41]:
+          - generic [ref=e43]:
+            - textbox "Job search input":
+              - /placeholder: Search by job title or keyword
+          - button "job search submit button"
+        - link "click here to search all our jobs" [ref=e46] [cursor=pointer]:
+          - /url: /jobs
+          - text: Search all jobs
+        - generic [ref=e47]: 
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - heading "Winning Together" [level=2] [ref=e59]
+          - paragraph [ref=e60]: At SmartRecruiters, our mission is to create an exceptional workplace where talented, curious, and passionate people thrive. We believe that progress over perfection is the path to innovation and success. By working together, staying focused on what matters most, and embracing every challenge with grit and determination, we're here to change the recruitment industry forever.
+        - generic [ref=e61]:
+          - button "click to play video" [ref=e62] [cursor=pointer]:
+            - generic [ref=e63]: 
+            - paragraph [ref=e64]: Hear from Lehua, our SVP of People
+          - figure [ref=e65]:
+            - img "This is a picture of the SmartRecruiters team at a hiring event" [ref=e66]
+      - heading "Best Places to Work Awards" [level=2] [ref=e70]
+      - paragraph [ref=e72]: We're delighted to announce that SmartRecruiters has garnered four accolades from Comparably in 2023! Recognized for our exemplary work-life balance, generous benefits, robust compensation, and notably content team members, these awards underscore our steadfast commitment to cultivating a fun and rewarding work environment for our entire team.
+      - generic [ref=e75]:
+        - generic [ref=e76]:
+          - figure [ref=e77]
+          - heading "Best Company Work-Life Balance" [level=2] [ref=e79]
+        - generic [ref=e80]:
+          - figure [ref=e81]
+          - heading "Best Company Perks & Benefits" [level=2] [ref=e83]
+        - generic [ref=e84]:
+          - figure [ref=e85]
+          - heading "Best Company Compensation" [level=2] [ref=e88]
+        - generic [ref=e89]:
+          - figure [ref=e90]
+          - heading "Happiest Employees" [level=2] [ref=e92]
+      - link "Read More about this content" [ref=e96] [cursor=pointer]:
+        - /url: https://www.smartrecruiterscareers.com/blog/2023-9/comparablyawards
+        - text: Read More
+      - generic [ref=e101]:
+        - figure [ref=e103]:
+          - img "This is an image of a multicoloured umbrella, from the position of standing underneath the umbrella" [ref=e104]
+        - generic [ref=e106]:
+          - heading "Our Values" [level=2] [ref=e107]
+          - paragraph [ref=e108]: To achieve our mission of connecting people to jobs they love, we hire people who believe in and embody our values.
+          - paragraph [ref=e109]: We tackle the biggest challenges, commit fully, and dig deep to solve them. By working together, we achieve more and win. As a new team member, embracing these values will be key to your success at SmartRecruiters.
+          - link "This is a link to a button read more about SmartRecruiters values" [ref=e110] [cursor=pointer]:
+            - /url: /our-values
+            - text: Read More
+      - generic [ref=e115]:
+        - generic [ref=e117]:
+          - heading "Our Investment in You" [level=2] [ref=e118]
+          - paragraph [ref=e119]: As a people-first organization, our priority is your well-being - physically, mentally, professionally, financially and socially.
+          - paragraph [ref=e120]: We don’t just offer perks and benefits; we provide you with access to the things you need to live and work in a way that inspires you to show up for yourself and others.
+          - link "This is a link to read more about SmartRecriters investment in you" [ref=e121] [cursor=pointer]:
+            - /url: /our-investment-in-you
+            - text: Read More
+        - figure [ref=e123]:
+          - img "This is an image of sign that says you matter on it" [ref=e124]
+      - generic [ref=e129]:
+        - figure [ref=e131]:
+          - img "This is an image of a person holding a globe" [ref=e132]
+        - generic [ref=e134]:
+          - heading "Our World as Our Workplace" [level=2] [ref=e135]
+          - paragraph [ref=e136]: The future of work is here and at SmartRecruiters, we believe work is what you do, not where you go. It's with that in mind that we provide you with the flexibility you crave by being flexible in where you work.
+          - paragraph [ref=e137]: Whether you choose to work from your home office, local coffee shop or one of our global hubs, you’ll have access to the tools and resources you need to be successful in your role.
+      - generic [ref=e142]:
+        - generic [ref=e144]:
+          - heading "Our Commitment to DEIB" [level=2] [ref=e145]
+          - paragraph [ref=e146]: Cultivating a diverse and inclusive culture goes beyond simply embracing our differences and extends into everything we do.
+          - paragraph [ref=e147]: By hiring diverse teams and creating a sense of belonging throughout our organization and within our global communities, we aim to change the conversation and inspire action.
+        - figure [ref=e149]:
+          - img "This is an image of hands for a variety of people from different races, forming a heart" [ref=e150]
+      - generic [ref=e155]:
+        - heading "Our People, Our Stories" [level=2] [ref=e156]
+        - generic [ref=e157]:
+          - generic [ref=e159]:
+            - img "This is an image of some SmartRecruiters employees at an office." [ref=e160]
+            - generic [ref=e161] [cursor=pointer]:
+              - button "Read more about this content" [ref=e162]
+              - paragraph [ref=e163]: Grow With Us
+          - generic [ref=e165]:
+            - img "This is an image of three woman behind laptops sitting at an office" [ref=e166]
+            - generic [ref=e167] [cursor=pointer]:
+              - button "Play video by SmartRecruiters" [ref=e168]
+              - paragraph [ref=e169]: Living Our Values
+          - generic [ref=e171]:
+            - img "This is an image of Nicole" [ref=e172]
+            - generic [ref=e173] [cursor=pointer]:
+              - button "Read more about this content" [ref=e174]
+              - paragraph [ref=e175]: Meet Nicole
+          - generic [ref=e177]:
+            - img "This is an image of Mateusz" [ref=e178]
+            - generic [ref=e179] [cursor=pointer]:
+              - button "Read more about this content" [ref=e180]
+              - paragraph [ref=e181]: Meet Mateusz
+          - generic [ref=e183]:
+            - img "This is an image of man sat behind a laptop" [ref=e184]
+            - generic [ref=e185] [cursor=pointer]:
+              - button "Read more about this content" [ref=e186]
+              - paragraph [ref=e187]: Read about life at SmartRecruiters
+      - generic [ref=e190]:
+        - heading "Our Hiring Process" [level=2] [ref=e191]
+        - generic [ref=e192]:
+          - generic [ref=e193]:
+            - figure [ref=e194]
+            - heading "Recruiter Screen" [level=3] [ref=e195]
+            - paragraph [ref=e196]: During this initial conversation, you will have the opportunity to discuss your availability, motivations, financial expectations, and what you hope to gain from the role. This step is designed to ensure that the position aligns with your goals and sets the foundation for a successful and fulfilling career journey with us.
+          - generic [ref=e197]:
+            - figure [ref=e198]
+            - heading "Meet the Manager" [level=3] [ref=e199]
+            - paragraph [ref=e200]: This stage involves a deeper dive into the details of the role and expectations. It’s an excellent opportunity for you to gain firsthand information about the position and ask any specific questions you may have. The hiring manager will provide insights on the expectations for the role and how that aligns with the team and company goals. It is also an opportunity for you to learn more about their leadership style.
+          - generic [ref=e201]:
+            - figure [ref=e202]
+            - heading "Team Meeting" [level=3] [ref=e203]
+            - paragraph [ref=e204]: In this step, you will meet with your potential future team members. This meeting aims to assess your skills more thoroughly and see how well you fit into the team’s dynamics. It’s a great chance to understand the team’s working style and culture.
+      - generic [ref=e207]:
+        - heading [level=2]
+        - heading "9 reasons why you’ll enjoy working at SmartRecruiters" [level=2] [ref=e208]
+      - generic [ref=e213]:
+        - generic [ref=e214]:
+          - figure [ref=e215]:
+            - img "Ecovadis bronze medanl" [ref=e216]
+          - paragraph [ref=e218]: Unlimited Fully Paid Time Off
+        - generic [ref=e219]:
+          - figure [ref=e220]:
+            - img "This is an image of a green icon, with a man and a woman holding up signs" [ref=e221]
+          - paragraph [ref=e223]: Cutting-Edge technology and communication tools
+        - generic [ref=e224]:
+          - figure [ref=e225]:
+            - img "This is an image of a green icon, with all the arrows going to the left and thge one at the front going to the right" [ref=e226]
+          - paragraph [ref=e228]: Global diversity & remote-friendly culture
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - figure [ref=e233]:
+            - img "This is an image of a green icon, with three people and the first on at the front with a tick through it" [ref=e234]
+          - paragraph [ref=e236]: Direct Interaction with Executives
+        - generic [ref=e237]:
+          - figure [ref=e238]:
+            - img "This is an image of a green icon, with a man and a woman holding up signs" [ref=e239]
+          - paragraph [ref=e241]: Culture of continuous learning with unlimited access to LinkedIn Learning
+        - generic [ref=e242]:
+          - figure [ref=e243]:
+            - img "This is an image of a green icon, with all the arrows going to the left and thge one at the front going to the right" [ref=e244]
+          - paragraph [ref=e246]: Recharge with company-wide shutdowns twice a year
+      - generic [ref=e249]:
+        - generic [ref=e250]:
+          - figure [ref=e251]:
+            - img "This is an image of a green icon, with three people and the first on at the front with a tick through it" [ref=e252]
+          - paragraph [ref=e254]: Wellness-focused programs designed to support your health and well-being
+        - generic [ref=e255]:
+          - figure [ref=e256]:
+            - img "This is an image of a green icon, with a man and a woman holding up signs" [ref=e257]
+          - paragraph [ref=e259]: In-Person offsites & team events
+        - generic [ref=e260]:
+          - figure [ref=e261]:
+            - img "This is an image of a green icon, with all the arrows going to the left and thge one at the front going to the right" [ref=e262]
+          - paragraph [ref=e264]: Career growth pathways through Internal Mobility
+      - text:  
+      - generic [ref=e271]:
+        - heading "Articles You Might Like" [level=2] [ref=e273]
+        - generic [ref=e274]:
+          - generic [ref=e276]:
+            - group "1 / 10" [ref=e277]:
+              - link "link to a post" [ref=e278] [cursor=pointer]:
+                - /url: /blog/2026-7/the-power-of-pivoting
+              - generic [ref=e279]:
+                - link "The Power of Pivoting" [ref=e280] [cursor=pointer]:
+                  - /url: /blog/2026-7/the-power-of-pivoting
+                - link "Day in the Life" [ref=e282] [cursor=pointer]:
+                  - /url: /posts/day-in-the-life
+                - paragraph [ref=e284]: 07/06/2026
+                - paragraph [ref=e286]: Back in 2024, we sat down with Donaldo Lika to talk about innovation and his journey as an Engineering Team Lead. But career journeys are rarely a straight line. Recently, Yann Kremer, Senior Talent Acquisition and People Partner with 4+ years at SmartRecruiters, caught up with Donaldo, now Senior Software Engineer II with 4 years at the company to check in.
+                - link "Read more about this post" [ref=e287] [cursor=pointer]:
+                  - /url: /blog/2026-7/the-power-of-pivoting
+                  - text: Read more 
+            - group "2 / 10" [ref=e288]:
+              - link "link to a post" [ref=e289] [cursor=pointer]:
+                - /url: /blog/2026-6/women-in-tech-stay-curious-keep-moving-forward
+              - generic [ref=e290]:
+                - 'link "Women in Tech: Stay Curious, Keep Moving Forward" [ref=e291] [cursor=pointer]':
+                  - /url: /blog/2026-6/women-in-tech-stay-curious-keep-moving-forward
+                - link "Day in the Life" [ref=e293] [cursor=pointer]:
+                  - /url: /posts/day-in-the-life
+                - paragraph [ref=e295]: 06/08/2026
+                - paragraph [ref=e297]: "In this edition of our Women in Tech series, we hear from Michelle Slotter, who took one of the most unexpected paths into tech you'll find: from restaurant management to retail, a decade as a live-in nanny, and finally into software sales after her husband, a senior developer, pointed her in the right direction. Nearly five years later, Michelle has moved from SDR to Account Manager to the Renewals Desk, and she hasn't slowed down once."
+                - link "Read more about this post" [ref=e298] [cursor=pointer]:
+                  - /url: /blog/2026-6/women-in-tech-stay-curious-keep-moving-forward
+                  - text: Read more 
+            - group "3 / 10" [ref=e299]:
+              - link "link to a post" [ref=e300] [cursor=pointer]:
+                - /url: /blog/2026-5/inside-the-team-hiring-senior-ai-engineers
+              - generic [ref=e301]:
+                - link "Inside the Team Hiring Senior AI Engineers" [ref=e302] [cursor=pointer]:
+                  - /url: /blog/2026-5/inside-the-team-hiring-senior-ai-engineers
+                - link "Career Growth" [ref=e304] [cursor=pointer]:
+                  - /url: /posts/career-growth
+                - paragraph [ref=e306]: 05/13/2026
+                - paragraph [ref=e308]: We’re hiring Senior AI Engineers to join our Chat Group in a remote role open to candidates based in Poland, Germany and the United Kingdom. The team is building the next generation of intelligent conversational systems for the recruiting industry. In this interview, Matteo Sumberaz, Senior Engineering Manager, shares what strong candidates do differently, what day-to-day work actually looks like, and what a new hire can exp
+                - link "Read more about this post" [ref=e309] [cursor=pointer]:
+                  - /url: /blog/2026-5/inside-the-team-hiring-senior-ai-engineers
+                  - text: Read more 
+            - group "4 / 10" [ref=e310]:
+              - link "link to a post" [ref=e311] [cursor=pointer]:
+                - /url: /blog/2026-4/the-power-of-partnership-driving-value-in-apac
+              - generic [ref=e312]:
+                - 'link "The Power of Partnership: Driving Value in APAC" [ref=e313] [cursor=pointer]':
+                  - /url: /blog/2026-4/the-power-of-partnership-driving-value-in-apac
+                - link "Day in the Life" [ref=e315] [cursor=pointer]:
+                  - /url: /posts/day-in-the-life
+                - paragraph [ref=e317]: 04/21/2026
+                - paragraph [ref=e319]: Based in Melbourne, Brett Potts has spent over five years at SmartRecruiters evolving from a frontline Customer Success Manager into a strategic regional leader. His journey is a testament to the growth opportunities within our team and the impact of building deep, long-term partnerships with enterprise customers.
+                - link "Read more about this post" [ref=e320] [cursor=pointer]:
+                  - /url: /blog/2026-4/the-power-of-partnership-driving-value-in-apac
+                  - text: Read more 
+            - group "5 / 10" [ref=e321]:
+              - link "link to a post" [ref=e322] [cursor=pointer]:
+                - /url: /blog/2026-4/the-strategy-of-connection
+              - generic [ref=e323]:
+                - link "The Strategy of Connection" [ref=e324] [cursor=pointer]:
+                  - /url: /blog/2026-4/the-strategy-of-connection
+                - link "Day in the Life" [ref=e326] [cursor=pointer]:
+                  - /url: /posts/day-in-the-life
+                - paragraph [ref=e328]: 04/09/2026
+                - paragraph [ref=e330]: Meet Mariano Flores Leyes, sharing his journey from Argentina to leading Deal Desk Strategy in Germany. Five years ago, Mariano Flores Leyes joined SmartRecruiters in Argentina. Today, he is in Düsseldorf leading our Deal Desk Strategy & Operations. His story is more than a successful international relocation. It’s a masterclass in how a business function can evolve from operations into a strategic engine. In this interviewMariano shares his 11,000km journey, the power of internal mentorship, an
+                - link "Read more about this post" [ref=e331] [cursor=pointer]:
+                  - /url: /blog/2026-4/the-strategy-of-connection
+                  - text: Read more 
+            - group "6 / 10" [ref=e332]:
+              - link "link to a post" [ref=e333] [cursor=pointer]:
+                - /url: /blog/2026-3/senior-software-engineer-turning-ai-into-hiring-impact
+              - generic [ref=e334]:
+                - link "Senior Software Engineer Turning AI into Hiring Impact" [ref=e335] [cursor=pointer]:
+                  - /url: /blog/2026-3/senior-software-engineer-turning-ai-into-hiring-impact
+                - link "Day in the Life" [ref=e337] [cursor=pointer]:
+                  - /url: /posts/day-in-the-life
+                - paragraph [ref=e339]: 03/19/2026
+                - paragraph [ref=e341]: What does a typical day look like for a Senior Engineer working on the cutting edge of HR tech? Piotr Morek, who has spent nearly half a decade evolving alongside SmartRecruiters, takes us behind the scenes of his daily routine - from morning gratitude journals to "planning mode" in Cursor. Discover how he balances deep work, cross-functional collaboration, and his successful shift from a frontend specialist to an AI-focused full-stack developer.
+                - link "Read more about this post" [ref=e342] [cursor=pointer]:
+                  - /url: /blog/2026-3/senior-software-engineer-turning-ai-into-hiring-impact
+                  - text: Read more 
+            - group "7 / 10" [ref=e343]:
+              - link "link to a post" [ref=e344] [cursor=pointer]:
+                - /url: /blog/2026-3/a-recap-of-international-women-s-day-at-smartrecruiters
+              - generic [ref=e345]:
+                - link "A Recap of International Women’s Day at SmartRecruiters" [ref=e346] [cursor=pointer]:
+                  - /url: /blog/2026-3/a-recap-of-international-women-s-day-at-smartrecruiters
+                - link "Our People" [ref=e348] [cursor=pointer]:
+                  - /url: /posts/our-people
+                - paragraph [ref=e350]: 03/13/2026
+                - paragraph [ref=e352]: While the calendar marked International Women’s Day on March 8th, the energy at SmartRecruiters has continued well into the week. For us, this wasn't just a day to celebrate—it was a chance to look at the incredible women who shape our culture every day.
+                - link "Read more about this post" [ref=e353] [cursor=pointer]:
+                  - /url: /blog/2026-3/a-recap-of-international-women-s-day-at-smartrecruiters
+                  - text: Read more 
+            - group "8 / 10" [ref=e354]:
+              - link "link to a post" [ref=e355] [cursor=pointer]:
+                - /url: /blog/2026-2/women-in-tech-seeing-the-big-picture-beyond-the-spreadsheet
+              - generic [ref=e356]:
+                - 'link "Women in Tech: Seeing the Big Picture Beyond the Spreadsheet" [ref=e357] [cursor=pointer]':
+                  - /url: /blog/2026-2/women-in-tech-seeing-the-big-picture-beyond-the-spreadsheet
+                - link "Our People" [ref=e359] [cursor=pointer]:
+                  - /url: /posts/our-people
+                - paragraph [ref=e361]: 02/27/2026
+                - paragraph [ref=e363]: In the latest part of our Women in Tech series, we’re featuring Aleksandra Gaj, our Accounts Receivable Manager based in Poland. She has been a cornerstone of our team for more than 8 years, and her journey is a fantastic reminder that career growth isn’t always a straight line. Sometimes the most rewarding moves are the ones that take you off your planned path to see the "big picture."
+                - link "Read more about this post" [ref=e364] [cursor=pointer]:
+                  - /url: /blog/2026-2/women-in-tech-seeing-the-big-picture-beyond-the-spreadsheet
+                  - text: Read more 
+            - group "9 / 10" [ref=e365]:
+              - link "link to a post" [ref=e366] [cursor=pointer]:
+                - /url: /blog/2026-1/women-in-tech-use-ai-as-a-co-pilot-not-a-competitor
+              - generic [ref=e367]:
+                - 'link "Women in Tech: Use AI as a co‑pilot, not a competitor" [ref=e368] [cursor=pointer]':
+                  - /url: /blog/2026-1/women-in-tech-use-ai-as-a-co-pilot-not-a-competitor
+                - link "Our People" [ref=e370] [cursor=pointer]:
+                  - /url: /posts/our-people
+                - paragraph [ref=e372]: 01/26/2026
+                - paragraph [ref=e374]: As part of our Women in Tech series, we spotlight SmartRecruiters teammates who are shaping the future of hiring, so candidates can meet the people behind our mission and see our values in action. At the end of last year, Elle Green, our Senior Marketing Manager, was featured by Women Love Tech for her expert perspective on the AI skills talent acquisition professionals need now. We are thrilled to bring her recognized expertise into our "Women in Tech" series with a Q&A and a brief recap of her
+                - link "Read more about this post" [ref=e375] [cursor=pointer]:
+                  - /url: /blog/2026-1/women-in-tech-use-ai-as-a-co-pilot-not-a-competitor
+                  - text: Read more 
+            - group "10 / 10" [ref=e376]:
+              - link "link to a post" [ref=e377] [cursor=pointer]:
+                - /url: /blog/2025-12/women-in-tech-career-growth-client-success
+              - generic [ref=e378]:
+                - 'link "Women in Tech: Career Growth & Client Success" [ref=e379] [cursor=pointer]':
+                  - /url: /blog/2025-12/women-in-tech-career-growth-client-success
+                - link "Day in the Life" [ref=e381] [cursor=pointer]:
+                  - /url: /posts/day-in-the-life
+                - paragraph [ref=e383]: 12/16/2025
+                - paragraph [ref=e385]: n this edition of our Women in Tech series, we hear from Jordan Jennison, Account Manager - Mid-Market. With nearly three years at the company, Jordan shares her journey into the tech industry, the value of the team-first culture at SmartRecruiters, and the crucial advice she wishes she had received early in her career. Read on to gain insight into her rewarding work and her encouraging message to aspiring young women in tech.
+                - link "Read more about this post" [ref=e386] [cursor=pointer]:
+                  - /url: /blog/2025-12/women-in-tech-career-growth-client-success
+                  - text: Read more 
+          - link "View all" [ref=e387] [cursor=pointer]:
+            - /url: /posts
+          - button "Next slide" [ref=e388] [cursor=pointer]: 
+          - button "Previous slide" [disabled]: 
+  - contentinfo [ref=e391]:
+    - generic [ref=e392]:
+      - navigation "Main navigation" [ref=e394]:
+        - list [ref=e395]:
+          - listitem [ref=e396]:
+            - link "Privacy Policy" [ref=e398] [cursor=pointer]:
+              - /url: /privacy-policy
+          - listitem [ref=e399]:
+            - link "Cookie Settings" [ref=e401] [cursor=pointer]:
+              - /url: /cookie-settings
+          - listitem [ref=e402]:
+            - link "SmartRecruiters.com" [ref=e404] [cursor=pointer]:
+              - /url: https://www.smartrecruiters.com/
+          - listitem [ref=e405]:
+            - link "Recruitment fraud information" [ref=e407] [cursor=pointer]:
+              - /url: /recruitment-fraud-information
+          - listitem [ref=e408]:
+            - link "AI in Our Hiring Process" [ref=e410] [cursor=pointer]:
+              - /url: https://www.conductorai.co/nyc-144-audits/smartrecruiters
+      - generic [ref=e413]:
+        - textbox "Job search input" [ref=e416]:
+          - /placeholder: Search by job title or keyword
+        - button "job search submit button" [ref=e417] [cursor=pointer]: 
+    - generic [ref=e418]:
+      - generic [ref=e419]:
+        - paragraph [ref=e420]: "Connect with us:"
+        - link "link to Linkedin" [ref=e421] [cursor=pointer]:
+          - /url: https://www.linkedin.com/company/smartrecruiters
+          - text: 
+        - link "link to Twitter" [ref=e422] [cursor=pointer]:
+          - /url: https://twitter.com/Smartrecruiters
+          - text: 
+        - link "link to Facebook" [ref=e423] [cursor=pointer]:
+          - /url: https://www.facebook.com/SmartRecruiters
+          - text: 
+        - link "link to Instagram" [ref=e424] [cursor=pointer]:
+          - /url: https://instagram.com/smartrecruiters
+          - text: 
+        - link "link to Youtube" [ref=e425] [cursor=pointer]:
+          - /url: https://www.youtube.com/c/smartrecruiterssuccess
+          - text: 
+        - link "link to glassdoor" [ref=e426] [cursor=pointer]:
+          - /url: https://www.glassdoor.co.uk/Reviews/SmartRecruiters-Reviews-E373233.htm
+      - paragraph [ref=e427]:
+        - text: Career site system powered by
+        - link "SmartRecruiters Attrax" [ref=e428] [cursor=pointer]:
+          - /url: https://www.attrax.co.uk/
+  - iframe [ref=e429]:
+    - generic:
+      - generic:
+        - status [ref=f3e1]
+        - alert [ref=f3e2]
+        - generic:
+          - generic [ref=f3e4]:
+            - 'banner "Chat header: Winston" [ref=f3e5]':
+              - generic [ref=f3e6]:
+                - img "Winston assistant profile" [ref=f3e8]
+                - group "Chat assistant information" [ref=f3e9]:
+                  - heading "Winston" [level=2] [ref=f3e10]
+              - group "Chat actions" [ref=f3e11]:
+                - button "Close chat - Closes the chat window" [ref=f3e13] [cursor=pointer]
+            - generic [ref=f3e18]:
+              - img "Winston profile" [ref=f3e20]
+              - generic [ref=f3e21]: 👋 Hey, I'm Winston, and I'm here to help you with career opportunities.
+            - generic [ref=f3e25]:
+              - img "Chat input preview" [ref=f3e26]:
+                - generic [ref=f3e27]:
+                  - paragraph [ref=f3e29]: Find the perfect job
+                  - generic [ref=f3e30]:
+                    - button [disabled]
+              - generic [ref=f3e31]:
+                - generic [ref=f3e32]: This is a GenAI powered system
+                - contentinfo "Chat footer with terms and attribution" [ref=f3e33]:
+                  - generic [ref=f3e34]: Terms
+                  - generic [ref=f3e36]: Powered by SmartRecruiters
+          - complementary "Chatbot widget" [ref=f3e38]:
+            - button "Open chatbot conversation" [ref=f3e39] [cursor=pointer]:
+              - img "Chatbot avatar" [ref=f3e40]
+  - iframe [ref=e430]:
+    
+  - dialog "Cookie consent dialog":
+    - dialog "Cookie consent dialog" [ref=e431]:
+      - button "Close" [ref=e433] [cursor=pointer]: ×
+      - generic [ref=e434]: This website uses cookies
+      - generic [ref=e435]:
+        - text: This website uses cookies to improve user experience. By using our website you consent to all cookies in accordance with our Cookie Policy.
+        - link "Read more, opens a new window" [ref=e436] [cursor=pointer]:
+          - /url: /cookie-settings
+          - text: Read more
+      - generic [ref=e437]:
+        - button "Accept all" [ref=e438] [cursor=pointer]
+        - button "Decline all" [ref=e439] [cursor=pointer]
+      - button "Manage" [ref=e440]
+      - generic:
+        - generic [ref=e445]:
+          - generic [ref=e446]:
+            - generic [ref=e447] [cursor=pointer]:
+              - checkbox "Strictly necessary" [checked] [disabled]
+            - generic [ref=e448] [cursor=pointer]: Strictly necessary
+          - generic [ref=e450]:
+            - checkbox "Performance" [ref=e452] [cursor=pointer]
+            - generic [ref=e453] [cursor=pointer]: Performance
+          - generic [ref=e455]:
+            - checkbox "Targeting" [ref=e457] [cursor=pointer]
+            - generic [ref=e458] [cursor=pointer]: Targeting
+        - generic [ref=e460]:
+          - button "Cookie declaration" [ref=e461] [cursor=pointer]
+          - button "About cookies" [ref=e462] [cursor=pointer]
+        - generic:
+          - generic [ref=e463]:
+            - generic [ref=e464]:
+              - button "Strictly necessary" [ref=e465] [cursor=pointer]
+              - button "Performance" [ref=e466] [cursor=pointer]
+              - button "Targeting" [ref=e467] [cursor=pointer]
+            - generic [ref=e468]:
+              - generic [ref=e469]:
+                - generic [ref=e470]: Strictly necessary cookies allow core website functionality such as user login and account management. The website cannot be used properly without strictly necessary cookies.
+                - table "Cookie report" [ref=e472]:
+                  - rowgroup [ref=e473]:
+                    - row [ref=e474]:
+                      - columnheader "Name" [ref=e475]
+                      - columnheader "Provider / Domain" [ref=e476]
+                      - columnheader "Expiration" [ref=e477]
+                      - columnheader "Description" [ref=e478]
+                  - rowgroup [ref=e479]:
+                    - row [ref=e480]:
+                      - cell "AWSALBCORS" [ref=e481]
+                      - cell [ref=e482]:
+                        - link "Amazon.com Inc." [ref=e484] [cursor=pointer]:
+                          - /url: https://advertising.amazon.com/legal/privacy-notice
+                        - text: smrtr.io
+                      - cell "1 week" [ref=e485]
+                      - cell "For continued stickiness support with CORS use cases after the Chromium update, we are creating additional stickiness cookies for each of these duration-based stickiness features named AWSALBCORS (ALB)." [ref=e486]
+                    - row [ref=e487]:
+                      - cell "OptanonConsent" [ref=e488]
+                      - cell [ref=e489]:
+                        - link "OneTrust LLC" [ref=e491] [cursor=pointer]:
+                          - /url: https://www.onetrust.com/privacy-notice/
+                        - text: .smartrecruiters.com
+                      - cell "1 year" [ref=e492]
+                      - cell "This cookie is set by the cookie compliance solution from OneTrust. It stores information about the categories of cookies the site uses and whether visitors have given or withdrawn consent for the use of each category. This enables site owners to prevent cookies in each category from being set in the users browser, when consent is not given. The cookie has a normal lifespan of one year, so that returning visitors to the site will have their preferences remembered. It contains no information that can identify the site visitor." [ref=e493]
+                    - row [ref=e494]:
+                      - cell "_GRECAPTCHA" [ref=e495]
+                      - cell [ref=e496]:
+                        - link "Google LLC" [ref=e498] [cursor=pointer]:
+                          - /url: https://policies.google.com/privacy
+                        - text: www.google.com
+                      - cell "5 months 3 weeks" [ref=e499]
+                      - cell "Google reCAPTCHA sets a necessary cookie (_GRECAPTCHA) when executed for the purpose of providing its risk analysis." [ref=e500]
+                    - row [ref=e501]:
+                      - cell ".AspNetCore.Antiforgery.6YYsGt-Vbxo" [ref=e502]
+                      - cell "smartrecruitersv1-1481131-gb-engb-api.sr-attrax.com" [ref=e503]
+                      - cell "Session" [ref=e504]
+                      - cell "This cookie is generated by the application server and used to prevent malicious cross-site request forgery (known as XSRF and CSRF)" [ref=e505]
+                    - row [ref=e506]:
+                      - cell "AWSALBCORS" [ref=e507]
+                      - cell [ref=e508]:
+                        - link "Amazon.com Inc." [ref=e510] [cursor=pointer]:
+                          - /url: https://advertising.amazon.com/legal/privacy-notice
+                        - text: join.smartrecruiters.com
+                      - cell "1 week" [ref=e511]
+                      - cell "For continued stickiness support with CORS use cases after the Chromium update, we are creating additional stickiness cookies for each of these duration-based stickiness features named AWSALBCORS (ALB)." [ref=e512]
+                    - row [ref=e513]:
+                      - cell "_GRECAPTCHA" [ref=e514]
+                      - cell [ref=e515]:
+                        - link "Google LLC" [ref=e517] [cursor=pointer]:
+                          - /url: https://policies.google.com/privacy
+                        - text: www.recaptcha.net
+                      - cell "5 months 4 weeks" [ref=e518]
+                      - cell "Google reCAPTCHA sets a necessary cookie (_GRECAPTCHA) when executed for the purpose of providing its risk analysis." [ref=e519]
+                    - row [ref=e520]:
+                      - cell "COP-CookieBanner" [ref=e521]
+                      - cell ".smartrecruiters.com" [ref=e522]
+                      - cell "27 years" [ref=e523]
+                      - cell "This cookie is used to remember users preferences" [ref=e524]
+                    - row [ref=e525]:
+                      - cell "Copernicus" [ref=e526]
+                      - cell ".smartrecruiters.com" [ref=e527]
+                      - cell "Session" [ref=e528]
+                      - cell "This cookie is used for system authentication" [ref=e529]
+              - generic:
+                - generic [ref=e530]: Performance cookies are used to see how visitors use the website, eg. analytics cookies. Those cookies cannot be used to directly identify a certain visitor.
+                - table "Cookie report" [ref=e532]:
+                  - rowgroup [ref=e533]:
+                    - row [ref=e534]:
+                      - columnheader "Name" [ref=e535]
+                      - columnheader "Provider / Domain" [ref=e536]
+                      - columnheader "Expiration" [ref=e537]
+                      - columnheader "Description" [ref=e538]
+                  - rowgroup [ref=e539]:
+                    - row [ref=e540]:
+                      - cell "sourcetracking-latest-campaign" [ref=e541]
+                      - cell ".smartrecruiters.com" [ref=e542]
+                      - cell "2 months 4 weeks" [ref=e543]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e544]
+                    - row [ref=e545]:
+                      - cell "sourcetracking-latest-isset" [ref=e546]
+                      - cell ".smartrecruiters.com" [ref=e547]
+                      - cell "2 months 4 weeks" [ref=e548]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e549]
+                    - row [ref=e550]:
+                      - cell "sourcetracking-latest-medium" [ref=e551]
+                      - cell ".smartrecruiters.com" [ref=e552]
+                      - cell "2 months 4 weeks" [ref=e553]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e554]
+                    - row [ref=e555]:
+                      - cell "sourcetracking-latest-referrer" [ref=e556]
+                      - cell ".smartrecruiters.com" [ref=e557]
+                      - cell "2 months 4 weeks" [ref=e558]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e559]
+                    - row [ref=e560]:
+                      - cell "sourcetracking-latest-setms" [ref=e561]
+                      - cell ".smartrecruiters.com" [ref=e562]
+                      - cell "2 months 4 weeks" [ref=e563]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e564]
+                    - row [ref=e565]:
+                      - cell "sourcetracking-latest-utmsource" [ref=e566]
+                      - cell ".smartrecruiters.com" [ref=e567]
+                      - cell "2 months 4 weeks" [ref=e568]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e569]
+                    - row [ref=e570]:
+                      - cell "sourcetracking-latest-visitdatetime" [ref=e571]
+                      - cell ".smartrecruiters.com" [ref=e572]
+                      - cell "2 months 4 weeks" [ref=e573]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e574]
+                    - row [ref=e575]:
+                      - cell "sourcetracking-referrer" [ref=e576]
+                      - cell ".smartrecruiters.com" [ref=e577]
+                      - cell "1 month 3 weeks" [ref=e578]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e579]
+                    - row [ref=e580]:
+                      - cell "sourcetracking-setms" [ref=e581]
+                      - cell ".smartrecruiters.com" [ref=e582]
+                      - cell "1 month 3 weeks" [ref=e583]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e584]
+                    - row [ref=e585]:
+                      - cell "sourcetracking-utmmedium" [ref=e586]
+                      - cell ".smartrecruiters.com" [ref=e587]
+                      - cell "1 month 3 weeks" [ref=e588]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e589]
+                    - row [ref=e590]:
+                      - cell "sourcetracking-utmsource" [ref=e591]
+                      - cell ".smartrecruiters.com" [ref=e592]
+                      - cell "1 month 3 weeks" [ref=e593]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e594]
+                    - row [ref=e595]:
+                      - cell "sourcetracking-visitdatetime" [ref=e596]
+                      - cell ".smartrecruiters.com" [ref=e597]
+                      - cell "1 month 3 weeks" [ref=e598]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e599]
+                    - row [ref=e600]:
+                      - cell "sourcetracking-isset" [ref=e601]
+                      - cell ".smartrecruiters.com" [ref=e602]
+                      - cell "1 month 3 weeks" [ref=e603]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e604]
+                    - row [ref=e605]:
+                      - cell "souecetracking-utmcampaign" [ref=e606]
+                      - cell ".smartrecruiters.com" [ref=e607]
+                      - cell "1 month 3 weeks" [ref=e608]
+                      - cell "This cookie is used to remember a user’s entry point to the site to help administrators understand campaign and referral information" [ref=e609]
+                    - row [ref=e610]:
+                      - cell "shortlistvacs" [ref=e611]
+                      - cell ".smartrecruiters.com" [ref=e612]
+                      - cell "1 year" [ref=e613]
+                      - cell "This cookie is used to remember a user’s previously viewed content which is then used to tailor the users ongoing experience" [ref=e614]
+                    - row [ref=e615]:
+                      - cell "COP-Admin-Site" [ref=e616]
+                      - cell ".smartrecruiters.com" [ref=e617]
+                      - cell "5 months 3 weeks" [ref=e618]
+                      - cell "This cookie is used for system authentication" [ref=e619]
+                    - row [ref=e620]:
+                      - cell "COP-Personal" [ref=e621]
+                      - cell ".smartrecruiters.com" [ref=e622]
+                      - cell "1 year" [ref=e623]
+                      - cell "This cookie is used to remember a user’s previously viewed content which is then used to tailor the users ongoing experience" [ref=e624]
+              - generic:
+                - generic [ref=e625]: Targeting cookies are used to identify visitors between different websites, eg. content partners, banner networks. Those cookies may be used by companies to build a profile of visitor interests or show relevant ads on other websites.
+                - table "Cookie report" [ref=e627]:
+                  - rowgroup [ref=e628]:
+                    - row [ref=e629]:
+                      - columnheader "Name" [ref=e630]
+                      - columnheader "Provider / Domain" [ref=e631]
+                      - columnheader "Expiration" [ref=e632]
+                      - columnheader "Description" [ref=e633]
+                  - rowgroup [ref=e634]:
+                    - row [ref=e635]:
+                      - cell "VISITOR_INFO1_LIVE" [ref=e636]
+                      - cell [ref=e637]:
+                        - link "Google LLC" [ref=e639] [cursor=pointer]:
+                          - /url: https://policies.google.com/privacy
+                        - text: .youtube.com
+                      - cell "5 months 4 weeks" [ref=e640]
+                      - cell "This cookie is set by Youtube to keep track of user preferences for Youtube videos embedded in sites;it can also determine whether the website visitor is using the new or old version of the Youtube interface." [ref=e641]
+                    - row [ref=e642]:
+                      - cell "YSC" [ref=e643]
+                      - cell [ref=e644]:
+                        - link "Google LLC" [ref=e646] [cursor=pointer]:
+                          - /url: https://policies.google.com/privacy
+                        - text: .youtube.com
+                      - cell "Session" [ref=e647]
+                      - cell "This cookie is set by YouTube to track views of embedded videos." [ref=e648]
+          - generic: Cookies are small text files that are placed on your computer by websites that you visit. Websites use cookies to help users navigate efficiently and perform certain functions. Cookies that are required for the website to operate properly are allowed to be set without your permission. All other cookies need to be approved before they can be set in the browser. You can change your consent to cookie usage at any time on our Privacy Policy page.
+        - contentinfo [ref=e650]:
+          - text: Cookie
+          - link "report, opens a new window" [ref=e651] [cursor=pointer]:
+            - /url: https://cookie-script.com/cookie-report?identifier=ed5e654847986852ab5aa8206230c552
+            - text: report
+          - text: created by
+          - link "CookieScript Consent Management Platform, opens a new window" [ref=e652] [cursor=pointer]:
+            - /url: https://cookie-script.com
+            - text: CookieScript
+```

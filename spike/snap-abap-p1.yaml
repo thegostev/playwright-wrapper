@@ -1,0 +1,880 @@
+### Page
+- Page URL: https://www.arbeitnow.com/?search=abap
+- Page Title: Jobs in Germany: Remote, Visa Sponsorship & English Speaking - August 2026
+- Console: 3 errors, 1 warnings
+### Snapshot
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e6]:
+    - navigation "Top" [ref=e7]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - link "Homepage" [ref=e13] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com
+            - img "arbeitnow" [ref=e14]
+          - generic [ref=e15]:
+            - text: by
+            - link "Adithya" [ref=e16] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/adithyasri/
+        - generic [ref=e19]:
+          - button "Popular" [ref=e22] [cursor=pointer]
+          - button "Locations" [ref=e25] [cursor=pointer]
+          - button "Categories" [ref=e28] [cursor=pointer]
+          - button "Tools" [ref=e31] [cursor=pointer]
+          - button "Blog" [ref=e34] [cursor=pointer]
+          - button "About" [ref=e37] [cursor=pointer]
+        - link "Post a Job" [ref=e41] [cursor=pointer]:
+          - /url: https://www.arbeitnow.com/job-board/post-job
+  - generic [ref=e45]:
+    - generic [ref=e46]:
+      - heading "Jobs in Germany" [level=1] [ref=e47]
+      - heading "10.136 open job positions across Germany, 393 added today" [level=2] [ref=e48]
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - button "Dismiss" [ref=e53] [cursor=pointer]
+        - generic [ref=e59]:
+          - paragraph [ref=e60]: Get the latest jobs in your inbox
+          - paragraph [ref=e61]: One quick weekly digest. No spam, unsubscribe anytime.
+      - generic [ref=e62]:
+        - generic [ref=e63]: Email address
+        - textbox "Email address" [ref=e64]:
+          - /placeholder: Enter your email
+        - button "Subscribe" [ref=e65] [cursor=pointer]
+    - generic [ref=e67]:
+      - generic [ref=e68]: Search
+      - generic [ref=e72]:
+        - generic [ref=e73]: Search for your next job
+        - textbox "Enter a job title, skill, location, etc" [ref=e74]: abap
+    - generic [ref=e76]:
+      - button "tag visa sponsorship" [ref=e77] [cursor=pointer]: visa sponsorship
+      - button "tag english speaking" [ref=e78] [cursor=pointer]: english speaking
+      - button "tag data" [ref=e79] [cursor=pointer]: data
+      - button "tag developer" [ref=e80] [cursor=pointer]: developer
+      - button "tag berlin" [ref=e81] [cursor=pointer]: berlin
+      - button "tag junior" [ref=e82] [cursor=pointer]: junior
+      - button "tag product" [ref=e83] [cursor=pointer]: product
+      - button "tag php" [ref=e84] [cursor=pointer]: php
+      - button "tag recruiter" [ref=e85] [cursor=pointer]: recruiter
+      - button "tag finance" [ref=e86] [cursor=pointer]: finance
+      - button "tag javascript" [ref=e87] [cursor=pointer]: javascript
+      - button "tag SEO" [ref=e88] [cursor=pointer]: SEO
+      - button "tag remote" [ref=e89] [cursor=pointer]: remote
+      - button "tag intern" [ref=e90] [cursor=pointer]: intern
+      - button "tag sales" [ref=e91] [cursor=pointer]: sales
+      - button "tag part time" [ref=e92] [cursor=pointer]: part time
+    - generic [ref=e93]:
+      - generic [ref=e95]:
+        - heading "Showing jobs for abap" [level=2] [ref=e96]
+        - generic [ref=e97]:
+          - generic "Sort by" [ref=e98]
+          - combobox "Sort by" [ref=e99]:
+            - option "Relevance" [selected]
+            - option "Newest"
+      - list [ref=e101]:
+        - listitem [ref=e102]:
+          - generic [ref=e103] [cursor=pointer]:
+            - link "View details for SAP ABAP Entwickler" [ref=e105]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwickler-munich-7122
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - heading [level=3] [ref=e113]:
+                  - link "SAP ABAP Entwickler" [ref=e114]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwickler-munich-7122
+                - generic [ref=e116]:
+                  - img "Company name" [ref=e117]
+                  - link "Jobs from Pertemps ERP" [ref=e120]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - button "IT" [ref=e123]
+              - generic [ref=e124]:
+                - paragraph [ref=e125]:
+                  - generic [ref=e126]: Munich
+                - paragraph [ref=e128]:
+                  - time [ref=e129]: 3d
+        - listitem [ref=e130]:
+          - generic [ref=e131] [cursor=pointer]:
+            - link "View details for SAP ABAP-Entwickler:in" [ref=e133]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwicklerin-mannheim-430123
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - heading [level=3] [ref=e141]:
+                  - link "SAP ABAP-Entwickler:in" [ref=e142]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwicklerin-mannheim-430123
+                - generic [ref=e144]:
+                  - img "Company name" [ref=e145]
+                  - link "Jobs from Pertemps ERP" [ref=e148]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - button "IT" [ref=e151]
+              - generic [ref=e152]:
+                - paragraph [ref=e153]:
+                  - generic [ref=e154]: Mannheim
+                - paragraph [ref=e156]:
+                  - time [ref=e157]: 2w
+        - listitem [ref=e158]:
+          - generic [ref=e159] [cursor=pointer]:
+            - link "View details for SAP Senior ABAP Entwickler" [ref=e161]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-senior-abap-entwickler-munich-110649
+            - generic [ref=e166]:
+              - generic [ref=e167]:
+                - heading [level=3] [ref=e169]:
+                  - link "SAP Senior ABAP Entwickler" [ref=e170]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-senior-abap-entwickler-munich-110649
+                - generic [ref=e172]:
+                  - img "Company name" [ref=e173]
+                  - link "Jobs from Pertemps ERP" [ref=e176]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - button "IT" [ref=e179]
+              - generic [ref=e180]:
+                - paragraph [ref=e181]:
+                  - generic [ref=e182]: Munich
+                - paragraph [ref=e184]:
+                  - time [ref=e185]: 1w
+        - listitem [ref=e186]:
+          - generic [ref=e187] [cursor=pointer]:
+            - link "View details for SAP ABAP Entwickler (m/w/d)" [ref=e189]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwickler-dresden-314811
+            - generic [ref=e194]:
+              - generic [ref=e195]:
+                - heading [level=3] [ref=e197]:
+                  - link "SAP ABAP Entwickler (m/w/d)" [ref=e198]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-abap-entwickler-dresden-314811
+                - generic [ref=e200]:
+                  - img "Company name" [ref=e201]
+                  - link "Jobs from Pertemps ERP" [ref=e204]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - button "IT" [ref=e207]
+              - generic [ref=e208]:
+                - paragraph [ref=e209]:
+                  - generic [ref=e210]: Dresden
+                - paragraph [ref=e212]:
+                  - time [ref=e213]: 2w
+        - listitem [ref=e214]:
+          - generic [ref=e215] [cursor=pointer]:
+            - link "View details for SAP BTP & ABAP Technical Consultant" [ref=e217]:
+              - /url: https://www.arbeitnow.com/jobs/companies/qorelo/sap-btp-abap-technical-consultant-berlin-96129
+              - generic [ref=e218]: QO
+            - generic [ref=e222]:
+              - generic [ref=e223]:
+                - heading [level=3] [ref=e225]:
+                  - link "SAP BTP & ABAP Technical Consultant" [ref=e226]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/qorelo/sap-btp-abap-technical-consultant-berlin-96129
+                - generic [ref=e228]:
+                  - img "Company name" [ref=e229]
+                  - link "Jobs from Qorelo" [ref=e232]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/qorelo
+                    - text: Qorelo
+              - generic [ref=e234]:
+                - button "Engineering" [ref=e235]
+                - button "Full Time" [ref=e236]
+              - generic [ref=e237]:
+                - paragraph [ref=e238]:
+                  - generic [ref=e239]: Berlin
+                - paragraph [ref=e241]:
+                  - time [ref=e242]: 3w
+        - listitem [ref=e243]:
+          - generic [ref=e244] [cursor=pointer]:
+            - link "View details for (Senior) ABAP Entwickler (m/w/d)" [ref=e246]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-abap-entwickler-heidelberg-89344
+            - generic [ref=e251]:
+              - generic [ref=e252]:
+                - heading [level=3] [ref=e254]:
+                  - link "(Senior) ABAP Entwickler (m/w/d)" [ref=e255]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-abap-entwickler-heidelberg-89344
+                - generic [ref=e257]:
+                  - img "Company name" [ref=e258]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e261]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e263]:
+                - button "BAT" [ref=e264]
+                - button "Mid" [ref=e265]
+                - button "fulltime permanent" [ref=e266]
+              - generic [ref=e267]:
+                - paragraph [ref=e268]:
+                  - generic [ref=e269]: Heidelberg
+                - paragraph [ref=e271]:
+                  - time [ref=e272]: 3w
+        - listitem [ref=e273]:
+          - generic [ref=e274] [cursor=pointer]:
+            - link "View details for SAP ABAP Software Engineer (m/f/d)" [ref=e276]:
+              - /url: https://www.arbeitnow.com/jobs/companies/onapsis/sap-abap-software-engineer-heidelberg-442384
+            - generic [ref=e281]:
+              - generic [ref=e282]:
+                - heading [level=3] [ref=e284]:
+                  - link "SAP ABAP Software Engineer (m/f/d)" [ref=e285]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/onapsis/sap-abap-software-engineer-heidelberg-442384
+                - generic [ref=e287]:
+                  - img "Company name" [ref=e288]
+                  - link "Jobs from Onapsis" [ref=e291]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/onapsis
+                    - text: Onapsis
+              - generic [ref=e293]:
+                - paragraph [ref=e294]:
+                  - generic [ref=e295]: Heidelberg
+                - paragraph [ref=e297]:
+                  - time [ref=e298]: 1mo
+        - listitem [ref=e299]:
+          - generic [ref=e300] [cursor=pointer]:
+            - link "View details for Senior SAP ABAP-Entwickler (m/w/d)" [ref=e302]:
+              - /url: https://www.arbeitnow.com/jobs/companies/andcompany-gmbh/senior-sap-abap-entwickler-hamburg-236754
+            - generic [ref=e307]:
+              - generic [ref=e308]:
+                - heading [level=3] [ref=e310]:
+                  - link "Senior SAP ABAP-Entwickler (m/w/d)" [ref=e311]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/andcompany-gmbh/senior-sap-abap-entwickler-hamburg-236754
+                - generic [ref=e313]:
+                  - img "Company name" [ref=e314]
+                  - link "Jobs from AndCompany GmbH" [ref=e317]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/andcompany-gmbh
+                    - text: AndCompany GmbH
+              - generic [ref=e319]:
+                - button "SAP/ERP Consulting" [ref=e320]
+                - button "Development" [ref=e321]
+                - button "berufserfahren" [ref=e322]
+                - generic "Salary Information" [ref=e324]:
+                  - img "salary" [ref=e325]
+                  - text: 65.000 - 90.000 €
+              - generic [ref=e326]:
+                - paragraph [ref=e327]:
+                  - generic [ref=e328]: Hamburg
+                - paragraph [ref=e330]:
+                  - time [ref=e331]: 1mo
+        - listitem [ref=e332]:
+          - generic [ref=e333] [cursor=pointer]:
+            - link "View details for SAP ABAP Software Engineer (m/f/d)" [ref=e335]:
+              - /url: https://www.arbeitnow.com/jobs/companies/onapsis/sap-abap-software-engineer-heidelberg-baden-wurttemberg-438341
+            - generic [ref=e340]:
+              - generic [ref=e341]:
+                - heading [level=3] [ref=e343]:
+                  - link "SAP ABAP Software Engineer (m/f/d)" [ref=e344]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/onapsis/sap-abap-software-engineer-heidelberg-baden-wurttemberg-438341
+                - generic [ref=e346]:
+                  - img "Company name" [ref=e347]
+                  - link "Jobs from onapsis" [ref=e350]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/onapsis
+                    - text: onapsis
+              - button "Engineering" [ref=e353]
+              - generic [ref=e354]:
+                - paragraph [ref=e355]:
+                  - generic [ref=e356]: Heidelberg
+                - paragraph [ref=e358]:
+                  - time [ref=e359]: 1mo
+        - listitem [ref=e360]:
+          - generic [ref=e361] [cursor=pointer]:
+            - link "View details for (Senior) ABAP HCM Developer (m/w/d)" [ref=e363]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-abap-hcm-developer-heidelberg-111285
+            - generic [ref=e368]:
+              - generic [ref=e369]:
+                - heading [level=3] [ref=e371]:
+                  - link "(Senior) ABAP HCM Developer (m/w/d)" [ref=e372]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-abap-hcm-developer-heidelberg-111285
+                - generic [ref=e374]:
+                  - img "Company name" [ref=e375]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e378]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e380]:
+                - button "HCM" [ref=e381]
+                - button "Mid" [ref=e382]
+                - button "fulltime permanent" [ref=e383]
+              - generic [ref=e384]:
+                - paragraph [ref=e385]:
+                  - generic [ref=e386]: Heidelberg
+                - paragraph [ref=e388]:
+                  - time [ref=e389]: 3w
+        - listitem [ref=e390]:
+          - generic [ref=e391] [cursor=pointer]:
+            - link "View details for Senior) Developer SAP ABAP - Schwerpunkt EWM (m/w/d)" [ref=e393]:
+              - /url: https://www.arbeitnow.com/jobs/companies/neoimpulse-gmbh/senior-developer-sap-abap-schwerpunkt-ewm-ismaning-247763
+            - generic [ref=e398]:
+              - generic [ref=e399]:
+                - heading [level=3] [ref=e401]:
+                  - link "Senior) Developer SAP ABAP - Schwerpunkt EWM (m/w/d)" [ref=e402]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/neoimpulse-gmbh/senior-developer-sap-abap-schwerpunkt-ewm-ismaning-247763
+                - generic [ref=e404]:
+                  - img "Company name" [ref=e405]
+                  - link "Jobs from neoimpulse GmbH" [ref=e408]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/neoimpulse-gmbh
+                    - text: neoimpulse GmbH
+              - generic [ref=e410]:
+                - button "Consulting" [ref=e411]
+                - button "Engineering" [ref=e412]
+              - generic [ref=e413]:
+                - paragraph [ref=e414]:
+                  - generic [ref=e415]: Ismaning
+                - paragraph [ref=e417]:
+                  - time [ref=e418]: 1mo
+        - listitem [ref=e419]:
+          - generic [ref=e420] [cursor=pointer]:
+            - link "View details for Team Lead SAP ABAP Development – Data Migration (m/w/d)" [ref=e422]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-team-lead-sap-abap-development-data-migration-berlin-106136
+            - generic [ref=e427]:
+              - generic [ref=e428]:
+                - heading [level=3] [ref=e430]:
+                  - link "Team Lead SAP ABAP Development – Data Migration (m/w/d)" [ref=e431]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-team-lead-sap-abap-development-data-migration-berlin-106136
+                - generic [ref=e433]:
+                  - img "Company name" [ref=e434]
+                  - link "Jobs from Natuvion GmbH" [ref=e437]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e439]:
+                - button "Technical Migration" [ref=e440]
+                - button "Remote" [ref=e441]
+                - button "Experienced" [ref=e442]
+                - button "fulltime permanent" [ref=e443]
+              - generic [ref=e444]:
+                - paragraph [ref=e445]:
+                  - generic [ref=e446]: Berlin
+                - paragraph [ref=e448]:
+                  - time [ref=e449]: 2w
+        - listitem [ref=e450]:
+          - generic [ref=e451] [cursor=pointer]:
+            - link "View details for (Senior) SAP ABAP Developer/ Architect – Technical Migration (m/w/d)" [ref=e453]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-technical-migration-berlin-371945
+            - generic [ref=e458]:
+              - generic [ref=e459]:
+                - heading [level=3] [ref=e461]:
+                  - link "(Senior) SAP ABAP Developer/ Architect – Technical Migration (m/w/d)" [ref=e462]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-technical-migration-berlin-371945
+                - generic [ref=e464]:
+                  - img "Company name" [ref=e465]
+                  - link "Jobs from Natuvion GmbH" [ref=e468]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e470]:
+                - button "Technical Migration" [ref=e471]
+                - button "Remote" [ref=e472]
+                - button "Experienced" [ref=e473]
+                - button "fulltime permanent" [ref=e474]
+              - generic [ref=e475]:
+                - paragraph [ref=e476]:
+                  - generic [ref=e477]: Berlin
+                - paragraph [ref=e479]:
+                  - time [ref=e480]: 1mo
+        - listitem [ref=e481]:
+          - generic [ref=e482] [cursor=pointer]:
+            - link "View details for Inhouse ABAP Entwickler im Bereich Managed Cloud Services (m/w/d)" [ref=e484]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/inhouse-abap-entwickler-im-bereich-managed-cloud-services-dortmund-126923
+            - generic [ref=e489]:
+              - generic [ref=e490]:
+                - heading [level=3] [ref=e492]:
+                  - link "Inhouse ABAP Entwickler im Bereich Managed Cloud Services (m/w/d)" [ref=e493]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/inhouse-abap-entwickler-im-bereich-managed-cloud-services-dortmund-126923
+                - generic [ref=e495]:
+                  - img "Company name" [ref=e496]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e499]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e501]:
+                - button "Managed Cloud Services" [ref=e502]
+                - button "Mid" [ref=e503]
+                - button "fulltime permanent" [ref=e504]
+              - generic [ref=e505]:
+                - paragraph [ref=e506]:
+                  - generic [ref=e507]: Dortmund
+                - paragraph [ref=e509]:
+                  - time [ref=e510]: 3w
+        - listitem [ref=e511]:
+          - generic [ref=e512] [cursor=pointer]:
+            - link "View details for Senior SAP IS-U & FI/CO ABAP Application Developer (m/w/d)" [ref=e514]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-fi-co-abap-application-developer-berlin-151324
+            - generic [ref=e519]:
+              - generic [ref=e520]:
+                - heading [level=3] [ref=e522]:
+                  - link "Senior SAP IS-U & FI/CO ABAP Application Developer (m/w/d)" [ref=e523]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-fi-co-abap-application-developer-berlin-151324
+                - generic [ref=e525]:
+                  - img "Company name" [ref=e526]
+                  - link "Jobs from Natuvion GmbH" [ref=e529]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e531]:
+                - button "Product Development" [ref=e532]
+                - button "Remote" [ref=e533]
+                - button "Experienced" [ref=e534]
+                - button "fulltime permanent" [ref=e535]
+              - generic [ref=e536]:
+                - paragraph [ref=e537]:
+                  - generic [ref=e538]: Berlin
+                - paragraph [ref=e540]:
+                  - time [ref=e541]: 6d
+        - listitem [ref=e542]:
+          - generic [ref=e543] [cursor=pointer]:
+            - link "View details for (Senior) SAP ABAP Developer/Architect – Product Development (m/w/d)" [ref=e545]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-product-development-berlin-167907
+            - generic [ref=e550]:
+              - generic [ref=e551]:
+                - heading [level=3] [ref=e553]:
+                  - link "(Senior) SAP ABAP Developer/Architect – Product Development (m/w/d)" [ref=e554]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-product-development-berlin-167907
+                - generic [ref=e556]:
+                  - img "Company name" [ref=e557]
+                  - link "Jobs from Natuvion GmbH" [ref=e560]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e562]:
+                - button "Product Development" [ref=e563]
+                - button "Remote" [ref=e564]
+                - button "Experienced" [ref=e565]
+                - button "fulltime permanent" [ref=e566]
+              - generic [ref=e567]:
+                - paragraph [ref=e568]:
+                  - generic [ref=e569]: Berlin
+                - paragraph [ref=e571]:
+                  - time [ref=e572]: 1mo
+        - listitem [ref=e573]:
+          - generic [ref=e574] [cursor=pointer]:
+            - link "View details for SAP ABAP Entwickler – Fokus Output Management & Formulare - Vollzeit (m/w/d)" [ref=e576]:
+              - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-sap-abap-entwickler-fokus-output-management-formulare-vollzeit-passau-346762
+            - generic [ref=e581]:
+              - generic [ref=e582]:
+                - heading [level=3] [ref=e584]:
+                  - link "SAP ABAP Entwickler – Fokus Output Management & Formulare - Vollzeit (m/w/d)" [ref=e585]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-sap-abap-entwickler-fokus-output-management-formulare-vollzeit-passau-346762
+                - generic [ref=e587]:
+                  - img "Company name" [ref=e588]
+                  - link "Jobs from 24-LOG GmbH" [ref=e591]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh
+                    - text: 24-LOG GmbH
+              - generic [ref=e593]:
+                - button "Remote" [ref=e594]
+                - button "Mid" [ref=e595]
+                - button "fulltime permanent" [ref=e596]
+              - generic [ref=e597]:
+                - paragraph [ref=e598]:
+                  - generic [ref=e599]: Passau
+                - paragraph [ref=e601]:
+                  - time [ref=e602]: 1mo
+        - listitem [ref=e603]:
+          - generic [ref=e604] [cursor=pointer]:
+            - link "View details for Senior SAP IS-U & FI/CO ABAP Application Developer (m/w/d)" [ref=e606]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-fi-co-abap-application-developer-berlin-321532
+            - generic [ref=e611]:
+              - generic [ref=e612]:
+                - heading [level=3] [ref=e614]:
+                  - link "Senior SAP IS-U & FI/CO ABAP Application Developer (m/w/d)" [ref=e615]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-is-u-fi-co-abap-application-developer-berlin-321532
+                - generic [ref=e617]:
+                  - img "Company name" [ref=e618]
+                  - link "Jobs from Natuvion GmbH" [ref=e621]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e623]:
+                - button "Technical Migration" [ref=e624]
+                - button "Remote" [ref=e625]
+                - button "Experienced" [ref=e626]
+                - button "fulltime permanent" [ref=e627]
+              - generic [ref=e628]:
+                - paragraph [ref=e629]:
+                  - generic [ref=e630]: Berlin
+                - paragraph [ref=e632]:
+                  - time [ref=e633]: 2w
+        - listitem [ref=e634]:
+          - generic [ref=e635] [cursor=pointer]:
+            - link "View details for Software-Tester (m/w/d) SAP® - Automatisiertes Testing mit ABAP, Fiori und Python" [ref=e637]:
+              - /url: https://www.arbeitnow.com/jobs/companies/software4professionals-gmbh-co-kg/software-tester-sap-automatisiertes-testing-mit-abap-fiori-und-python-stuttgart-235516
+            - generic [ref=e642]:
+              - generic [ref=e643]:
+                - heading [level=3] [ref=e645]:
+                  - link "Software-Tester (m/w/d) SAP® - Automatisiertes Testing mit ABAP, Fiori und Python" [ref=e646]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/software4professionals-gmbh-co-kg/software-tester-sap-automatisiertes-testing-mit-abap-fiori-und-python-stuttgart-235516
+                - generic [ref=e648]:
+                  - img "Company name" [ref=e649]
+                  - link "Jobs from Software4Professionals GmbH & Co. KG" [ref=e652]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/software4professionals-gmbh-co-kg
+                    - text: Software4Professionals GmbH & Co. KG
+              - generic [ref=e654]:
+                - button "SAP/ERP Consulting" [ref=e655]
+                - button "Development" [ref=e656]
+                - button "berufserfahren" [ref=e657]
+                - generic "Salary Information" [ref=e659]:
+                  - img "salary" [ref=e660]
+                  - text: 4.500 - 7.000 €
+              - generic [ref=e661]:
+                - paragraph [ref=e662]:
+                  - generic [ref=e663]: Stuttgart
+                - paragraph [ref=e665]:
+                  - time [ref=e666]: 1w
+        - listitem [ref=e667]:
+          - generic [ref=e668] [cursor=pointer]:
+            - link "View details for (Senior) SAP ABAP Developer / Architect – Data Management & ILM (m/w/d)" [ref=e670]:
+              - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-data-management-ilm-berlin-57685
+            - generic [ref=e675]:
+              - generic [ref=e676]:
+                - heading [level=3] [ref=e678]:
+                  - link "(Senior) SAP ABAP Developer / Architect – Data Management & ILM (m/w/d)" [ref=e679]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh/remote-senior-sap-abap-developer-architect-data-management-ilm-berlin-57685
+                - generic [ref=e681]:
+                  - img "Company name" [ref=e682]
+                  - link "Jobs from Natuvion GmbH" [ref=e685]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/natuvion-gmbh
+                    - text: Natuvion GmbH
+              - generic [ref=e687]:
+                - button "Data Management & Retirement Services" [ref=e688]
+                - button "Remote" [ref=e689]
+                - button "Experienced" [ref=e690]
+                - button "fulltime permanent" [ref=e691]
+              - generic [ref=e692]:
+                - paragraph [ref=e693]:
+                  - generic [ref=e694]: Berlin
+                - paragraph [ref=e696]:
+                  - time [ref=e697]: 1mo
+        - listitem [ref=e698]:
+          - generic [ref=e699] [cursor=pointer]:
+            - link "View details for SAP ABAP Entwickler – Fokus Cloud & API Integration (REST, OData, BTP) – Vollzeit (m/w/d)" [ref=e701]:
+              - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-sap-abap-entwickler-fokus-cloud-api-integration-rest-odata-btp-vollzeit-passau-462992
+            - generic [ref=e706]:
+              - generic [ref=e707]:
+                - heading [level=3] [ref=e709]:
+                  - link "SAP ABAP Entwickler – Fokus Cloud & API Integration (REST, OData, BTP) – Vollzeit (m/w/d)" [ref=e710]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh/remote-sap-abap-entwickler-fokus-cloud-api-integration-rest-odata-btp-vollzeit-passau-462992
+                - generic [ref=e712]:
+                  - img "Company name" [ref=e713]
+                  - link "Jobs from 24-LOG GmbH" [ref=e716]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/24-log-gmbh
+                    - text: 24-LOG GmbH
+              - generic [ref=e718]:
+                - button "Remote" [ref=e719]
+                - button "Mid" [ref=e720]
+                - button "fulltime permanent" [ref=e721]
+              - generic [ref=e722]:
+                - paragraph [ref=e723]:
+                  - generic [ref=e724]: Passau
+                - paragraph [ref=e726]:
+                  - time [ref=e727]: 1mo
+        - listitem [ref=e728]:
+          - generic [ref=e729] [cursor=pointer]:
+            - link "View details for SAP RE-FX Inhouse Berater (m/w/d)" [ref=e731]:
+              - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/sap-re-fx-inhouse-berater-oberhausen-215089
+            - generic [ref=e736]:
+              - generic [ref=e737]:
+                - heading [level=3] [ref=e739]:
+                  - link "SAP RE-FX Inhouse Berater (m/w/d)" [ref=e740]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/sap-re-fx-inhouse-berater-oberhausen-215089
+                - generic [ref=e742]:
+                  - img "Company name" [ref=e743]
+                  - link "Jobs from SAPPLIER GmbH" [ref=e746]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh
+                    - text: SAPPLIER GmbH
+              - generic [ref=e748]:
+                - button "SAP/ERP Consulting" [ref=e749]
+                - button "Development" [ref=e750]
+                - generic "Salary Information" [ref=e752]:
+                  - img "salary" [ref=e753]
+                  - text: 95.000 €
+              - generic [ref=e754]:
+                - paragraph [ref=e755]:
+                  - generic [ref=e756]: Oberhausen
+                - paragraph [ref=e758]:
+                  - time [ref=e759]: 7h
+        - listitem [ref=e760]:
+          - generic [ref=e761] [cursor=pointer]:
+            - link "View details for SAP SD Consultant/Developer – AI Integration (f/m/d)" [ref=e763]:
+              - /url: https://www.arbeitnow.com/jobs/companies/workist-gmbh/sap-sd-consultant-developer-ai-integration-berlin-182883
+            - generic [ref=e768]:
+              - generic [ref=e769]:
+                - heading [level=3] [ref=e771]:
+                  - link "SAP SD Consultant/Developer – AI Integration (f/m/d)" [ref=e772]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/workist-gmbh/sap-sd-consultant-developer-ai-integration-berlin-182883
+                - generic [ref=e774]:
+                  - img "Company name" [ref=e775]
+                  - link "Jobs from Workist GmbH" [ref=e778]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/workist-gmbh
+                    - text: Workist GmbH
+              - generic [ref=e780]:
+                - button "Software Development" [ref=e781]
+                - button "professional / experienced" [ref=e782]
+                - generic "Salary Information" [ref=e784]:
+                  - img "salary" [ref=e785]
+                  - text: 60.000 - 90.000 €
+              - generic [ref=e786]:
+                - paragraph [ref=e787]:
+                  - generic [ref=e788]: Berlin
+                - paragraph [ref=e790]:
+                  - time [ref=e791]: 4h
+        - listitem [ref=e792]:
+          - generic [ref=e793] [cursor=pointer]:
+            - link "View details for Director of SAP Consulting – MedTech & Life Sciences (m/f/d)" [ref=e795]:
+              - /url: https://www.arbeitnow.com/jobs/companies/bit-consulting/director-of-sap-consulting-medtech-life-sciences-freiburg-235211
+            - generic [ref=e800]:
+              - generic [ref=e801]:
+                - heading [level=3] [ref=e803]:
+                  - link "Director of SAP Consulting – MedTech & Life Sciences (m/f/d)" [ref=e804]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/bit-consulting/director-of-sap-consulting-medtech-life-sciences-freiburg-235211
+                - generic [ref=e806]:
+                  - img "Company name" [ref=e807]
+                  - link "Jobs from Bit Consulting" [ref=e810]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/bit-consulting
+                    - text: Bit Consulting
+              - generic [ref=e812]:
+                - button "SAP" [ref=e813]
+                - button "ABAP" [ref=e814]
+                - button "Consutling" [ref=e815]
+                - button "Experienced" [ref=e816]
+                - button "Permanent" [ref=e817]
+              - generic [ref=e818]:
+                - paragraph [ref=e819]:
+                  - generic [ref=e820]: Freiburg im Breisgau
+                - paragraph [ref=e822]:
+                  - time [ref=e823]: 1d
+        - listitem [ref=e824]:
+          - generic [ref=e825] [cursor=pointer]:
+            - link "View details for SAP GTS Consultant (m/w/d)" [ref=e827]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-gts-consultant-cologne-229654
+            - generic [ref=e832]:
+              - generic [ref=e833]:
+                - heading [level=3] [ref=e835]:
+                  - link "SAP GTS Consultant (m/w/d)" [ref=e836]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-gts-consultant-cologne-229654
+                - generic [ref=e838]:
+                  - img "Company name" [ref=e839]
+                  - link "Jobs from Pertemps ERP" [ref=e842]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - generic [ref=e844]:
+                - button "Business Consulting" [ref=e845]
+                - button "professional / experienced" [ref=e846]
+              - generic [ref=e847]:
+                - paragraph [ref=e848]:
+                  - generic [ref=e849]: Cologne
+                - paragraph [ref=e851]:
+                  - time [ref=e852]: 3d
+        - listitem [ref=e853]:
+          - generic [ref=e854] [cursor=pointer]:
+            - link "View details for SAP Developer" [ref=e856]:
+              - /url: https://www.arbeitnow.com/jobs/companies/incycling-gmbh/sap-developer-erfurt-227550
+            - generic [ref=e861]:
+              - generic [ref=e862]:
+                - heading [level=3] [ref=e864]:
+                  - link "SAP Developer" [ref=e865]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/incycling-gmbh/sap-developer-erfurt-227550
+                - generic [ref=e867]:
+                  - img "Company name" [ref=e868]
+                  - link "Jobs from InCycling GmbH" [ref=e871]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/incycling-gmbh
+                    - text: InCycling GmbH
+              - generic [ref=e873]:
+                - button "SAP/ERP Consulting" [ref=e874]
+                - button "Development" [ref=e875]
+                - button "entry" [ref=e876]
+              - generic [ref=e877]:
+                - paragraph [ref=e878]:
+                  - generic [ref=e879]: Erfurt
+                - paragraph [ref=e881]:
+                  - time [ref=e882]: 6d
+        - listitem [ref=e883]:
+          - generic [ref=e884] [cursor=pointer]:
+            - link "View details for Inhouse Consultant SAP S/4HANA FI (m/w/d)" [ref=e886]:
+              - /url: https://www.arbeitnow.com/jobs/companies/biomatch-gmbh/inhouse-consultant-sap-s-4hana-fi-asslar-364524
+            - generic [ref=e891]:
+              - generic [ref=e892]:
+                - heading [level=3] [ref=e894]:
+                  - link "Inhouse Consultant SAP S/4HANA FI (m/w/d)" [ref=e895]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/biomatch-gmbh/inhouse-consultant-sap-s-4hana-fi-asslar-364524
+                - generic [ref=e897]:
+                  - img "Company name" [ref=e898]
+                  - link "Jobs from Biomatch GmbH" [ref=e901]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/biomatch-gmbh
+                    - text: Biomatch GmbH
+              - button "IT" [ref=e904]
+              - generic [ref=e905]:
+                - paragraph [ref=e906]:
+                  - generic [ref=e907]: Aßlar
+                - paragraph [ref=e909]:
+                  - time [ref=e910]: 6d
+        - listitem [ref=e911]:
+          - generic [ref=e912] [cursor=pointer]:
+            - link "View details for Inhouse SAP FI/CO Berater (m/w/d)" [ref=e914]:
+              - /url: https://www.arbeitnow.com/jobs/companies/hubside-die-recruitingwerkstatt/inhouse-sap-fi-co-berater-munich-112462
+            - generic [ref=e919]:
+              - generic [ref=e920]:
+                - heading [level=3] [ref=e922]:
+                  - link "Inhouse SAP FI/CO Berater (m/w/d)" [ref=e923]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/hubside-die-recruitingwerkstatt/inhouse-sap-fi-co-berater-munich-112462
+                - generic [ref=e925]:
+                  - img "Company name" [ref=e926]
+                  - link "Jobs from hubside - Die Recruitingwerkstatt" [ref=e929]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/hubside-die-recruitingwerkstatt
+                    - text: hubside - Die Recruitingwerkstatt
+              - button "IT" [ref=e932]
+              - generic [ref=e933]:
+                - paragraph [ref=e934]:
+                  - generic [ref=e935]: Munich
+                - paragraph [ref=e937]:
+                  - time [ref=e938]: 1mo
+        - listitem [ref=e939]:
+          - generic [ref=e940] [cursor=pointer]:
+            - link "View details for SAP Entwickler (m/w/d)" [ref=e942]:
+              - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/sap-entwickler-frankfurt-am-main-69970
+            - generic [ref=e947]:
+              - generic [ref=e948]:
+                - heading [level=3] [ref=e950]:
+                  - link "SAP Entwickler (m/w/d)" [ref=e951]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/sap-entwickler-frankfurt-am-main-69970
+                - generic [ref=e953]:
+                  - img "Company name" [ref=e954]
+                  - link "Jobs from SAPPLIER GmbH" [ref=e957]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh
+                    - text: SAPPLIER GmbH
+              - generic [ref=e959]:
+                - button "SAP/ERP Consulting" [ref=e960]
+                - button "Development" [ref=e961]
+                - generic "Salary Information" [ref=e963]:
+                  - img "salary" [ref=e964]
+                  - text: 90.000 €
+              - generic [ref=e965]:
+                - paragraph [ref=e966]:
+                  - generic [ref=e967]: Frankfurt am Main
+                - paragraph [ref=e969]:
+                  - time [ref=e970]: 3w
+        - listitem [ref=e971]:
+          - generic [ref=e972] [cursor=pointer]:
+            - link "View details for (Senior) SAP Entwickler (m/w/d)" [ref=e974]:
+              - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/senior-sap-entwickler-cologne-385154
+            - generic [ref=e979]:
+              - generic [ref=e980]:
+                - heading [level=3] [ref=e982]:
+                  - link "(Senior) SAP Entwickler (m/w/d)" [ref=e983]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh/senior-sap-entwickler-cologne-385154
+                - generic [ref=e985]:
+                  - img "Company name" [ref=e986]
+                  - link "Jobs from SAPPLIER GmbH" [ref=e989]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/sapplier-gmbh
+                    - text: SAPPLIER GmbH
+              - generic [ref=e991]:
+                - button "SAP/ERP Consulting" [ref=e992]
+                - button "Development" [ref=e993]
+                - generic "Salary Information" [ref=e995]:
+                  - img "salary" [ref=e996]
+                  - text: 90.000 €
+              - generic [ref=e997]:
+                - paragraph [ref=e998]:
+                  - generic [ref=e999]: Cologne
+                - paragraph [ref=e1001]:
+                  - time [ref=e1002]: 1mo
+        - listitem [ref=e1003]:
+          - generic [ref=e1004] [cursor=pointer]:
+            - link "View details for SAP Technical Consultant / Solution Architect (m/w/d)" [ref=e1006]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/sap-technical-consultant-solution-architect-heidelberg-196411
+            - generic [ref=e1011]:
+              - generic [ref=e1012]:
+                - heading [level=3] [ref=e1014]:
+                  - link "SAP Technical Consultant / Solution Architect (m/w/d)" [ref=e1015]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/sap-technical-consultant-solution-architect-heidelberg-196411
+                - generic [ref=e1017]:
+                  - img "Company name" [ref=e1018]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e1021]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e1023]:
+                - button "BAT" [ref=e1024]
+                - button "Mid" [ref=e1025]
+                - button "fulltime permanent" [ref=e1026]
+              - generic [ref=e1027]:
+                - paragraph [ref=e1028]:
+                  - generic [ref=e1029]: Heidelberg
+                - paragraph [ref=e1031]:
+                  - time [ref=e1032]: 3w
+        - listitem [ref=e1033]:
+          - generic [ref=e1034] [cursor=pointer]:
+            - link "View details for SAP Technical Architect, SCM (EWM, MM, Distribution & TM) (m/f/d)" [ref=e1036]:
+              - /url: https://www.arbeitnow.com/jobs/companies/amer-sports/sap-technical-architect-scm-ewm-mm-distribution-tm-garching-366312
+            - generic [ref=e1041]:
+              - generic [ref=e1042]:
+                - heading [level=3] [ref=e1044]:
+                  - link "SAP Technical Architect, SCM (EWM, MM, Distribution & TM) (m/f/d)" [ref=e1045]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/amer-sports/sap-technical-architect-scm-ewm-mm-distribution-tm-garching-366312
+                - generic [ref=e1047]:
+                  - img "Company name" [ref=e1048]
+                  - link "Jobs from Amer Sports" [ref=e1051]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/amer-sports
+                    - text: Amer Sports
+              - generic [ref=e1053]:
+                - button "Software Development" [ref=e1054]
+                - button "professional / experienced" [ref=e1055]
+              - generic [ref=e1056]:
+                - paragraph [ref=e1057]:
+                  - generic [ref=e1058]: Garching
+                - paragraph [ref=e1060]:
+                  - time [ref=e1061]: 3w
+        - listitem [ref=e1062]:
+          - generic [ref=e1063] [cursor=pointer]:
+            - link "View details for Entwickler SAP Global Trade Services (GTS) (m/w/d)" [ref=e1065]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/entwickler-sap-global-trade-services-gts-heidelberg-50451
+            - generic [ref=e1070]:
+              - generic [ref=e1071]:
+                - heading [level=3] [ref=e1073]:
+                  - link "Entwickler SAP Global Trade Services (GTS) (m/w/d)" [ref=e1074]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/entwickler-sap-global-trade-services-gts-heidelberg-50451
+                - generic [ref=e1076]:
+                  - img "Company name" [ref=e1077]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e1080]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e1082]:
+                - button "GTS" [ref=e1083]
+                - button "Mid" [ref=e1084]
+                - button "fulltime permanent" [ref=e1085]
+              - generic [ref=e1086]:
+                - paragraph [ref=e1087]:
+                  - generic [ref=e1088]: Heidelberg
+                - paragraph [ref=e1090]:
+                  - time [ref=e1091]: 3w
+        - listitem [ref=e1092]:
+          - generic [ref=e1093] [cursor=pointer]:
+            - link "View details for (Senior) SAP HCM Allrounder (m/w/d)" [ref=e1095]:
+              - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-sap-hcm-allrounder-heidelberg-473116
+            - generic [ref=e1100]:
+              - generic [ref=e1101]:
+                - heading [level=3] [ref=e1103]:
+                  - link "(Senior) SAP HCM Allrounder (m/w/d)" [ref=e1104]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh/senior-sap-hcm-allrounder-heidelberg-473116
+                - generic [ref=e1106]:
+                  - img "Company name" [ref=e1107]
+                  - link "Jobs from cbs Corporate Business Solutions GmbH" [ref=e1110]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/cbs-corporate-business-solutions-gmbh
+                    - text: cbs Corporate Business Solutions GmbH
+              - generic [ref=e1112]:
+                - button "HCM" [ref=e1113]
+                - button "Mid" [ref=e1114]
+                - button "fulltime permanent" [ref=e1115]
+              - generic [ref=e1116]:
+                - paragraph [ref=e1117]:
+                  - generic [ref=e1118]: Heidelberg
+                - paragraph [ref=e1120]:
+                  - time [ref=e1121]: 3w
+        - listitem [ref=e1122]:
+          - generic [ref=e1123] [cursor=pointer]:
+            - link "View details for SAP EWM Berater" [ref=e1125]:
+              - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-ewm-berater-bielefeld-258750
+            - generic [ref=e1130]:
+              - generic [ref=e1131]:
+                - heading [level=3] [ref=e1133]:
+                  - link "SAP EWM Berater" [ref=e1134]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp/sap-ewm-berater-bielefeld-258750
+                - generic [ref=e1136]:
+                  - img "Company name" [ref=e1137]
+                  - link "Jobs from Pertemps ERP" [ref=e1140]:
+                    - /url: https://www.arbeitnow.com/jobs/companies/pertemps-erp
+                    - text: Pertemps ERP
+              - button "IT" [ref=e1143]
+              - generic [ref=e1144]:
+                - paragraph [ref=e1145]:
+                  - generic [ref=e1146]: Bielefeld
+                - paragraph [ref=e1148]:
+                  - time [ref=e1149]: 1mo
+      - navigation "Pagination" [ref=e1150]:
+        - paragraph [ref=e1152]: Showing 1 of 2 pages
+        - navigation "Pagination" [ref=e1154]:
+          - generic [ref=e1155]: « Previous
+          - link "1" [ref=e1156] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?search=abap
+          - link "2" [ref=e1157] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?search=abap&page=2
+          - link "Next »" [ref=e1158] [cursor=pointer]:
+            - /url: https://www.arbeitnow.com/?search=abap&page=2
+```
