@@ -1,0 +1,17 @@
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { createConnection } from '@playwright/mcp';
+const [ct, st] = InMemoryTransport.createLinkedPair();
+const server = await createConnection({ browser:{ browserName:'chromium', launchOptions:{ headless:true } }, capabilities:['core'] });
+await server.connect(st);
+const client = new Client({ name:'probe', version:'0' }, { capabilities:{} });
+await client.connect(ct);
+const url = process.argv[2] || 'https://jobs.fortum.com';
+await client.callTool({ name:'browser_navigate', arguments:{ url } });
+const snap = await client.callTool({ name:'browser_snapshot', arguments:{} });
+const yaml = snap.content?.find(b=>b.type==='text')?.text || '';
+console.log('SNAPSHOT length:', yaml.length);
+console.log('--- first 1500 chars ---');
+console.log(yaml.slice(0,1500));
+console.log('--- link refs found:', (yaml.match(/link [^\[]*\[ref=\w+\]/g)||[]).length, '---');
+await client.close();
