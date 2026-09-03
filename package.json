@@ -8,7 +8,7 @@
     "playwright-wrapper": "./bin/playwright-wrapper.mjs"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test --test-force-exit"
   },
   "repository": {
     "type": "git",
