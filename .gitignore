@@ -3,5 +3,7 @@ node_modules/
 .DS_Store
 *.log
 test-results/
+playwright-output/
+.scratch-fyr*/
 spike/step-id-roundtrip/consumer/
 linear-mcp-tokens.json

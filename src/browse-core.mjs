@@ -1,27 +1,41 @@
-// Browse core (FYR-333): the planless ReAct loop over the live page.
+// Browse core (FYR-333 + FYR-334): the planless ReAct loop over the live page.
 //
 // Browsing is planless by contract (FYR-254/251): no plan is ever created for
 // the browsing profile. The loop drives the in-process bridge's core tools and
 // ends ONLY on the terminal `submit_extraction` tool call — the one call that
-// can end the loop. The extracted payload is classified against the declared
-// JSON Schema (when given):
-//
-//   schema present + payload conforms (+ optional assertions pass) → verified
-//   no schema (payload parses)                                    → asserted
-//   terminal call unparseable                                     → malformed_submit (not_pass)
-//
+// can end the loop. Classification is the oracle's (src/browse-oracle.mjs,
+// FYR-334): empty three-state under a declared allowEmpty, the optional
+// page-identity judge, and the pagination hard gate computed from trace cues.
 // The outcome envelope (contract_version 2, FYR-259 + FYR-265) carries
-// `outcome_class` (pass | pass_with_warning | not_pass) and the outcome enum
-// value. Confidence scores never route anything (FYR-259). The loop reuses
-// the bridge's click-recovery (the network-idle gotcha). Runaway is capped
-// with an outcome (`no_terminal_call`), not an exception.
+// `outcome_class` (pass | pass_with_warning | not_pass) and all twelve
+// outcomes; confidence never routes; the gate is a verdict, never loop
+// control. Runaway is capped with an outcome (`no_terminal_call`), not an
+// exception.
 //
-// The v1 core covers the structural oracle paths. Empty three-state handling,
-// the identity judge, and the coverage_incomplete gate are FYR-334 (oracle
-// hardening) and are NOT in this module.
+// Live runs persist the execution trace (snapshot texts included) under
+// playwright-output/<project>/browse/<run-id>/trace.json so every cue the
+// gate consumed is auditable after the run; the envelope also carries a
+// compact `trace`.
 
 import { completeChat } from "../src/llm-client.mjs";
 import { BrowserBridge, hrefOfRef, resolveHref, currentUrl } from "../src/browser-bridge.mjs";
+import {
+  isEmptyPayload,
+  scanMarker,
+  classifyEmpty,
+  scanCues,
+  paginationGate,
+  parseStatedTotal,
+  rowsExtracted,
+  coverageSuspect,
+  runIdentityJudge,
+  applyOverrides,
+  validateEnvelope,
+  OUTCOME_CLASS,
+} from "../src/browse-oracle.mjs";
+import { execFileSync } from "node:child_process";
+import { mkdirSync, writeFileSync } from "node:fs";
+import path from "node:path";
 
 export class BrowseError extends Error {
   constructor(message, { exitCode = 1 } = {}) {
@@ -158,14 +172,269 @@ export function schemaViolations(data, schema) {
   return problems;
 }
 
-const OUTCOME_CLASS = Object.freeze({
-  verified: "pass",
-  asserted: "pass_with_warning",
-  schema_failed: "not_pass",
-  malformed_submit: "not_pass",
-  no_terminal_call: "not_pass",
-  tool_error: "not_pass",
-});
+// --- The identity judge, live wiring ------------------------------------------
+
+function judgeSystemPrompt() {
+  return `You are a page-identity judge for an autonomous browsing agent. You answer exactly one question about whether the page shown is the page the human intended. Judge IDENTITY ONLY — you never see and must never reason about any extracted payload.
+Answer ONLY with a JSON object: {"pass": true|false, "reason": "<one sentence>", "confidence": <0..1>}.
+"confidence" is recorded for humans only — it is not for routing and nothing keys on it.`;
+}
+
+/**
+ * The live judge: one completion, JSON out. Any parse failure throws — the
+ * caller turns a thrown judge into `ran:false` and the structural verdict
+ * stands (FYR-259: a judge error never overrides a structural verdict).
+ */
+function liveJudgeFn(config) {
+  return async ({ question, url, snapshotText }) => {
+    const messages = [
+      { role: "system", content: judgeSystemPrompt() },
+      {
+        role: "user",
+        content: `Page URL: ${url}\n\nQuestion: ${question}\n\nAccessibility snapshot of the page:\n\n${snapshotText || "(no snapshot was captured during the run)"}`,
+      },
+    ];
+    const res = await completeChat({ messages, maxTokens: 512, config });
+    return parseJudgeJson(res.message?.content ?? "");
+  };
+}
+
+function parseJudgeJson(text) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    const m = String(text).match(/\{[\s\S]*\}/);
+    if (m) return JSON.parse(m[0]);
+    throw new Error("the judge's answer was not parseable JSON");
+  }
+}
+
+// --- The page probe (empty-path page reads) ------------------------------------
+//
+// FYR-259: both empty paths read page text AFTER network-idle (never the
+// placeholder). The probe's reads are fresh snapshots taken after the loop's
+// navigation settled — the MCP bridge returns snapshots only once the page
+// has loaded, so a fresh read is the post-network-idle read.
+//
+// The recheck is ONE fixed in-oracle re-read (scroll to the end, re-snapshot)
+// — never 250's retry policy, never configurable.
+
+function liveProbe(bridge) {
+  return {
+    readPageText: async () => bridge.snapshot(),
+    recheck: async () => {
+      await bridge.callTool("browser_press_key", { key: "End" });
+      return bridge.snapshot();
+    },
+  };
+}
+
+const NO_PROBE = {
+  readPageText: async () => {
+    throw new Error("no page probe available for the empty-path read");
+  },
+  recheck: async () => {
+    throw new Error("no page probe available for the empty-path recheck");
+  },
+};
+
+// --- Trace persistence ---------------------------------------------------------
+
+/** The consumer repo's *name* (git remote basename, else the cwd's name). */
+export function projectName(cwd = process.cwd()) {
+  try {
+    const url = execFileSync("git", ["remote", "get-url", "origin"], { cwd, stdio: ["ignore", "pipe", "ignore"] })
+      .toString()
+      .trim();
+    const m = url.match(/\/([^\/]+?)(?:\.git)?\/?$/);
+    if (m) return m[1];
+  } catch {
+    /* not a repo / no origin — fall through */
+  }
+  return path.basename(cwd);
+}
+
+/**
+ * Persist the execution trace (full snapshot texts included) so every cue the
+ * gate consumed is auditable after the run. Audit-only: a write failure is
+ * reported on stderr, never fails the run.
+ */
+function persistTrace({ cwd, spec, trace, oracleReads, envelope }) {
+  let tracePath = null;
+  try {
+    const runId = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+    const dir = path.join(cwd, "playwright-output", projectName(cwd), "browse", runId);
+    mkdirSync(dir, { recursive: true });
+    tracePath = path.join(dir, "trace.json");
+    writeFileSync(
+      tracePath,
+      JSON.stringify(
+        {
+          run_id: runId,
+          url: spec.header.target,
+          task_id: spec.header.taskId ?? null,
+          trace,
+          oracle_reads: oracleReads,
+          envelope,
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+  } catch (err) {
+    process.stderr.write(`playwright-wrapper browse: could not persist the execution trace (run continues): ${err.message}\n`);
+  }
+  return tracePath;
+}
+
+/**
+ * Classify the terminal submit through the oracle and assemble the final
+ * envelope. Structural classification first (empty three-state / schema path /
+ * error passthrough), then judge + coverage + pagination gates + overrides,
+ * then normative presence validation (the oracle never ships an envelope that
+ * violates its own contract).
+ */
+async function classifyAndAssemble({
+  spec,
+  data,
+  notes,
+  schema,
+  allowEmpty,
+  identityQuestion,
+  trace,
+  judgeFn,
+  probe,
+  oracleReads,
+  errorOverride = null,
+}) {
+  let structuralOutcome;
+  let structuralClass = "not_pass";
+  let extra = {};
+  let errored = Boolean(errorOverride);
+
+  if (errorOverride) {
+    // malformed_submit / tool_error / no_terminal_call paths bypass the
+    // oracle (nothing to judge, nothing to gate).
+    structuralOutcome = errorOverride.outcome;
+    extra = { error: errorOverride.error };
+  } else if (isEmptyPayload(data)) {
+    // Empty path: page-text marker scan (fresh, post-network-idle read), then
+    // ONE fixed recheck when unmarked, then the three-state verdict. minItems
+    // is an absolute floor the marker never overrides.
+    let marker = null;
+    let recheck = null;
+    let probeError = null;
+    try {
+      const text = await probe.readPageText();
+      oracleReads.push({ kind: "marker_scan", text });
+      marker = scanMarker(text);
+    } catch (err) {
+      probeError = `empty-path page read failed: ${err.message}`;
+    }
+    if (!probeError && !marker.found) {
+      try {
+        const text = await probe.recheck();
+        oracleReads.push({ kind: "recheck", text });
+        recheck = scanMarker(text);
+      } catch (err) {
+        probeError = `empty-path recheck failed: ${err.message}`;
+      }
+    }
+    if (probeError) {
+      structuralOutcome = "tool_error";
+      errored = true;
+      extra = { error: { stage: "recheck", tool: null, message: probeError } };
+    } else {
+      const verdict = classifyEmpty({ allowEmpty, schema, marker, recheck });
+      structuralOutcome = verdict.outcome;
+      structuralClass = OUTCOME_CLASS[structuralOutcome];
+      extra = { empty: verdict.empty };
+      if (verdict.schema) extra.schema = verdict.schema;
+    }
+  } else if (!schema) {
+    structuralOutcome = "asserted";
+    structuralClass = "pass_with_warning";
+  } else {
+    const problems = schemaViolations(data, schema);
+    if (problems.length > 0) {
+      structuralOutcome = "schema_failed";
+      structuralClass = "not_pass";
+      extra = { schema: { failed_fields: problems.map((p) => ({ field: p, expected: "conforming", received: "violating", raw: null, raw_truncated: false })) } };
+    } else {
+      structuralOutcome = "verified";
+      structuralClass = "pass";
+    }
+  }
+
+  // Judge: page-identity only, on pass-path structural outcomes, input =
+  // snapshot + URL (never the payload). A judge error never overrides.
+  const cues = scanCues(trace);
+  let judge = null;
+  if (identityQuestion && !errored && structuralClass !== "not_pass") {
+    judge = await runIdentityJudge({
+      question: identityQuestion,
+      url: spec.header.target,
+      snapshotText: cues.lastSnapshot,
+      judge: judgeFn,
+    });
+  }
+
+  // Coverage telemetry + gates. Model-authored numbers are `_reported` and
+  // diagnostic-only (no wire source for them in v1 — nullable); every
+  // arithmetic reads the harness-parsed twin; absent total → no arithmetic.
+  const rows = errored ? null : rowsExtracted(data);
+  const statedTotalParsed = cues.lastSnapshot !== null ? parseStatedTotal(cues.lastSnapshot) : null;
+  const statedTotalReported = null;
+  const coverage = {
+    rows_extracted: rows,
+    last_page_reached_reported: null,
+    stated_total_reported: statedTotalReported,
+    stated_total_parsed: statedTotalParsed,
+    stated_total_disagreement: statedTotalReported === null ? null : statedTotalReported !== statedTotalParsed,
+  };
+  const suspect = coverageSuspect({ outcome_class: structuralClass, rows, statedTotalParsed });
+  const pg = paginationGate(cues);
+
+  const applied = applyOverrides({
+    structuralOutcome,
+    structuralClass,
+    judge,
+    pagination: pg,
+    suspect,
+  });
+
+  // The payload contract's presence rules are STRUCTURAL: empty/schema key on
+  // structural_outcome even when an override renames the final outcome. An
+  // errored run (malformed_submit / tool_error / no_terminal_call) carries
+  // neither block.
+  const envelope = {
+    contract_version: 2,
+    outcome: applied.outcome,
+    structural_outcome: structuralOutcome,
+    outcome_class: applied.outcome_class,
+    task_id: spec.header.taskId ?? null,
+    url: spec.header.target,
+    attempts: { n_primary: 0, n_fallback: 0, third_tier: { attempted: false, used: false } },
+    outcome_history: [],
+    escalation: null,
+    empty: errored ? null : extra.empty ?? null,
+    schema: errored ? null : extra.schema ?? null,
+    semantic: applied.semantic,
+    pagination: applied.pagination,
+    coverage,
+    error: extra.error ?? null,
+    data: errored ? null : data ?? null,
+    notes: typeof notes === "string" ? notes : "",
+    trace: [],
+    trace_path: null,
+  };
+
+  const bad = validateEnvelope(envelope);
+  if (bad.length > 0) {
+    throw new Error(`oracle internal error: the outcome envelope violates its own contract — ${bad.join("; ")}`);
+  }
+  return { envelope, cues };
+}
 
 /**
  * The planless ReAct loop.
@@ -174,71 +443,120 @@ const OUTCOME_CLASS = Object.freeze({
  * @param {object} opts.spec - parsed browsing task spec {header, goal}
  * @param {object} opts.config - LLM config
  * @param {object} [opts.bridge] - injected bridge (tests); default real one
- * @param {string} [opts.cannedResponses] - stub mode (tests): array of model
- *        responses to serve in order (content or tool_calls); when given the
- *        real LLM and browser are not used
+ * @param {Array} [opts.cannedResponses] - stub mode (tests): array of model
+ *        responses to serve in order ({tool: name} with optional {text} for
+ *        snapshot results, {target, element} for clicks); when given the real
+ *        LLM and browser are not used
  * @param {object} [opts.schema] - parsed JSON Schema (declared expected output)
+ * @param {boolean} [opts.allowEmpty] - the declared empty tolerance (coerced
+ *        from the spec's browse.allowEmpty by the command layer)
+ * @param {string|null} [opts.identityQuestion] - the opt-in identity question
+ * @param {Function} [opts.judge] - injected judge (tests); live mode builds
+ *        one over the configured LLM
+ * @param {object} [opts.pageProbe] - injected page probe (tests):
+ *        {readPageText, recheck}; live mode probes through the bridge
+ * @param {boolean} [opts.persist] - persist the execution trace (live mode;
+ *        default true — canned/stub runs never persist)
+ * @param {string} [opts.cwd] - persistence root (defaults to process.cwd())
  * @returns {Promise<object>} the outcome envelope (contract_version 2)
  */
-export async function runBrowseLoop({ spec, config, bridge = null, cannedResponses = null, schema = null, maxSteps = MAX_STEPS } = {}) {
+export async function runBrowseLoop({
+  spec,
+  config,
+  bridge = null,
+  cannedResponses = null,
+  schema = null,
+  allowEmpty = false,
+  identityQuestion = null,
+  judge = null,
+  pageProbe = null,
+  persist = true,
+  cwd = process.cwd(),
+  maxSteps = MAX_STEPS,
+} = {}) {
   const attempts = { n_primary: 0, n_fallback: 0, third_tier: { attempted: false, used: false } };
   const history = [];
   const trace = [];
+  const oracleReads = [];
 
-  const terminal = (outcome, extra = {}) => ({
-    contract_version: 2,
-    outcome,
-    structural_outcome: outcome,
-    outcome_class: OUTCOME_CLASS[outcome] ?? "not_pass",
-    task_id: spec.header.taskId ?? null,
-    url: spec.header.target,
-    attempts,
-    outcome_history: history,
-    escalation: null,
-    coverage: { rows_extracted: null, last_page_reached: null, stated_total_reported: null, stated_total_parsed: null },
-    notes: "",
-    ...extra,
-  });
-
-  // Canned mode (tests): pure transcript-driven classification.
+  // Canned mode (tests): pure transcript-driven classification. Entries may
+  // be JSON strings (the FYR-333 helper shape) or plain objects.
   if (cannedResponses !== null) {
     for (const raw of cannedResponses) {
-      const turn = JSON.parse(raw);
+      const turn = typeof raw === "string" ? JSON.parse(raw) : raw;
       if (turn.tool === "submit_extraction") {
-        const submission = turn;
         history.push({ tool: "submit_extraction" });
         attempts.n_primary += 1;
         // Mechanical rule (FYR-259): a submit that parses at all → the schema
         // path; only an unparseable terminal call is malformed_submit.
-        if (submission.unparseable) {
-          return terminal("malformed_submit", {
-            error: { stage: "submit", tool: "submit_extraction", message: "the terminal call's arguments were not parseable JSON" },
-          });
+        if (turn.unparseable) {
+          return finish(
+            await classifyAndAssemble({
+              spec,
+              data: null,
+              notes: "",
+              schema,
+              allowEmpty,
+              identityQuestion,
+              trace,
+              judgeFn: judge,
+              probe: pageProbe ?? NO_PROBE,
+              oracleReads,
+              errorOverride: {
+                outcome: "malformed_submit",
+                error: { stage: "submit", tool: "submit_extraction", message: "the terminal call's arguments were not parseable JSON" },
+              },
+            }),
+            { attempts, history, trace },
+          );
         }
-        if (!schema) {
-          return terminal("asserted", { data: submission.data });
-        }
-        const problems = schemaViolations(submission.data, schema);
-        if (problems.length > 0) {
-          return terminal("schema_failed", {
-            schema: { failed_fields: problems.map((p) => ({ field: p, expected: "conforming", received: "violating", raw: null, raw_truncated: false })) },
-          });
-        }
-        return terminal("verified", { data: submission.data });
+        const env = await classifyAndAssemble({
+          spec,
+          data: turn.data,
+          notes: typeof turn.notes === "string" ? turn.notes : "",
+          schema,
+          allowEmpty,
+          identityQuestion,
+          trace,
+          judgeFn: judge,
+          probe: pageProbe ?? NO_PROBE,
+          oracleReads,
+        });
+        return finish(env, { attempts, history, trace });
       }
       history.push({ tool: turn.tool });
       attempts.n_primary += 1;
+      trace.push(recordCannedTurn(turn));
     }
     // Ran out of canned responses without a terminal call.
-    attempts.n_primary += 0;
-    return terminal("no_terminal_call", {
-      error: { stage: "submit", tool: null, message: `the loop hit the ${maxSteps}-step cap without a terminal submit_extraction call` },
-    });
+    return finish(
+      await classifyAndAssemble({
+        spec,
+        data: null,
+        notes: "",
+        schema,
+        allowEmpty,
+        identityQuestion,
+        trace,
+        judgeFn: judge,
+        probe: pageProbe ?? NO_PROBE,
+        oracleReads,
+        errorOverride: {
+          outcome: "no_terminal_call",
+          error: { stage: "submit", tool: null, message: `the loop hit the ${maxSteps}-step cap without a terminal submit_extraction call` },
+        },
+      }),
+      { attempts, history, trace },
+    );
   }
 
   // Live mode: bridge + LLM.
   const own = bridge === null;
   const b = bridge ?? new BrowserBridge();
+  const live = {
+    judgeFn: judge ?? (identityQuestion ? liveJudgeFn(config) : null),
+    probe: pageProbe ?? liveProbe(b),
+  };
 
   try {
     if (own) await b.warmContext();
@@ -256,9 +574,22 @@ export async function runBrowseLoop({ spec, config, bridge = null, cannedRespons
       try {
         res = await completeChat({ messages, tools, maxTokens: 4096, config });
       } catch (err) {
-        return terminal("tool_error", {
-          error: { stage: "submit", tool: "llm", message: `LLM call failed: ${err.message}` },
-        });
+        return finish(
+          await classifyAndAssemble({
+            spec,
+            data: null,
+            notes: "",
+            schema,
+            allowEmpty,
+            identityQuestion,
+            trace,
+            judgeFn: live.judgeFn,
+            probe: live.probe,
+            oracleReads,
+            errorOverride: { outcome: "tool_error", error: { stage: "submit", tool: "llm", message: `LLM call failed: ${err.message}` } },
+          }),
+          { attempts, history, trace, persistOpts: { spec, trace, oracleReads, cwd, persist } },
+        );
       }
       attempts.n_primary += 1;
       trace.push({ step, model: res.model, finish: res.finish, tool_calls: res.toolCalls.map((tc) => tc.function?.name) });
@@ -289,23 +620,41 @@ export async function runBrowseLoop({ spec, config, bridge = null, cannedRespons
         }
         if (name === "submit_extraction") {
           // Mechanical rule: parses at all → schema path; unparseable → malformed_submit.
-          if (!argsOk) {
-            history.push({ tool: "submit_extraction", malformed: true });
-            return terminal("malformed_submit", {
-              error: { stage: "submit", tool: "submit_extraction", message: "the terminal call's arguments were not parseable JSON" },
-            });
-          }
           history.push({ tool: "submit_extraction" });
-          if (!schema) {
-            return terminal("asserted", { data: args.data ?? null, notes: typeof args.notes === "string" ? args.notes : "" });
+          if (!argsOk) {
+            return finish(
+              await classifyAndAssemble({
+                spec,
+                data: null,
+                notes: "",
+                schema,
+                allowEmpty,
+                identityQuestion,
+                trace,
+                judgeFn: live.judgeFn,
+                probe: live.probe,
+                oracleReads,
+                errorOverride: {
+                  outcome: "malformed_submit",
+                  error: { stage: "submit", tool: "submit_extraction", message: "the terminal call's arguments were not parseable JSON" },
+                },
+              }),
+              { attempts, history, trace, persistOpts: { spec, trace, oracleReads, cwd, persist } },
+            );
           }
-          const problems = schemaViolations(args.data, schema);
-          if (problems.length > 0) {
-            return terminal("schema_failed", {
-              schema: { failed_fields: problems.map((p) => ({ field: p, expected: "conforming", received: "violating", raw: null, raw_truncated: false })) },
-            });
-          }
-          return terminal("verified", { data: args.data ?? null, notes: typeof args.notes === "string" ? args.notes : "" });
+          const env = await classifyAndAssemble({
+            spec,
+            data: args.data ?? null,
+            notes: typeof args.notes === "string" ? args.notes : "",
+            schema,
+            allowEmpty,
+            identityQuestion,
+            trace,
+            judgeFn: live.judgeFn,
+            probe: live.probe,
+            oracleReads,
+          });
+          return finish(env, { attempts, history, trace, persistOpts: { spec, trace, oracleReads, cwd, persist } });
         }
 
         // Browser tool: execute through the bridge.
@@ -333,20 +682,73 @@ export async function runBrowseLoop({ spec, config, bridge = null, cannedRespons
             resultText = await b.callTool(name, args);
           }
         } catch (err) {
-          trace.push({ step, tool: name, error: err.message });
+          trace.push({ step, tool: name, ok: false, error: err.message, args: { element: args.element, target: args.target } });
           messages.push({ role: "tool", tool_call_id: tc.id, content: `ERROR: ${err.message}` });
           continue;
         }
-        trace.push({ step, tool: name, ok: true });
+        trace.push(recordLiveTurn({ step, name, args, resultText }));
         messages.push({ role: "tool", tool_call_id: tc.id, content: resultText });
       }
     }
 
     // Cap reached without a terminal call → outcome, not an exception.
-    return terminal("no_terminal_call", {
-      error: { stage: "submit", tool: null, message: `the loop hit the ${maxSteps}-step cap without a terminal submit_extraction call` },
-    });
+    return finish(
+      await classifyAndAssemble({
+        spec,
+        data: null,
+        notes: "",
+        schema,
+        allowEmpty,
+        identityQuestion,
+        trace,
+        judgeFn: live.judgeFn,
+        probe: live.probe,
+        oracleReads,
+        errorOverride: {
+          outcome: "no_terminal_call",
+          error: { stage: "submit", tool: null, message: `the loop hit the ${maxSteps}-step cap without a terminal submit_extraction call` },
+        },
+      }),
+      { attempts, history, trace, persistOpts: { spec, trace, oracleReads, cwd, persist } },
+    );
   } finally {
     if (own) await b.close().catch(() => {});
   }
+}
+
+/** Compact the canned turn into a trace entry (full snapshot text retained). */
+function recordCannedTurn(turn) {
+  if (turn.tool === "browser_snapshot") return { tool: "browser_snapshot", text: typeof turn.text === "string" ? turn.text : "" };
+  if (turn.tool === "browser_click") return { tool: "browser_click", ok: true, target: turn.target ?? null, element: turn.element ?? null };
+  return { tool: turn.tool, ok: true };
+}
+
+/** Compact the live turn into a trace entry; snapshot results keep their text. */
+function recordLiveTurn({ step, name, args, resultText }) {
+  const entry = { step, tool: name, ok: true };
+  if (name === "browser_snapshot") entry.text = resultText;
+  if (name === "browser_click") {
+    entry.target = args.target ?? null;
+    entry.element = args.element ?? null;
+  }
+  return entry;
+}
+
+/** Stamp the loop-level counters, compact the trace, persist when live. */
+function finish(classified, { attempts, history, trace, persistOpts }) {
+  const env = classified.envelope;
+  env.attempts = attempts;
+  env.outcome_history = history;
+  env.trace = trace.map((entry) => {
+    if (entry.model !== undefined) return { step: entry.step, model: entry.model, finish: entry.finish, tool_calls: entry.tool_calls };
+    const out = { step: entry.step, tool: entry.tool, ok: entry.ok };
+    if (entry.error !== undefined) out.error = entry.error;
+    if (entry.target !== undefined) out.target = entry.target;
+    if (entry.element !== undefined) out.element = entry.element;
+    return out;
+  });
+  if (persistOpts?.persist) {
+    env.trace_path = persistTrace({ ...persistOpts, envelope: env });
+  }
+  return env;
 }

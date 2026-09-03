@@ -1,14 +1,18 @@
-// `browse` subcommand (FYR-333): the planless ReAct loop as a product command.
+// `browse` subcommand (FYR-333 + FYR-334): the planless ReAct loop as a
+// product command.
 //
 //   browse <spec-file>   — browsing-profile task spec (browse: block optional)
 //
 // Parses the task spec (profile: browsing required here — plan serves test),
 // optionally loads the declared JSON Schema (browse.schema path), runs the
 // planless loop (src/browse-core.mjs) over the live page, and prints the
-// contract_version 2 outcome envelope on stdout. Exit code mirrors the
-// outcome class: pass → 0, pass_with_warning → 0 (second-class, still a
-// run), not_pass → 1. No plan is ever created for the browsing profile —
-// the gate stays mechanical on `profile`.
+// contract_version 2 outcome envelope on stdout. The browse: block's oracle
+// knobs pass through: allowEmpty (empty three-state) and identityQuestion
+// (the opt-in page-identity judge). Exit code mirrors the outcome class:
+// pass → 0, pass_with_warning → 0 (second-class, still a run), not_pass → 1
+// (including coverage_incomplete). No plan is ever created for the browsing
+// profile — the gate stays mechanical on `profile`. Live runs persist the
+// execution trace under playwright-output/<project>/browse/<run-id>/trace.json.
 
 import { parseTaskSpec, TaskSpecRefusal } from "../../src/task-spec.mjs";
 import { runBrowseLoop } from "../../src/browse-core.mjs";
@@ -51,6 +55,13 @@ export async function runBrowse({ specText, config, bridge = null, cannedRespons
     );
   }
 
+  // The browse: block's oracle knobs (FYR-334), coerced from the raw header
+  // strings: allowEmpty is a boolean declaration; identityQuestion is the
+  // opt-in judge question string (absent → no judge).
+  const allowEmpty = spec.header.browse?.allowEmpty === "true";
+  const identityQuestionRaw = spec.header.browse?.identityQuestion;
+  const identityQuestion = typeof identityQuestionRaw === "string" && identityQuestionRaw.trim() !== "" ? identityQuestionRaw : null;
+
   // The declared JSON Schema (optional). In live mode it is a PATH (FYR-251:
   // browse.schema is a path, never inline). `schema` unset → load from the
   // declared path; null explicitly disables schema classification.
@@ -70,7 +81,15 @@ export async function runBrowse({ specText, config, bridge = null, cannedRespons
     }
   }
 
-  const envelope = await runBrowseLoop({ spec, config, bridge, cannedResponses, schema: effectiveSchema });
+  const envelope = await runBrowseLoop({
+    spec,
+    config,
+    bridge,
+    cannedResponses,
+    schema: effectiveSchema,
+    allowEmpty,
+    identityQuestion,
+  });
   return envelope;
 }
 
