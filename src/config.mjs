@@ -15,6 +15,14 @@ const DEFAULT_BASE_URL = "https://ollama.com/v1";
 const DEFAULT_MODEL_MAIN = "glm-5.3-flash";
 const DEFAULT_MODEL_FALLBACK = "glm-5.3";
 
+// Third tier (FYR-257/294): the one GPT-5.6 escalation valve, behind
+// OPENAI_API_KEY presence. Model id confirmed against the live API docs
+// (2026-09-03): `gpt-5.6-sol` speaks v1/chat/completions; the alias `gpt-5.6`
+// routes to the same model. "(Max)" in the decision names the reasoning
+// effort, not a slug — sent per-call by the client, never assumed here.
+const DEFAULT_THIRD_TIER_BASE_URL = "https://api.openai.com/v1";
+const DEFAULT_THIRD_TIER_MODEL = "gpt-5.6-sol";
+
 export class ConfigError extends Error {
   constructor(message) {
     super(message);
@@ -28,7 +36,7 @@ export class ConfigError extends Error {
  * message that names the offending env var — never its value.
  *
  * @param {NodeJS.ProcessEnv} env
- * @returns {{baseUrl: URL, modelMain: string, modelFallback: string, apiKey: string, thirdTierKeyPresent: boolean}}
+ * @returns {{baseUrl: URL, modelMain: string, modelFallback: string, apiKey: string, thirdTierKeyPresent: boolean, thirdTierBaseUrl: URL, thirdTierModel: string}}
  */
 export function loadConfig(env = process.env) {
   const baseUrlRaw = env.WRAPPER_OLLAMA_BASE_URL || DEFAULT_BASE_URL;
@@ -65,11 +73,41 @@ export function loadConfig(env = process.env) {
     );
   }
 
-  // Third tier (FYR-257): key-presence gate only. The value is never read here.
+  // Third tier (FYR-257): key-presence gate only. The VALUE is never read
+  // here and never enters the config object — the client reads it from the
+  // environment at call time (completeThirdTier), and it is never logged.
   const thirdTierKeyPresent =
     typeof env.OPENAI_API_KEY === "string" && env.OPENAI_API_KEY.trim() !== "";
 
-  return { baseUrl, modelMain, modelFallback, apiKey, thirdTierKeyPresent };
+  const thirdTierBaseUrlRaw =
+    env.WRAPPER_OPENAI_BASE_URL || DEFAULT_THIRD_TIER_BASE_URL;
+  let thirdTierBaseUrl;
+  try {
+    thirdTierBaseUrl = new URL(thirdTierBaseUrlRaw);
+  } catch {
+    throw new ConfigError(
+      `WRAPPER_OPENAI_BASE_URL is not a valid URL (got a value that does not parse); must be an absolute http(s) URL, e.g. ${DEFAULT_THIRD_TIER_BASE_URL}`,
+    );
+  }
+  if (thirdTierBaseUrl.protocol !== "http:" && thirdTierBaseUrl.protocol !== "https:") {
+    throw new ConfigError(
+      `WRAPPER_OPENAI_BASE_URL must be an absolute http(s) URL (got protocol "${thirdTierBaseUrl.protocol}")`,
+    );
+  }
+  const thirdTierModel = env.WRAPPER_OPENAI_MODEL || DEFAULT_THIRD_TIER_MODEL;
+  if (typeof thirdTierModel !== "string" || thirdTierModel.trim() === "") {
+    throw new ConfigError("WRAPPER_OPENAI_MODEL is empty — set it to a non-empty model id");
+  }
+
+  return {
+    baseUrl,
+    modelMain,
+    modelFallback,
+    apiKey,
+    thirdTierKeyPresent,
+    thirdTierBaseUrl,
+    thirdTierModel,
+  };
 }
 
 /** Usage text. Exit-code contract: 0 on help, 2 on usage error, 1 on config error. */
@@ -99,4 +137,6 @@ LLM configuration (environment only — never flags, never logged):
                               (default: ${DEFAULT_MODEL_FALLBACK})
   WRAPPER_OLLAMA_API_KEY      Ollama Cloud API key (required; value never printed)
   OPENAI_API_KEY              If present, enables the third-tier escalation valve
+  WRAPPER_OPENAI_BASE_URL     Third-tier endpoint (default: ${DEFAULT_THIRD_TIER_BASE_URL})
+  WRAPPER_OPENAI_MODEL        Third-tier model id (default: ${DEFAULT_THIRD_TIER_MODEL})
 `;

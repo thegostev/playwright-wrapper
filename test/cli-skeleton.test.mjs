@@ -129,6 +129,23 @@ test("third-tier gate: key presence is presence-only, surfaced on the heal envel
   assert.equal(offCfg.thirdTierKeyPresent, false);
 });
 
+test("third-tier config surface: base URL + model id, validated loud (FYR-332)", async () => {
+  const { loadConfig } = await import("../src/config.mjs");
+  const cfg = loadConfig({ WRAPPER_OLLAMA_API_KEY: "k", OPENAI_API_KEY: "sk-x" });
+  assert.equal(cfg.thirdTierBaseUrl.href, "https://api.openai.com/v1", "the confirmed FYR-257 endpoint");
+  assert.equal(cfg.thirdTierModel, "gpt-5.6-sol", "the confirmed actor id");
+  const moved = loadConfig({ WRAPPER_OLLAMA_API_KEY: "k", WRAPPER_OPENAI_BASE_URL: "http://127.0.0.1:9/v1" });
+  assert.equal(moved.thirdTierBaseUrl.href, "http://127.0.0.1:9/v1", "the endpoint is env-overridable (test seam)");
+  assert.throws(
+    () => loadConfig({ WRAPPER_OLLAMA_API_KEY: "k", WRAPPER_OPENAI_BASE_URL: "not a url" }),
+    (err) => err.name === "ConfigError" && /WRAPPER_OPENAI_BASE_URL/.test(err.message),
+  );
+  assert.throws(
+    () => loadConfig({ WRAPPER_OLLAMA_API_KEY: "k", WRAPPER_OPENAI_MODEL: "  " }),
+    (err) => err.name === "ConfigError" && /WRAPPER_OPENAI_MODEL/.test(err.message),
+  );
+});
+
 test("seam: config surface feeds a stub URL — env override reaches the bin (contract for FYR-328+)", async (t) => {
   // A stub that records the User-Agent-less GET proves the URL override is
   // honored verbatim; the skeleton itself makes no calls, so assert the env

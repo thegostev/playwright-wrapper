@@ -183,6 +183,7 @@ function spawnHeal(t, repo, args, envOverrides = {}) {
       env: {
         ...process.env,
         WRAPPER_OLLAMA_API_KEY: "test-key-not-a-real-secret",
+        OPENAI_API_KEY: "", // the tier stays off unless a test enables it
         E2E_BASE_URL: "http://127.0.0.1:59901",
         ...envOverrides,
       },
@@ -341,6 +342,34 @@ test("patchLocator: one balanced splice per emission shape", async (t) => {
   assert.match(patchLocator(spec, "s1", "getByLabel('X')").reason, /no_slot/);
 });
 
+test("routeEscalation: the FYR-257 test-profile table, pure per-reason", async (t) => {
+  const { routeEscalation } = await import("../src/heal-core.mjs");
+  // budget/fallback → Retry(third_tier) iff enabled, else Terminal(prompt)
+  assert.deepEqual(routeEscalation({ reason: "budget_exhausted", thirdTierEnabled: true }), { retryThirdTier: true, disposition: null });
+  assert.deepEqual(routeEscalation({ reason: "fallback_exhausted", thirdTierEnabled: true }), { retryThirdTier: true, disposition: null });
+  assert.deepEqual(routeEscalation({ reason: "budget_exhausted", thirdTierEnabled: false }), { retryThirdTier: false, disposition: "prompt" });
+  assert.deepEqual(routeEscalation({ reason: "fallback_exhausted", thirdTierEnabled: false }), { retryThirdTier: false, disposition: "prompt" });
+  // infra → Terminal(prompt) even with the tier enabled: capability valve, not failover
+  assert.deepEqual(routeEscalation({ reason: "infra", thirdTierEnabled: true }), { retryThirdTier: false, disposition: "prompt" });
+  // non_retryable in test v1 → loud-fatal null (Q3) — never a silent default
+  assert.equal(routeEscalation({ reason: "non_retryable", thirdTierEnabled: true }).disposition, null);
+  assert.equal(routeEscalation({ reason: "non_retryable", thirdTierEnabled: true }).fatal, true);
+  // unknown reasons are loud-fatal too: fallback-not-classification
+  assert.equal(routeEscalation({ reason: "mystery", thirdTierEnabled: true }).fatal, true);
+  // the reason itself is loop-state, never outcome-derived (FYR-250)
+  const { deriveEscalationReason } = await import("../src/heal-core.mjs");
+  assert.equal(deriveEscalationReason({ fallbackEngaged: false }), "budget_exhausted");
+  assert.equal(deriveEscalationReason({ fallbackEngaged: true }), "fallback_exhausted");
+  // the 294 invariant, stated as code
+  const { expectedHistoryLength } = await import("../src/heal-core.mjs");
+  const A = { total: 3 };
+  assert.equal(expectedHistoryLength(A, "no_proposal"), 2, "the no-run deficit subtracts the shot");
+  assert.equal(expectedHistoryLength(A, "errored"), 2);
+  assert.equal(expectedHistoryLength(A, "failed"), 3, "a real attempt is a history entry");
+  assert.equal(expectedHistoryLength(A, "healed"), 3);
+  assert.equal(expectedHistoryLength(A, null), 3, "count 0 subtracts nothing");
+});
+
 test("patchLocator: multi_slot refuses to guess", async (t) => {
   const { patchLocator } = await import("../src/heal-core.mjs");
   const spec = [
@@ -393,9 +422,15 @@ test("canned: a valid proposal heals — patch applied, record written, envelope
   assert.equal(e.failing_step, "s4");
   assert.equal(e.attempts.n_primary, 1);
   assert.equal(e.attempts.n_fallback, 0);
-  assert.equal(e.attempts.third_tier.enabled, false);
-  assert.equal(e.attempts.third_tier.actor, null, "the escalation router is a later ticket");
-  assert.equal(e.attempts.third_tier.outcome, null);
+  assert.equal(e.attempts.total, 1);
+  assert.equal(e.attempts.third_tier, 0, "the tier never ran — rung 1 healed");
+  assert.equal(e.third_tier.enabled, false);
+  assert.equal(e.third_tier.actor, null);
+  assert.equal(e.third_tier.outcome, null);
+  assert.equal(e.escalation, null, "success → no escalation event (FYR-294)");
+  assert.equal(e.outcome_history.length, 1);
+  assert.equal(e.outcome_history[0].actor, "primary");
+  assert.equal(e.outcome_history[0].outcome, "healed");
   assert.equal(e.verified, false, "heal never claims the suite now passes");
   assert.equal(e.patch.step_id, "s4");
   assert.match(e.patch.old_locator, /Log in/);
@@ -415,12 +450,14 @@ test("canned: a valid proposal heals — patch applied, record written, envelope
   assert.match(record, /^failed_locator: getByRole\('button', \{ name: 'Log in' \}\)$/m);
   assert.match(record, /^steps_attempted: s1 s2 s3 s4$/m, "unexecuted steps are absent, present = attempted");
   assert.match(record, /- rung 1: proposal s4 getByRole\('button', \{ name: 'Sign in' \}/);
-  assert.match(record, /^attempts: n_primary=1 n_fallback=0$/m);
+  assert.match(record, /^attempts: n_primary=1 n_fallback=0 third_tier=0$/m);
+  assert.ok(!record.includes("## escalation"), "no escalation section on a healed run");
+  assert.ok(!record.includes("## third tier"), "no third-tier section when it never ran");
   assert.match(record, /## page state/);
   assert.match(record, /button "Sign in" \[ref=s1e5\]/, "the page snapshot the rung saw is recorded");
 });
 
-test("canned: malformed proposals count no_proposal, classified stuck vs banned", async (t) => {
+test("canned: malformed proposals climb to rung 2, then count no_proposal (stuck vs banned in the record)", async (t) => {
   const cases = [
     ["I cannot propose a locator for this step.", /stuck: unparseable_response/],
     ["```json\n" + GOOD_PROPOSAL + "\n```", /stuck: unparseable_response/],
@@ -439,15 +476,54 @@ test("canned: malformed proposals count no_proposal, classified stuck vs banned"
       env: CANNED_ENV,
       rawModelResponse: raw,
       bridge: FAKE_BRIDGE,
+      interactive: true, // a developer is watching this run
     });
     assert.equal(res.envelope.outcome, "no_proposal", `case ${raw.slice(0, 40)}`);
-    assert.equal(res.envelope.attempts.n_primary, 1);
+    assert.equal(res.envelope.attempts.n_primary, 2, "the ladder climbed to rung 2 (input differs)");
+    assert.equal(res.envelope.attempts.total, 2);
+    // The exhaustion terminal: one escalation event, original reason.
+    assert.equal(res.envelope.escalation.reason, "budget_exhausted", `case ${raw.slice(0, 40)}`);
+    assert.equal(res.envelope.escalation.disposition, "prompt");
+    assert.equal(res.envelope.escalation.profile, "test");
+    assert.equal(res.envelope.third_tier.enabled, false, "no key → no tier, ever");
+    assert.equal(res.envelope.attempts.third_tier, 0);
+    assert.equal(res.envelope.outcome_history.length, 2);
     const record = readFileSync(res.envelope.record, "utf8");
     assert.match(record, /^outcome: no_proposal$/m);
+    assert.match(record, /^reason: budget_exhausted$/m);
+    assert.match(record, /^disposition: prompt$/m);
+    assert.match(record, /^- rung 1: no_proposal/m);
+    assert.match(record, /^- rung 2: no_proposal/m, "rung 2 ran with why-failed context");
     assert.match(record, expected, `case ${raw.slice(0, 40)}`);
     // The spec is never patched by a refused proposal.
     assert.ok(readFileSync(specPath, "utf8").includes("Log in"), `spec untouched for ${raw.slice(0, 40)}`);
   }
+});
+
+test("canned: rung 2 carries the why-failed context and heals where rung 1 refused", async (t) => {
+  const { runHeal, repo, specPath, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: CANNED_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry", // rung 1: refused (stuck)
+    rawModelResponse2: GOOD_PROPOSAL,   // rung 2: heals
+    bridge: FAKE_BRIDGE,
+  });
+  const e = res.envelope;
+  assert.equal(e.outcome, "healed");
+  assert.equal(e.attempts.n_primary, 2, "both rungs ran");
+  assert.equal(e.attempts.total, 2);
+  assert.equal(e.escalation, null, "healed mid-ladder → no escalation event");
+  assert.equal(e.outcome_history.length, 2);
+  assert.equal(e.outcome_history[0].actor, "primary");
+  assert.equal(e.outcome_history[0].outcome, "no_proposal");
+  assert.equal(e.outcome_history[1].actor, "primary");
+  assert.equal(e.outcome_history[1].outcome, "healed");
+  const record = readFileSync(e.record, "utf8");
+  assert.match(record, /^- rung 1: no_proposal/m);
+  assert.match(record, /^- rung 2: proposal s4 getByRole\('button', \{ name: 'Sign in' \}/m);
+  const spec = readFileSync(specPath, "utf8");
+  assert.match(spec, /name: 'Sign in' \}\)\.click\(\);/);
+  assert.ok(!spec.includes("Log in"));
 });
 
 test("canned: the envelope carries third-tier key presence (FYR-257), value never read", async (t) => {
@@ -455,13 +531,184 @@ test("canned: the envelope carries third-tier key presence (FYR-257), value neve
   const res = await runHeal({
     runFolder,
     cwd: repo,
-    config: { thirdTierKeyPresent: true },
+    config: { thirdTierKeyPresent: true, thirdTierModel: "gpt-5.6-sol" },
     env: CANNED_ENV,
     rawModelResponse: GOOD_PROPOSAL,
     bridge: FAKE_BRIDGE,
   });
-  assert.equal(res.envelope.attempts.third_tier.enabled, true);
-  assert.equal(res.envelope.attempts.third_tier.actor, null);
+  assert.equal(res.envelope.third_tier.enabled, true, "key present → enabled at emit");
+  assert.equal(res.envelope.attempts.third_tier, 0, "run healed on rung 1 — the tier was never invoked");
+  assert.equal(res.envelope.third_tier.actor, null, "count 0 ⇒ actor null (FYR-294 presence rule)");
+  assert.equal(res.envelope.third_tier.outcome, null);
+});
+
+// ------------------------------------------------ FYR-332: exhaustion + tier
+
+const TIER_CONFIG = { thirdTierKeyPresent: true, thirdTierModel: "gpt-5.6-sol-stub" };
+
+test("canned: exhaustion with the key present fires the tier ONCE and heals — no escalation event", async (t) => {
+  const { runHeal, repo, specPath, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: TIER_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry",  // rung 1 refused
+    rawModelResponse2: "still nothing",  // rung 2 refused
+    rawThirdTierResponse: GOOD_PROPOSAL, // the tier heals
+    bridge: FAKE_BRIDGE,
+  });
+  const e = res.envelope;
+  assert.equal(e.outcome, "healed");
+  assert.equal(e.escalation, null, "tier success → NO escalation event (FYR-294)");
+  assert.equal(e.attempts.n_primary, 2);
+  assert.equal(e.attempts.n_fallback, 0);
+  assert.equal(e.attempts.third_tier, 1);
+  assert.equal(e.attempts.total, 3);
+  assert.deepEqual(
+    { enabled: e.third_tier.enabled, actor: e.third_tier.actor, outcome: e.third_tier.outcome },
+    { enabled: true, actor: "gpt-5.6-sol-stub", outcome: "healed" },
+  );
+  assert.equal(e.outcome_history.length, 3);
+  assert.equal(e.outcome_history[2].actor, "third_tier");
+  assert.equal(e.outcome_history[2].outcome, "healed");
+  assert.equal(e.patch.step_id, "s4");
+  assert.match(readFileSync(specPath, "utf8"), /name: 'Sign in' \}\)\.click\(\);/);
+  const record = readFileSync(e.record, "utf8");
+  assert.match(record, /^## third tier$/m);
+  assert.match(record, /^actor: gpt-5.6-sol-stub$/m);
+  assert.match(record, /^proposal: s4 getByRole\('button', \{ name: 'Sign in' \}\)$/m);
+  assert.ok(!/## escalation/.test(record), "no escalation section when the tier healed");
+});
+
+test("canned: the rich-context tier turn includes the failed proposals (FYR-294)", async (t) => {
+  const { buildThirdTierTurn } = await import("../src/heal-core.mjs");
+  const turn = buildThirdTierTurn(
+    { id: "s4", action: "submit the form", locator: "getByRole('button', { name: 'Log in' })", stage: "run", errorMessage: "TimeoutError" },
+    `- button "Sign in" [ref=e5]`,
+    "attempt 1 answered but the proposal was refused (banned: locator rejected by the grammar: engine prefix)",
+    [{ actor: "primary", stepId: "s4", locator: "css=.submit", verdict: "banned: locator rejected by the grammar" }],
+  );
+  assert.match(turn, /FAILING STEP/);
+  assert.match(turn, /id: s4/);
+  assert.match(turn, /WHY THE PREVIOUS ATTEMPTS FAILED/);
+  assert.match(turn, /THE FAILED PROPOSALS THE PREVIOUS MODELS MADE/);
+  assert.match(turn, /\[primary\] proposed s4 css=\.submit/);
+  assert.match(turn, /- button "Sign in" \[ref=e5\]/, "the snapshot is in the tier's input");
+});
+
+test("canned: tier returns nothing → no_proposal with the history deficit; original reason stands", async (t) => {
+  const { runHeal, repo, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: TIER_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry",
+    rawThirdTierResponse: "I cannot identify a locator for this step.", // stuck
+    bridge: FAKE_BRIDGE,
+    interactive: true,
+  });
+  const e = res.envelope;
+  assert.equal(e.outcome, "no_proposal");
+  assert.equal(e.third_tier.outcome, "no_proposal", "a stuck refusal is the tier's no_proposal (294)");
+  assert.equal(e.third_tier.actor, "gpt-5.6-sol-stub");
+  assert.equal(e.attempts.third_tier, 1);
+  assert.equal(e.attempts.total, 3);
+  // One-shot guard: the terminal carries the ORIGINAL reason, not a new one.
+  assert.equal(e.escalation.reason, "budget_exhausted");
+  assert.equal(e.escalation.disposition, "prompt");
+  // History deficit: the tier was invoked but produced no usable run.
+  assert.equal(e.outcome_history.length, 2, "attempts.total 3 minus the no-run deficit");
+  const record = readFileSync(e.record, "utf8");
+  assert.match(record, /^## third tier$/m);
+  assert.match(record, /^outcome: no_proposal$/m);
+  assert.match(record, /^refusal: stuck: unparseable_response/m);
+  assert.match(record, /^reason: budget_exhausted$/m);
+});
+
+test("canned: tier answered out-of-contract → outcome failed, history entry present", async (t) => {
+  const { runHeal, repo, specPath, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: TIER_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry",
+    rawThirdTierResponse: `{"step_id": "s4", "locator": "css=.submit"}`, // answered, banned
+    bridge: FAKE_BRIDGE,
+  });
+  assert.equal(res.envelope.third_tier.outcome, "failed", "answered → the tier's failed");
+  assert.equal(res.envelope.outcome, "no_proposal");
+  assert.equal(res.envelope.escalation.reason, "budget_exhausted", "the original reason stands — no new reason");
+  assert.equal(res.envelope.outcome_history.length, 3, "a failed tier attempt is a real attempt");
+  assert.equal(res.envelope.outcome_history[2].outcome, "failed");
+  assert.ok(readFileSync(specPath, "utf8").includes("Log in"), "a banned tier proposal never patches");
+});
+
+test("canned: tier call dies → outcome errored with the deficit; one-shot guard holds", async (t) => {
+  const { runHeal, repo, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: TIER_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry",
+    rawThirdTierResponse: null, // the call fails
+    bridge: FAKE_BRIDGE,
+  });
+  assert.equal(res.envelope.third_tier.outcome, "errored");
+  assert.equal(res.envelope.attempts.third_tier, 1);
+  assert.equal(res.envelope.escalation.reason, "budget_exhausted", "no new reason, no router re-consult");
+  assert.equal(res.envelope.outcome_history.length, 2, "the errored shot never ran a Playwright attempt");
+  const record = readFileSync(res.envelope.record, "utf8");
+  assert.match(record, /^outcome: errored$/m);
+  assert.match(record, /^call failed: /m);
+});
+
+test("canned: tier proposes for the wrong step → banned → failed", async (t) => {
+  const { runHeal, repo, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: TIER_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry",
+    rawThirdTierResponse: `{"step_id": "s2", "locator": "getByLabel('Email')"}`,
+    bridge: FAKE_BRIDGE,
+    interactive: true,
+  });
+  assert.equal(res.envelope.third_tier.outcome, "failed");
+  const record = readFileSync(res.envelope.record, "utf8");
+  assert.match(record, /^refusal: banned: proposal targets s2 but the trace failed at s4/m);
+  assert.equal(res.envelope.escalation.reason, "budget_exhausted");
+});
+
+test("canned: no-key exhaustion lands on the terminal prompt with zero tier machinery (AC 5)", async (t) => {
+  const { runHeal, repo, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: CANNED_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry", bridge: FAKE_BRIDGE, interactive: true,
+  });
+  assert.equal(res.envelope.third_tier.enabled, false);
+  assert.equal(res.envelope.attempts.third_tier, 0);
+  assert.equal(res.envelope.escalation.reason, "budget_exhausted");
+  assert.equal(res.envelope.escalation.disposition, "prompt");
+});
+
+test("canned: a machine-consumed run downgrades prompt → defer (loop-derived, 257 Q5)", async (t) => {
+  const { runHeal, repo, runFolder } = await cannedHeal(t, {});
+  const res = await runHeal({
+    runFolder, cwd: repo, config: CANNED_CONFIG, env: CANNED_ENV,
+    rawModelResponse: "no idea, sorry", bridge: FAKE_BRIDGE, interactive: false,
+  });
+  assert.equal(res.envelope.escalation.disposition, "defer");
+});
+
+test("canned: browser bridge failure → reason infra, no rung ran, no tier (capability valve)", async (t) => {
+  const { runHeal, repo, runFolder } = await cannedHeal(t, {});
+  const deadBridge = { navigate: async () => { throw new Error("chromium is gone"); }, snapshot: async () => "", close: async () => {} };
+  const res = await runHeal({
+    runFolder, cwd: repo, config: TIER_CONFIG, env: CANNED_ENV,
+    rawModelResponse: GOOD_PROPOSAL, bridge: deadBridge, interactive: true,
+  });
+  const e = res.envelope;
+  assert.equal(e.outcome, "no_proposal");
+  assert.equal(e.escalation.reason, "infra");
+  assert.equal(e.escalation.disposition, "prompt", "infra → Terminal(prompt): no third-tier failover in v1");
+  assert.equal(e.attempts.total, 0, "no rung ran");
+  assert.equal(e.attempts.n_primary, 0);
+  assert.equal(e.attempts.third_tier, 0, "the tier is a capability valve, not availability failover");
+  assert.deepEqual(e.outcome_history, [], "empty history iff attempts.total == 0 (FYR-250)");
+  const record = readFileSync(e.record, "utf8");
+  assert.match(record, /\(no rung entered\)/);
+  assert.match(record, /^reason: infra$/m);
+  assert.ok(!/## third tier/.test(record), "the tier never fired for an infra reason");
 });
 
 test("canned: a passed run is nothing_to_heal — no record written", async (t) => {
@@ -568,7 +815,7 @@ test("bin E2E: a stub-served valid proposal heals the run end-to-end", async (t)
   assert.ok(check !== undefined);
 });
 
-test("bin E2E: a malformed stub response counts no_proposal; spec untouched", async (t) => {
+test("bin E2E: a malformed stub response climbs to rung 2 then counts no_proposal; spec untouched", async (t) => {
   const site = await makeSite(t);
   const stub = await makeStub(t, { content: "I cannot identify a locator for this step." });
   const repo = makeConsumerRepo(t);
@@ -584,15 +831,24 @@ test("bin E2E: a malformed stub response counts no_proposal; spec untouched", as
   assert.equal(code, 1, "no_proposal exits 1");
   const e = JSON.parse(stdout);
   assert.equal(e.outcome, "no_proposal");
-  assert.equal(e.attempts.n_primary, 1);
+  assert.equal(e.attempts.n_primary, 2, "the ladder climbed to rung 2");
   assert.equal(e.attempts.n_fallback, 0);
+  assert.equal(e.attempts.third_tier, 0, "no key → the tier never ran");
   assert.equal(e.patch, null);
+  assert.equal(e.escalation.reason, "budget_exhausted");
+  assert.equal(e.escalation.disposition, "defer", "spawned stdio is not a TTY → the loop downgrades to defer");
   const record = readFileSync(e.record, "utf8");
   assert.match(record, /no_proposal — stuck: unparseable_response/);
+  assert.match(record, /^reason: budget_exhausted$/m);
+  // Rung 2's turn carries the why-failed context (the input-differs rule).
+  assert.equal(stub.count(), 2, "one request per rung, no more");
+  const rung2 = stub.requests[1].messages.find((m) => m.role === "user").content;
+  assert.match(rung2, /WHY THE PREVIOUS ATTEMPT FAILED/);
+  assert.match(rung2, /attempt 1 answered but the proposal was refused/);
   assert.ok(readFileSync(specPath, "utf8").includes("Log in"), "spec untouched");
 });
 
-test("bin E2E: both LLM tiers failing records stuck/llm_failed with n_fallback=1", async (t) => {
+test("bin E2E: both LLM tiers failing on both rungs → fallback_exhausted, defer, no tier", async (t) => {
   const site = await makeSite(t);
   const stub = await makeStub(t, { status: 500 });
   const repo = makeConsumerRepo(t);
@@ -608,12 +864,155 @@ test("bin E2E: both LLM tiers failing records stuck/llm_failed with n_fallback=1
   assert.equal(code, 1);
   const e = JSON.parse(stdout);
   assert.equal(e.outcome, "no_proposal");
-  assert.equal(e.attempts.n_primary, 1);
-  assert.equal(e.attempts.n_fallback, 1, "the fallback was engaged exactly once on failure");
+  assert.equal(e.attempts.n_primary, 2, "both rungs attempted the main model");
+  assert.equal(e.attempts.n_fallback, 2, "the fallback was engaged on every failed rung");
+  assert.equal(e.attempts.total, 4);
+  assert.equal(e.third_tier.enabled, false, "no OPENAI key → tier off");
+  assert.equal(e.escalation.reason, "fallback_exhausted", "the fallback was attempted and also failed (FYR-250)");
+  assert.equal(e.escalation.disposition, "defer");
+  assert.equal(e.outcome_history.length, 4);
   const record = readFileSync(e.record, "utf8");
   assert.match(record, /stuck: llm_failed/);
-  // 2 main attempts (transient retry) + 1 fallback = 3 requests at the seam.
-  assert.equal(stub.count(), 3);
+  assert.match(record, /^reason: fallback_exhausted$/m);
+  // 2 rungs × (2 main attempts w/ transient retry + 1 fallback) = 6 requests.
+  assert.equal(stub.count(), 6);
+});
+
+// ------------------------------------------- E2E: the third tier at the seam
+
+/**
+ * A stub OpenAI-compatible server for the third tier: one canned content
+ * (or a status to force an error). Captures requests so tests can assert
+ * what the tier saw and that it was called exactly once.
+ */
+async function makeTierStub(t, { content, status, model = "stub-openai-model" } = {}) {
+  const requests = [];
+  const server = createServer((req, res) => {
+    let body = "";
+    req.on("data", (d) => (body += d));
+    req.on("end", () => {
+      if (req.method === "POST") {
+        try { requests.push(JSON.parse(body)); } catch { requests.push({ raw: body }); }
+      }
+      if (status) {
+        res.writeHead(status, { "content-type": "application/json" });
+        res.end(JSON.stringify({ error: { message: "tier outage" } }));
+        return;
+      }
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(JSON.stringify({
+        id: "tier-stub", object: "chat.completion", created: 0, model,
+        choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: "stop" }],
+        usage: { total_tokens: 20 },
+      }));
+    });
+  });
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
+  t.after(() => server.close());
+  return { url: `http://127.0.0.1:${server.address().port}/v1`, requests, count: () => requests.length };
+}
+
+const EXHAUSTED_ENV = { OPENAI_API_KEY: "sk-third-tier-test-only" };
+
+test("bin E2E: exhaustion + key → one rich-context GPT-5.6 shot heals; no escalation event", async (t) => {
+  const site = await makeSite(t);
+  const stub = await makeStub(t, { content: "I cannot identify a locator for this step." });
+  const tier = await makeTierStub(t, { content: GOOD_PROPOSAL });
+  const repo = makeConsumerRepo(t);
+  const specPath = await generatePair(t, repo);
+  git(repo, "add", "-A");
+  git(repo, "commit", "-qm", "pair");
+  const runFolder = writeRun(t, repo);
+
+  const { code, stdout, stderr } = await spawnHeal(t, repo, [runFolder], {
+    WRAPPER_OLLAMA_BASE_URL: stub.url,
+    WRAPPER_OPENAI_BASE_URL: tier.url,
+    ...EXHAUSTED_ENV,
+    E2E_BASE_URL: site,
+  });
+  assert.equal(code, 0, `healed via the tier (stderr: ${stderr})`);
+  const e = JSON.parse(stdout);
+  assert.equal(e.outcome, "healed");
+  assert.equal(e.escalation, null, "tier success → no escalation event");
+  assert.equal(e.third_tier.enabled, true);
+  assert.equal(e.third_tier.actor, "stub-openai-model", "the actor is what answered");
+  assert.equal(e.third_tier.outcome, "healed");
+  assert.equal(e.attempts.third_tier, 1);
+  assert.equal(e.outcome_history.length, 3);
+  assert.equal(e.outcome_history[2].actor, "third_tier");
+
+  // Exactly ONE tier request, at the third-tier seam, with the tier's contract:
+  // ~512-token cap, max reasoning effort, the OPENAI key (not the Ollama key).
+  assert.equal(tier.count(), 1, "one GPT-5.6 attempt — the one-shot budget");
+  const req = tier.requests[0];
+  assert.equal(req.max_tokens, 512);
+  assert.equal(req.reasoning_effort, "max");
+  assert.equal(req.model, "gpt-5.6-sol", "the confirmed FYR-257 actor id");
+  const userTurn = req.messages.find((m) => m.role === "user").content;
+  assert.match(userTurn, /WHY THE PREVIOUS ATTEMPTS FAILED/);
+  assert.match(userTurn, /THE FAILED PROPOSALS THE PREVIOUS MODELS MADE/);
+  assert.match(userTurn, /button "Sign in" \[ref=e\d+\]/, "the live snapshot is in the tier's input");
+  // The Ollama stub saw both rungs; the tier stub saw one call.
+  assert.equal(stub.count(), 2);
+  const spec = readFileSync(specPath, "utf8");
+  assert.match(spec, /name: 'Sign in' \}\)\.click\(\);/);
+  assert.ok(!spec.includes("Log in"));
+});
+
+test("bin E2E: exhaustion without a key → zero third-tier requests, defer disposition (AC 5)", async (t) => {
+  const site = await makeSite(t);
+  const stub = await makeStub(t, { content: "no idea, sorry" });
+  const tier = await makeTierStub(t, { content: GOOD_PROPOSAL });
+  const repo = makeConsumerRepo(t);
+  await generatePair(t, repo);
+  git(repo, "add", "-A");
+  git(repo, "commit", "-qm", "pair");
+  const runFolder = writeRun(t, repo);
+
+  const { code, stdout } = await spawnHeal(t, repo, [runFolder], {
+    WRAPPER_OLLAMA_BASE_URL: stub.url,
+    WRAPPER_OPENAI_BASE_URL: tier.url, // reachable on purpose — must never be hit
+    E2E_BASE_URL: site,
+  });
+  assert.equal(code, 1);
+  const e = JSON.parse(stdout);
+  assert.equal(e.outcome, "no_proposal");
+  assert.equal(e.third_tier.enabled, false, "no key → tier disabled at emit");
+  assert.equal(e.attempts.third_tier, 0);
+  assert.equal(e.escalation.reason, "budget_exhausted");
+  assert.equal(e.escalation.disposition, "defer");
+  assert.equal(tier.count(), 0, "the key-presence gate kept the tier dormant");
+  assert.equal(stub.count(), 2, "only the two Ollama rungs");
+});
+
+test("bin E2E: one-shot guard — the tier's refusal forces the terminal with the original reason", async (t) => {
+  const site = await makeSite(t);
+  const stub = await makeStub(t, { content: "no idea, sorry" });
+  const tier = await makeTierStub(t, { content: "I cannot identify a locator for this step." });
+  const repo = makeConsumerRepo(t);
+  await generatePair(t, repo);
+  git(repo, "add", "-A");
+  git(repo, "commit", "-qm", "pair");
+  const runFolder = writeRun(t, repo);
+
+  const { code, stdout } = await spawnHeal(t, repo, [runFolder], {
+    WRAPPER_OLLAMA_BASE_URL: stub.url,
+    WRAPPER_OPENAI_BASE_URL: tier.url,
+    ...EXHAUSTED_ENV,
+    E2E_BASE_URL: site,
+  });
+  assert.equal(code, 1);
+  const e = JSON.parse(stdout);
+  assert.equal(e.outcome, "no_proposal");
+  assert.equal(e.third_tier.outcome, "no_proposal");
+  assert.equal(e.attempts.third_tier, 1);
+  assert.equal(e.escalation.reason, "budget_exhausted", "the ORIGINAL reason stands — no re-consult, no new reason");
+  assert.equal(e.escalation.disposition, "defer");
+  assert.equal(tier.count(), 1, "the one-shot budget: exactly one tier attempt");
+  assert.equal(e.outcome_history.length, 2, "the history deficit for a no_proposal shot");
+  const record = readFileSync(e.record, "utf8");
+  assert.match(record, /^outcome: no_proposal$/m);
+  assert.match(record, /^reason: budget_exhausted$/m);
 });
 
 test("bin E2E: drift refusal exits 1 with ZERO model calls and never names the bypass", async (t) => {

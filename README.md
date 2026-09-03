@@ -138,7 +138,7 @@ Nothing wrapper-specific runs here. Your CI needs no API key and no LLM.
 playwright-wrapper heal playwright-output/<project>/<run-id>/
 ```
 
-Heal reads the failed run, proposes `{step_id, locator}` patches for the steps that broke, and writes a `.heal.md` record for every non-pass outcome. If it cannot fix a step in two tries, it hands the problem to you with what it tried.
+Heal reads the failed run, proposes `{step_id, locator}` patches for the steps that broke, and writes a `.heal.md` record for every non-pass outcome. The ladder gets two tries - a fresh page snapshot, then the same snapshot plus why the first attempt failed. If the ladder is exhausted, the run escalates: with `OPENAI_API_KEY` set, one stronger last-resort attempt is made with full context (the page, why every attempt failed, and the proposals that were rejected); without it, heal stops there and hands the problem to you with what it tried. Every run ends in a machine-readable envelope naming the escalation reason and disposition.
 
 Heal refuses to work on a run from a different commit than your checkout - patching against an app that has moved is how a wrong fix looks successful.
 
@@ -190,7 +190,9 @@ export default defineConfig({
 | `WRAPPER_OLLAMA_BASE_URL` | OpenAI-compatible endpoint. Point it anywhere that speaks the API. | `https://ollama.com/v1` |
 | `WRAPPER_MODEL_MAIN` | Main model id | `glm-5.3-flash` |
 | `WRAPPER_MODEL_FALLBACK` | Second model, used only after a failure | `glm-5.3` |
-| `OPENAI_API_KEY` | If present, enables one stronger last-resort attempt when healing is stuck. Presence only - the wrapper does not read the value. | - |
+| `OPENAI_API_KEY` | If present, enables one stronger last-resort attempt when healing is stuck. Presence only - the value is never read into config, never logged. Without it, exhaustion goes straight to the terminal disposition. | - |
+| `WRAPPER_OPENAI_BASE_URL` | Third-tier endpoint. Point it at any OpenAI-compatible API. | `https://api.openai.com/v1` |
+| `WRAPPER_OPENAI_MODEL` | Third-tier model id | `gpt-5.6-sol` |
 
 Exit codes: `0` ok, `1` config error or a not-pass result, `2` usage error.
 
