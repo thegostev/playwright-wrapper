@@ -34,7 +34,7 @@ The product surface: a runnable bin that routes the four subcommands and reads i
 playwright-wrapper <plan|generate|heal|browse> [--help]
 ```
 
-Each subcommand is a routed stub in this slice — correct usage text and exit codes; later build tickets replace the bodies. Exit codes: `0` ok/help · `1` config error · `2` usage error (unknown subcommand, bare invocation).
+Each subcommand routes and validates before dispatch; exit codes: `0` ok/help · `1` config error · `2` usage error (unknown subcommand, bare invocation). `plan` (FYR-329), `generate` (FYR-330), `browse` (FYR-333), and `heal` (FYR-331) have real bodies; see their sections.
 
 **LLM configuration — environment only, never flags, never logged.** Startup validation is cheap and loud and runs before anything else: a malformed or missing config fails before any subcommand work, naming the env var — never the value.
 
@@ -48,6 +48,38 @@ Each subcommand is a routed stub in this slice — correct usage text and exit c
 
 All wrapper code is ESM (`.mjs`); the bin needs no build step. The seam later tickets reuse: a test harness spawns the bin against a stub HTTP server by overriding `WRAPPER_OLLAMA_BASE_URL` and asserts on stdout/exit only — see `test/cli-skeleton.test.mjs`.
 
+## Heal (FYR-331 — v1-build 6, ladder rung 1)
+
+`heal` walks one ladder notch over a **self-locating run** — a run folder that holds its own `results.json`, named `YYYY-MM-DDTHHmmssZ-<sha7>`:
+
+```sh
+playwright-wrapper heal <run-folder> [--drift-ok=<sha>]
+```
+
+Order of operations, all boundary validation **before any model call**:
+
+1. **Drift guard** (FYR-302): run-id SHA vs local HEAD; the refusal never names the bypass flag.
+2. **Trace parse:** the stock Playwright JSON report is the only ground truth. The failing step's address is the outermost `test.step('[sN] …')` node carrying an error — no source-location fallback (FYR-267: the JSON reporter carries only `test.step` entries). Unexecuted steps are absent; present = attempted.
+3. **Version coupling** (FYR-249): the report's Playwright version must be known and in the same major as the local `@playwright/test`.
+4. **Outcome routing** (FYR-250): the five statuses pass through un-inferred; `outcome_class` is derived — only `not_pass` enters the loop (`no_verdict` never heals), a `compile`-stage failure is refused (the ladder addresses run/assert failures only), and a passing run is `nothing_to_heal`.
+5. **Pair check:** the failing spec must satisfy the generator-output contract and carry its stamped `.plan.md` beside it — heal patches generated pairs only.
+
+Rung 1: the bridge takes a **fresh** page snapshot (target URL = the consumer config's `baseURL` + the plan's `go to` path) and the main model returns **data, not code** — one JSON object `{step_id, locator}` or nothing. Proposals are validated unmodified:
+
+- **banned** — the model violated the contract (unknown step id, grammar-rejected locator, extra/code-shaped fields, or a proposal targeting a step other than the failing one)
+- **stuck** — the model could not or did not answer (empty, unparseable, declared no locator, or the LLM tiers both failed)
+
+Neither is ever repaired, fence-stripped, or retried — refusals are outcomes, not exceptions.
+
+The patch is **text surgery** on the spec's single locator slot (one of the three compiler emission shapes), with a compile-stage safety net (`node --experimental-strip-types --check`): a failing patch is **reverted** — a broken spec is never left.
+
+Artifacts:
+
+- **`.heal.md`** beside `results.json` for every non-pass outcome: the trace-derived failure address, the ladder rungs with the stuck-vs-banned classification, attempt counts, and the fresh page snapshot.
+- **Envelope** on stdout — `contract_version: 2`, `outcome` ∈ `healed | no_proposal | compile_failed | nothing_to_heal`, `attempts: {n_primary, n_fallback, third_tier}`, the patch `{step_id, old_locator, new_locator, changed}`, and `verified: false` — heal never claims the suite now passes; verification is the consumer's rerun.
+
+Exit: `healed` / `nothing_to_heal` → 0; `no_proposal` / `compile_failed` → 1.
+
 ## Tests
 
-`npm test` (`node --test`) — suites: `test/drift-guard.test.mjs`, `test/id-match.test.mjs`, `test/plan-parse.test.mjs`, `test/cli-skeleton.test.mjs` (bin spawned end to end against a stub server).
+`npm test` (`node --test`) — suites: `test/drift-guard.test.mjs`, `test/id-match.test.mjs`, `test/plan-parse.test.mjs`, `test/cli-skeleton.test.mjs` (bin spawned end to end against a stub server), `test/plan.test.mjs`, `test/generate.test.mjs`, `test/trace-parse.test.mjs`, `test/heal.test.mjs` (stub LLM at the API boundary + real browser against local pages), `test/browse-core.test.mjs`, `test/browser-bridge.test.mjs`, `test/roundtrip.test.mjs`.

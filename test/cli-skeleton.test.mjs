@@ -31,7 +31,7 @@ function spawnBin(args, envOverrides = {}, stdinText) {
   });
 }
 
-test("stub server receives no LLM call from skeleton subcommands, bin routes + validates config", async (t) => {
+test("every subcommand is real: bare invocations are usage errors, no LLM call from any of them", async (t) => {
   let hits = 0;
   const server = createServer(() => hits++);
   await new Promise((r) => server.listen(0, "127.0.0.1", r));
@@ -39,19 +39,13 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
   const port = server.address().port;
   const baseUrl = `http://127.0.0.1:${port}/v1`;
 
-  // generate, plan, and browse are no longer stubs (FYR-330/FYR-329/FYR-333):
-  // generate consumes plan bytes on stdin (model-free), plan and browse need
-  // a spec argument and drive the bridge. The only remaining routing stub is
-  // heal, announcing config OK.
-  for (const sub of ["heal"]) {
-    const { code, stdout } = await spawnBin([sub], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
-    assert.equal(code, 0, `${sub} exits 0`);
-    assert.match(stdout, new RegExp(`playwright-wrapper ${sub}: config OK`), `${sub} announces config OK`);
-    assert.match(stdout, new RegExp(`endpoint http://127\\.0\\.0\\.1:${port}`));
-    assert.match(stdout, /main glm-5\.3-flash/);
-    assert.match(stdout, /fallback glm-5\.3/);
-    assert.ok(!stdout.includes("test-key-not-a-real-secret"), "key value never appears in stdout");
-  }
+  // No routing stubs remain (FYR-330/FYR-329/FYR-331/FYR-333): generate
+  // consumes plan bytes on stdin (model-free); plan, heal, and browse need an
+  // argument and drive the bridge or the trace. A bare invocation is that
+  // subcommand's own usage error, never an LLM call or browser.
+  const heal = await spawnBin(["heal"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
+  assert.equal(heal.code, 2, "heal without a run-folder argument exits with the usage error");
+  assert.match(heal.stderr, /Usage: playwright-wrapper heal <run-folder>/);
   // generate with empty stdin is a usage error (no plan piped), never an LLM call.
   const gen = await spawnBin(["generate"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
   assert.equal(gen.code, 2, "generate without stdin plan exits with the usage error");
@@ -64,7 +58,7 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
   const browse = await spawnBin(["browse"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
   assert.equal(browse.code, 2, "browse without a spec argument exits with the usage error");
   assert.match(browse.stderr, /missing spec argument/);
-  assert.equal(hits, 0, "skeleton stubs make no HTTP calls");
+  assert.equal(hits, 0, "no subcommand makes an HTTP call on a bare invocation");
 });
 
 test("config is validated at startup: missing key fails loud with exit 1, naming the env var not the value", async () => {
@@ -122,13 +116,17 @@ test("bare invocation: usage on stderr, exit 2", async () => {
   assert.match(stderr, /Usage:/);
 });
 
-test("third-tier gate: key presence changes the announcement, value never printed", async () => {
-  // heal remains the stub announcing config OK; plan is real now (FYR-329).
-  const on = await spawnBin(["heal"], { OPENAI_API_KEY: "sk-third-tier-value" });
-  assert.match(on.stdout, /third-tier valve enabled/);
-  assert.ok(!on.stdout.includes("sk-third-tier-value"));
-  const off = await spawnBin(["heal"], { OPENAI_API_KEY: "" });
-  assert.match(off.stdout, /third-tier valve disabled/);
+test("third-tier gate: key presence is presence-only, surfaced on the heal envelope", async () => {
+  // The stub announcement is gone (FYR-331 made heal real): the third-tier
+  // valve now surfaces as the envelope's attempts.third_tier.enabled — the
+  // key's VALUE is never read, only its presence. The config surface computes
+  // it; the heal envelope carries it (asserted in test/heal.test.mjs).
+  const { loadConfig } = await import("../src/config.mjs");
+  const onCfg = loadConfig({ WRAPPER_OLLAMA_API_KEY: "k", OPENAI_API_KEY: "sk-third-tier-value" });
+  assert.equal(onCfg.thirdTierKeyPresent, true);
+  assert.ok(!JSON.stringify(onCfg).includes("sk-third-tier-value"), "the value is never echoed");
+  const offCfg = loadConfig({ WRAPPER_OLLAMA_API_KEY: "k" });
+  assert.equal(offCfg.thirdTierKeyPresent, false);
 });
 
 test("seam: config surface feeds a stub URL — env override reaches the bin (contract for FYR-328+)", async (t) => {

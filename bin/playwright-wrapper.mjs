@@ -33,12 +33,16 @@ stamped with the plan sha256 + .plan.md) into the consumer repo.
   heal: `playwright-wrapper heal — walk the heal ladder over a self-locating CI run
 
 Usage:
-  playwright-wrapper heal [run-folder]
+  playwright-wrapper heal <run-folder> [--drift-ok=<sha>]
 
-Consumes a self-locating run (results.json beside the record), derives the
-outcome from the trace, proposes {step_id, locator} patches via the ladder,
-and writes a .heal.md record for every non-pass outcome.
-(Not implemented yet — this slice ships the routing and config surface.)`,
+Consumes a self-locating run (the run folder holds results.json; its name
+carries the report's commit SHA), checks the drift guard, derives the
+outcome from the trace, takes one ladder rung (a fresh page snapshot and a
+{step_id, locator} proposal from the model), splices the proposal into the
+spec's single locator slot, and writes a .heal.md record beside results.json
+for every non-pass outcome. The contract_version 2 envelope prints on stdout.
+Exit code: healed / nothing_to_heal → 0; no_proposal / compile_failed → 1.
+The drift refusal never names its bypass; --drift-ok=<sha> is value-bearing.`,
   browse: `playwright-wrapper browse — planless ReAct loop ending in submit_extraction
 
 Usage:
@@ -121,16 +125,15 @@ export async function run(argv, env = process.env) {
     return browseMain(rest);
   }
 
-  // Stub dispatch — later tickets replace these bodies. The config is loaded
-  // and valid; say what will run and exit clean. Never print key values.
-  const thirdTier = config.thirdTierKeyPresent
-    ? "third-tier valve enabled (OPENAI_API_KEY present)"
-    : "third-tier valve disabled (OPENAI_API_KEY absent)";
-  process.stdout.write(
-    `playwright-wrapper ${first}: config OK — endpoint ${config.baseUrl.origin}, ` +
-      `main ${config.modelMain}, fallback ${config.modelFallback} (fallback on failure only), ${thirdTier}.\n` +
-      `${first} is not implemented yet (v1-build ticket FYR-326: routing + config surface only).\n`,
-  );
+  // heal needs the LLM config (it is a ladder rung's model call) but not the
+  // bridge until rung 1 snapshots the page — the boundary gates run first.
+  if (first === "heal") {
+    const { healMain } = await import("./lib/heal.mjs");
+    return healMain(rest);
+  }
+
+  // No routing stubs remain: every subcommand dispatches above, so this point
+  // is unreachable for the known set.
   return 0;
 }
 
