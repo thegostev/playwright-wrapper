@@ -169,3 +169,92 @@ function classifyHttp(status) {
   if (status >= 500) return "endpoint error";
   return "request rejected";
 }
+
+/**
+ * One LLM chat call with full message control + tools (the FYR-333 browse
+ * loop's primitive). Same fallback discipline as complete(): main model,
+ * fallback engaged exactly once on error/timeout — never on a validating
+ * output. The caller owns validation.
+ *
+ * @param {object} opts
+ * @param {Array} opts.messages - full message array (system/user/assistant/tool)
+ * @param {Array} [opts.tools] - OpenAI function-tool definitions
+ * @param {number} [opts.maxTokens]
+ * @param {number} [opts.timeoutMs]
+ * @param {object} [opts.config]
+ * @param {AbortSignal} [opts.signal]
+ * @returns {Promise<{message: object, toolCalls: Array, finish: string, model: string, usage: object, raw: object, fallbackFrom?: string}>}
+ */
+export async function completeChat({ messages, tools, maxTokens = 4096, timeoutMs = DEFAULT_TIMEOUT_MS, config, signal } = {}) {
+  const cfg = config || loadConfig();
+  const apiKey = cfg.apiKey;
+  const budget = Math.max(maxTokens, MIN_COMPLETION_TOKENS);
+
+  const call = (model, phase) =>
+    callChatOnce({ baseUrl: cfg.baseUrl, apiKey, model, messages, tools, maxTokens: budget, timeoutMs, signal, phase });
+
+  let mainError;
+  try {
+    return await callWithRetries((model) => call(model, "main"), cfg.modelMain, "main");
+  } catch (err) {
+    mainError = err;
+  }
+  try {
+    const res = await call(cfg.modelFallback, "fallback");
+    return { ...res, fallbackFrom: cfg.modelMain, mainError: summarize(mainError) };
+  } catch (fallbackErr) {
+    throw new LlmError(
+      `LLM call failed on main "${cfg.modelMain}" (${summarize(mainError)}) and fallback "${cfg.modelFallback}" (${summarize(fallbackErr)})`,
+      { phase: "fallback", attempts: 2 },
+    );
+  }
+}
+
+async function callChatOnce({ baseUrl, apiKey, model, messages, tools, maxTokens, timeoutMs, signal, phase }) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(new Error("timeout")), timeoutMs);
+  const onOuterAbort = () => controller.abort(signal?.reason);
+  signal?.addEventListener("abort", onOuterAbort, { once: true });
+
+  const body = { model, messages, max_tokens: maxTokens };
+  if (tools) body.tools = tools;
+
+  try {
+    const res = await fetch(new URL("chat/completions", baseUrl), {
+      method: "POST",
+      signal: controller.signal,
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const status = res.status;
+      await res.text().catch(() => "");
+      throw new LlmError(`HTTP ${status} ${classifyHttp(status)}`, {
+        phase,
+        attempts: { transport: status === 429 || status >= 500 },
+      });
+    }
+    const data = await res.json();
+    const choice = data.choices?.[0];
+    if (!choice) throw new LlmError("response has no choices", { phase });
+    const message = choice.message ?? {};
+    return {
+      message,
+      toolCalls: choice.message?.tool_calls ?? [],
+      finish: choice.finish_reason,
+      model: data.model || model,
+      usage: data.usage || {},
+      raw: data,
+    };
+  } catch (err) {
+    if (err instanceof LlmError) throw err;
+    if (err?.name === "AbortError") {
+      const cause = signal?.aborted ? "caller abort" : "timeout";
+      throw new LlmError(cause, { phase, attempts: { transport: cause === "timeout" } });
+    }
+    throw new LlmError(`transport failure: ${err.message}`, { phase, attempts: { transport: true } });
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener("abort", onOuterAbort);
+  }
+}

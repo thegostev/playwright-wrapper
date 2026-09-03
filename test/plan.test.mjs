@@ -69,13 +69,6 @@ function spawnPlan(args, envOverrides = {}) {
   });
 }
 
-function scratchDir(t) {
-  const { mkdtempSync, rmSync } = await import("node:fs");
-  const dir = mkdtempSync(path.join(ROOT, ".scratch-fyr329-"));
-  t.after(() => rmSync(dir, { recursive: true }));
-  return dir;
-}
-
 test("plan (canned): a grammar-valid raw response is re-keyed and validated (AC#1, AC#3)", async (t) => {
   const { runPlan } = await import("../bin/lib/plan.mjs");
   const res = await runPlan({ specText: SPEC, config: {}, rawModelResponse: VALID_RAW });

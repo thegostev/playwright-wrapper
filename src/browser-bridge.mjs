@@ -110,6 +110,21 @@ export class BrowserBridge {
     return this.#call('browser_click', { element: elementDescription ?? `element ${ref}`, target: ref });
   }
 
+  /** Type text into an element ref. */
+  async type(ref, text, elementDescription) {
+    return this.#call('browser_type', { element: elementDescription ?? `element ${ref}`, target: ref, text });
+  }
+
+  /** Press a key (e.g. 'Enter'). */
+  async pressKey(key) {
+    return this.#call('browser_press_key', { key });
+  }
+
+  /** Call any exposed browser tool by name (the loop's generic dispatch). */
+  async callTool(name, args) {
+    return this.#call(name, args ?? {});
+  }
+
   /** Exposed tool descriptors (introspection surface; schemas included). */
   async listTools() {
     await this.warmContext();
