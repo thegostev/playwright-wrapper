@@ -39,10 +39,11 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
   const port = server.address().port;
   const baseUrl = `http://127.0.0.1:${port}/v1`;
 
-  // generate is no longer a stub (FYR-330): it consumes plan bytes on stdin
-  // and is model-free, so the config-OK announcement does not apply. The
-  // other three subcommands remain routing stubs announcing config OK.
-  for (const sub of ["plan", "heal", "browse"]) {
+  // generate and plan are no longer stubs (FYR-330/FYR-329): generate consumes
+  // plan bytes on stdin (model-free), plan needs a spec argument and drives
+  // the bridge. The remaining subcommands remain routing stubs announcing
+  // config OK.
+  for (const sub of ["heal", "browse"]) {
     const { code, stdout } = await spawnBin([sub], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
     assert.equal(code, 0, `${sub} exits 0`);
     assert.match(stdout, new RegExp(`playwright-wrapper ${sub}: config OK`), `${sub} announces config OK`);
@@ -55,6 +56,10 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
   const gen = await spawnBin(["generate"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
   assert.equal(gen.code, 2, "generate without stdin plan exits with the usage error");
   assert.match(gen.stderr, /no plan on stdin/);
+  // plan without a spec argument is a usage error, never an LLM call or browser.
+  const plan = await spawnBin(["plan"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
+  assert.equal(plan.code, 2, "plan without a spec argument exits with the usage error");
+  assert.match(plan.stderr, /missing spec argument/);
   assert.equal(hits, 0, "skeleton stubs make no HTTP calls");
 });
 
@@ -114,10 +119,11 @@ test("bare invocation: usage on stderr, exit 2", async () => {
 });
 
 test("third-tier gate: key presence changes the announcement, value never printed", async () => {
-  const on = await spawnBin(["plan"], { OPENAI_API_KEY: "sk-third-tier-value" });
+  // heal remains the stub announcing config OK; plan is real now (FYR-329).
+  const on = await spawnBin(["heal"], { OPENAI_API_KEY: "sk-third-tier-value" });
   assert.match(on.stdout, /third-tier valve enabled/);
   assert.ok(!on.stdout.includes("sk-third-tier-value"));
-  const off = await spawnBin(["plan"], { OPENAI_API_KEY: "" });
+  const off = await spawnBin(["heal"], { OPENAI_API_KEY: "" });
   assert.match(off.stdout, /third-tier valve disabled/);
 });
 

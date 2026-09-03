@@ -11,12 +11,16 @@ const SUBCOMMAND_USAGE = {
   plan: `playwright-wrapper plan — emit a candidate plan from a live page snapshot
 
 Usage:
-  playwright-wrapper plan [options]
+  playwright-wrapper plan <spec-file>
+  playwright-wrapper plan --inline "<full spec text>"
 
-Reads the task spec (target + NL goal + profile header), drives the page in a
-real Chromium via the in-process Playwright MCP bridge, snapshots it, and has
-the main model emit a keyed-line plan. The plan prints to stdout for review.
-(Not implemented yet — this slice ships the routing and config surface.)`,
+Reads the task spec (profile + target header, NL goal body), drives the target
+page in a real Chromium via the in-process Playwright MCP bridge, snapshots
+it, and has the main model emit a keyed-line plan (the FYR-267 grammar). The
+raw response is validated unmodified and ids are re-keyed by the harness; on
+pass the plan prints to stdout for review; on any grammar violation the
+problems print with line numbers and the exit is non-zero — no repair, no
+fence-stripping, no retry-until-pass.`,
   generate: `playwright-wrapper generate — compile an approved plan into a stamped spec pair
 
 Usage:
@@ -95,6 +99,14 @@ export async function run(argv, env = process.env) {
       return 1;
     }
     throw err;
+  }
+
+  // plan needs the LLM config AND the bridge (it is not model-free like
+  // generate), so it dispatches AFTER the config gate. The stub bodies for
+  // the remaining subcommands follow.
+  if (first === "plan") {
+    const { planMain } = await import("./lib/plan.mjs");
+    return planMain(rest);
   }
 
   // Stub dispatch — later tickets replace these bodies. The config is loaded
