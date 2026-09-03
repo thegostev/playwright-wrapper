@@ -42,8 +42,8 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
     assert.equal(code, 0, `${sub} exits 0`);
     assert.match(stdout, new RegExp(`playwright-wrapper ${sub}: config OK`), `${sub} announces config OK`);
     assert.match(stdout, new RegExp(`endpoint http://127\\.0\\.0\\.1:${port}`));
-    assert.match(stdout, /main glm-5\.3-flash:cloud/);
-    assert.match(stdout, /fallback glm-5\.3:cloud/);
+    assert.match(stdout, /main glm-5\.3-flash/);
+    assert.match(stdout, /fallback glm-5\.3/);
     assert.ok(!stdout.includes("test-key-not-a-real-secret"), "key value never appears in stdout");
   }
   assert.equal(hits, 0, "skeleton stubs make no HTTP calls");
@@ -119,8 +119,8 @@ test("seam: config surface feeds a stub URL — env override reaches the bin (co
   const { loadConfig } = await import("../src/config.mjs");
   const cfg = loadConfig({ WRAPPER_OLLAMA_BASE_URL: "http://127.0.0.1:1/v1", WRAPPER_OLLAMA_API_KEY: "k" });
   assert.equal(cfg.baseUrl.href, "http://127.0.0.1:1/v1");
-  assert.equal(cfg.modelMain, "glm-5.3-flash:cloud");
-  assert.equal(cfg.modelFallback, "glm-5.3:cloud");
+  assert.equal(cfg.modelMain, "glm-5.3-flash");
+  assert.equal(cfg.modelFallback, "glm-5.3");
   assert.equal(cfg.thirdTierKeyPresent, false);
   assert.equal(typeof cfg.apiKey, "string");
 });

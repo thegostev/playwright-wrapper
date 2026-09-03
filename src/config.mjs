@@ -6,11 +6,14 @@
 // name the env var, never the value.
 //
 // Defaults per FYR-325: hosted Ollama Cloud endpoint, main
-// `glm-5.3-flash:cloud`, fallback `glm-5.3:cloud` (fallback-on-failure only).
+// `glm-5.3-flash`, fallback `glm-5.3` (fallback-on-failure only).
 
 const DEFAULT_BASE_URL = "https://ollama.com/v1";
-const DEFAULT_MODEL_MAIN = "glm-5.3-flash:cloud";
-const DEFAULT_MODEL_FALLBACK = "glm-5.3:cloud";
+// Hosted endpoint ids (live-verified 2026-09-03): /v1/models lists bare ids —
+// `:cloud`-suffixed ids 404 (the earlier ":cloud live-confirmed" note was
+// stale). Both models answer; main/fallback per FYR-248 discipline.
+const DEFAULT_MODEL_MAIN = "glm-5.3-flash";
+const DEFAULT_MODEL_FALLBACK = "glm-5.3";
 
 export class ConfigError extends Error {
   constructor(message) {
