@@ -39,11 +39,11 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
   const port = server.address().port;
   const baseUrl = `http://127.0.0.1:${port}/v1`;
 
-  // generate and plan are no longer stubs (FYR-330/FYR-329): generate consumes
-  // plan bytes on stdin (model-free), plan needs a spec argument and drives
-  // the bridge. The remaining subcommands remain routing stubs announcing
-  // config OK.
-  for (const sub of ["heal", "browse"]) {
+  // generate, plan, and browse are no longer stubs (FYR-330/FYR-329/FYR-333):
+  // generate consumes plan bytes on stdin (model-free), plan and browse need
+  // a spec argument and drive the bridge. The only remaining routing stub is
+  // heal, announcing config OK.
+  for (const sub of ["heal"]) {
     const { code, stdout } = await spawnBin([sub], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
     assert.equal(code, 0, `${sub} exits 0`);
     assert.match(stdout, new RegExp(`playwright-wrapper ${sub}: config OK`), `${sub} announces config OK`);
@@ -60,6 +60,10 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
   const plan = await spawnBin(["plan"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
   assert.equal(plan.code, 2, "plan without a spec argument exits with the usage error");
   assert.match(plan.stderr, /missing spec argument/);
+  // browse without a spec argument is a usage error, never an LLM call or browser.
+  const browse = await spawnBin(["browse"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
+  assert.equal(browse.code, 2, "browse without a spec argument exits with the usage error");
+  assert.match(browse.stderr, /missing spec argument/);
   assert.equal(hits, 0, "skeleton stubs make no HTTP calls");
 });
 

@@ -212,13 +212,16 @@ test("browse (real browser, stub LLM): the loop drives the live page and the ter
   ];
   let callIdx = 0;
   let userTurn = "";
+  let snapshotTurn = "";
   const stub = createServer((req, res) => {
     let body = "";
     req.on("data", (d) => (body += d));
     req.on("end", () => {
       const parsed = JSON.parse(body);
+      const toolMsg = parsed.messages?.filter((m) => m.role === "tool").map((m) => m.content ?? "").join("\n") ?? "";
+      snapshotTurn = (snapshotTurn ?? "") + toolMsg;
       userTurn = parsed.messages?.find((m) => m.role === "user")?.content ?? "";
-      const turn = turns[callIdx++];
+      const turn = turns[Math.min(callIdx++, turns.length - 1)]; // extra stub calls repeat the last turn
       const toolCalls = turn.tool
         ? [{ id: "c1", type: "function", function: { name: turn.tool, arguments: "{}" } }]
         : [{ id: "c2", type: "function", function: { name: "submit_extraction", arguments: JSON.stringify(turn.submit) } }];
@@ -232,7 +235,7 @@ test("browse (real browser, stub LLM): the loop drives the live page and the ter
           choices: [
             {
               index: 0,
-              message: { role: "assistant", content: "", tool_calls, reasoning_content: "r".repeat(150) },
+              message: { role: "assistant", content: "", tool_calls: toolCalls, reasoning_content: "r".repeat(150) },
               finish_reason: "tool_calls",
             },
           ],
@@ -248,7 +251,8 @@ test("browse (real browser, stub LLM): the loop drives the live page and the ter
     WRAPPER_OLLAMA_BASE_URL: `http://127.0.0.1:${stub.address().port}/v1`,
   });
   assert.equal(code, 0, `exit 0 on pass (stderr: ${stderr})`);
-  assert.match(userTurn, /Jobs board/, "the live page reached the LLM");
+  assert.match(userTurn, /list the open roles with title and link/, "the NL goal reached the LLM user turn");
+  assert.match(snapshotTurn, /Jobs board/, "the live snapshot reached the LLM as a tool result");
   const envelope = JSON.parse(stdout);
   assert.equal(envelope.contract_version, 2);
   assert.equal(envelope.outcome, "asserted", "no schema declared → asserted (pass_with_warning)");
