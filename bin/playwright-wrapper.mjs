@@ -42,11 +42,16 @@ and writes a .heal.md record for every non-pass outcome.
   browse: `playwright-wrapper browse — planless ReAct loop ending in submit_extraction
 
 Usage:
-  playwright-wrapper browse
+  playwright-wrapper browse <spec-file>
+  playwright-wrapper browse --inline "<full spec text>"
 
-Runs the browsing loop over the real page, judged by the structural oracle,
-and emits the contract-version 2 outcome envelope on stdout.
-(Not implemented yet — this slice ships the routing and config surface.)`,
+Parses the browsing-profile task spec (profile: browsing + target; an
+optional browse: block declares the expected-output JSON Schema path),
+runs the planless ReAct loop over the live page with the bridge's core
+tools, and ends only on the terminal submit_extraction call. The payload
+is classified against the declared schema (verified | asserted) and the
+contract-version 2 outcome envelope prints on stdout. Exit code: pass → 0,
+not_pass → 1. No plan is ever created for the browsing profile.`,
 };
 
 function printHelp(toStdout = true) {
@@ -107,6 +112,13 @@ export async function run(argv, env = process.env) {
   if (first === "plan") {
     const { planMain } = await import("./lib/plan.mjs");
     return planMain(rest);
+  }
+
+  // browse needs the LLM config AND the bridge too (it is the planless ReAct
+  // loop over the live page).
+  if (first === "browse") {
+    const { browseMain } = await import("./lib/browse.mjs");
+    return browseMain(rest);
   }
 
   // Stub dispatch — later tickets replace these bodies. The config is loaded
