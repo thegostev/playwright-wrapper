@@ -4,3 +4,4 @@ node_modules/
 *.log
 test-results/
 spike/step-id-roundtrip/consumer/
+linear-mcp-tokens.json
