@@ -54,6 +54,46 @@ ${snapshotText}`;
 }
 
 /**
+ * Rung 2's user turn (FYR-250's ladder): the same facts + snapshot, plus WHY
+ * the previous attempt failed — data already in hand (the rung-1 verdict),
+ * zero new machinery. An attempt is allowed only if its input differs from
+ * the previous attempt (FYR-250); this block is the difference.
+ * @param {object} step - same shape as buildRungTurn
+ * @param {string} snapshotText
+ * @param {string} whyFailed - one-line harness verdict on attempt 1
+ */
+export function buildRungTwoTurn(step, snapshotText, whyFailed) {
+  return `${buildRungTurn(step, snapshotText)}
+
+WHY THE PREVIOUS ATTEMPT FAILED
+${whyFailed}`;
+}
+
+/**
+ * The third tier's rich-context user turn (FYR-294): strictly more input
+ * than the Ollama pair's last attempt — snapshot + why the pair failed + ALL
+ * of the pair's failed proposals. Same healer interface (HEALER_PROMPT),
+ * data not code.
+ * @param {object} step - same shape as buildRungTurn
+ * @param {string} snapshotText
+ * @param {string} whyFailed
+ * @param {Array} failedProposals - [{actor, stepId, locator, verdict}] — what
+ *        the Ollama pair proposed and how it was rejected (may be empty)
+ */
+export function buildThirdTierTurn(step, snapshotText, whyFailed, failedProposals) {
+  const proposalLines = (failedProposals ?? []).map((p) =>
+    `  - [${p.actor}] proposed ${p.stepId} ${p.locator} — verdict: ${p.verdict}`,
+  );
+  return `${buildRungTurn(step, snapshotText)}
+
+WHY THE PREVIOUS ATTEMPTS FAILED
+${whyFailed}
+
+THE FAILED PROPOSALS THE PREVIOUS MODELS MADE (do not repeat them)
+${proposalLines.length > 0 ? proposalLines.join("\n") : "  (none — the previous attempts produced no usable proposal)"}`;
+}
+
+/**
  * Parse + validate the raw model response against the proposal contract.
  * @param {string} raw - the completion content, validated AS-IS (no
  *        fence-stripping, no repair — honesty over convenience)
@@ -205,6 +245,79 @@ export function patchLocator(specSource, stepId, newLocator) {
   };
 }
 
+// ------------------------------------------------------------ escalation
+
+/**
+ * The escalation router (FYR-257, test-profile table): pure per-reason, never
+ * outcome-aware. 257 fills `disposition`; the loop acts on the return. 257
+ * never sees outcomes — the loop derives the reason from loop-state.
+ *
+ * @param {{reason: string, thirdTierEnabled: boolean}} opts
+ * @returns {{retryThirdTier: boolean, disposition: "prompt"}
+ *           | {retryThirdTier: false, disposition: null, fatal: true}
+ *           — null disposition = loud-fatal contract gap (Q3): the caller
+ *           must halt the run loudly, never fall back silently.
+ *
+ * The table (test v1):
+ *   budget_exhausted    → Retry(third_tier) if enabled, else Terminal(prompt)
+ *   fallback_exhausted  → Retry(third_tier) if enabled, else Terminal(prompt)
+ *   infra               → Terminal(prompt) — capability valve, not availability
+ *   non_retryable       → null → loud-fatal (owned solely by browsing; test
+ *                         v1 never produces it — if it ever shows up, halt)
+ * Unknown reasons are loud-fatal too: the unknown-upstream default is
+ * fallback-not-classification, never an invented route.
+ */
+export function routeEscalation({ reason, thirdTierEnabled }) {
+  if (reason === "budget_exhausted" || reason === "fallback_exhausted") {
+    if (thirdTierEnabled) return { retryThirdTier: true, disposition: null };
+    return { retryThirdTier: false, disposition: "prompt" };
+  }
+  if (reason === "infra") {
+    return { retryThirdTier: false, disposition: "prompt" };
+  }
+  // non_retryable + anything unknown: no disposition in the active profile —
+  // a contract gap fails the run, it is not a fallback value (257 Q3).
+  return { retryThirdTier: false, disposition: null, fatal: true };
+}
+
+/**
+ * The escalation reason from loop-state (FYR-250: built from attempts, budget,
+ * actor — never from outcome values). Test profile: `non_retryable` is
+ * unreachable (owned by browsing), `infra` comes only from the environment
+ * (the browser bridge), handled by the caller before the ladder runs.
+ * Precedence infra > non_retryable > fallback_exhausted > budget_exhausted:
+ * with infra already extracted, any fallback engagement outranks plain
+ * budget exhaustion.
+ * @param {{fallbackEngaged: boolean}} loopState
+ */
+export function deriveEscalationReason({ fallbackEngaged }) {
+  return fallbackEngaged ? "fallback_exhausted" : "budget_exhausted";
+}
+
+/**
+ * One outcome-history entry (FYR-250 schema, v1 heal vocabulary).
+ * Per-attempt outcome values (additive, never re-classed — the monotone
+ * invariant binds the RUN-level enum, and these are new attempt-level
+ * values): "errored" (the call failed), "no_proposal" (refused/declared
+ * nothing), "patch_refused" (the patcher refused), "compile_failed"
+ * (patch applied but the spec no longer compiles), "healed".
+ */
+export function historyEntry(attempt, actor, outcome) {
+  return { attempt, actor, outcome, ts: new Date().toISOString() };
+}
+
+/**
+ * The outcome-history length invariant (FYR-294's refinement of FYR-250):
+ *   length == attempts.total - (third_tier.outcome ∈ {"no_proposal","errored"} ? 1 : 0)
+ * A third-tier no_proposal/errored was invoked but never ran a Playwright
+ * attempt — the deficit. Exported so tests assert the invariant, not a
+ * re-derivation of it.
+ */
+export function expectedHistoryLength(attempts, thirdTierOutcome) {
+  const deficit = thirdTierOutcome === "no_proposal" || thirdTierOutcome === "errored" ? 1 : 0;
+  return attempts.total - deficit;
+}
+
 // --------------------------------------------------------------- artifacts
 
 /**
@@ -227,9 +340,11 @@ export function buildHealRecord({
   failedLocator, // from the trace's call log
   attemptedIds,
   rungs, // [{rung, result}] — result: {proposal} | {refusal}
-  attempts, // {n_primary, n_fallback}
+  attempts, // {n_primary, n_fallback, total, third_tier}
   targetUrl,
   snapshotText,
+  thirdTier, // {actor, outcome, proposal?, refusal?, error} | null
+  escalation, // {reason, disposition} | null — the one event, at the terminal
 }) {
   const stamp = (sha) => (sha ? sha.slice(0, 7) : '<none>');
   const lines = [];
@@ -251,7 +366,7 @@ export function buildHealRecord({
   lines.push(`failed_locator: ${failedLocator ?? '<none in call log>'}`);
   lines.push(`steps_attempted: ${attemptedIds.length ? attemptedIds.join(' ') : '<none>'}`);
   lines.push('');
-  lines.push('## error');
+  lines.push(`## error`);
   lines.push(failingStep?.errorMessage?.trim() || '<no error text>');
   lines.push('');
   lines.push('## ladder');
@@ -262,14 +377,37 @@ export function buildHealRecord({
       lines.push(`- rung ${r.rung}: proposal ${p.stepId} ${p.locator} — lint passed${r.result.changed === false ? ' (locator unchanged — no-op patch)' : ''}`);
       if (r.result.compileError) {
         lines.push(`  compile check FAILED — patch reverted: ${String(r.result.compileError).split('\n')[0].slice(0, 200)}`);
+      } else if (r.result.reason) {
+        lines.push(`  patch refused — ${r.result.reason}`);
       }
     } else {
       const ref = r.result.refusal ?? { class: r.result.class, reason: r.result.reason };
       lines.push(`- rung ${r.rung}: no_proposal — ${ref.class}: ${ref.reason}`);
     }
   }
-  lines.push(`attempts: n_primary=${attempts.n_primary} n_fallback=${attempts.n_fallback}`);
+  lines.push(`attempts: n_primary=${attempts.n_primary} n_fallback=${attempts.n_fallback} third_tier=${attempts.third_tier}`);
   lines.push('');
+  if (thirdTier) {
+    lines.push('## third tier');
+    lines.push(`actor: ${thirdTier.actor}`);
+    lines.push(`outcome: ${thirdTier.outcome}`);
+    if (thirdTier.proposal) {
+      lines.push(`proposal: ${thirdTier.proposal.stepId} ${thirdTier.proposal.locator}${thirdTier.compileError ? ` — compile check FAILED, patch reverted: ${String(thirdTier.compileError).split('\n')[0].slice(0, 200)}` : ''}`);
+    }
+    if (thirdTier.refusal) {
+      lines.push(`refusal: ${thirdTier.refusal.class}: ${thirdTier.refusal.reason}`);
+    }
+    if (thirdTier.error) {
+      lines.push(`call failed: ${thirdTier.error}`);
+    }
+    lines.push('');
+  }
+  if (escalation) {
+    lines.push('## escalation');
+    lines.push(`reason: ${escalation.reason}`);
+    lines.push(`disposition: ${escalation.disposition}`);
+    lines.push('');
+  }
   lines.push('## page state (fresh snapshot at heal time)');
   lines.push(snapshotText ?? '<no snapshot>');
   lines.push('');
@@ -278,8 +416,20 @@ export function buildHealRecord({
 
 /**
  * The contract_version 2 outcome envelope (FYR-250/257/294 shape, heal slice).
- * Only not_pass outcomes enter the loop; third_tier stays key-gated presence
- * in this slice (the escalation router is a later ticket).
+ * Only not_pass outcomes enter the loop.
+ *
+ * FYR-294's schema extension, enforced here:
+ *   attempts.third_tier ∈ {0, 1} (invocations) + a top-level third_tier block
+ *   {enabled, actor, outcome} present always:
+ *     enabled == false            ⇒ attempts.third_tier == 0
+ *     attempts.third_tier == 0    ⇒ actor == null && outcome == null
+ *     attempts.third_tier == 1    ⇒ actor != null && outcome != null
+ *     outcome ∈ {failed, no_proposal, errored} on a terminal — "healed" only
+ *     on the healed envelope (success → no escalation event, audited in the
+ *     .heal.md).
+ *   escalation — exactly one, at the true terminal (null on healed/no-event).
+ *   outcome_history.length == attempts.total minus the third-tier no-run
+ *   deficit (expectedHistoryLength).
  */
 export function buildEnvelope({
   outcome,
@@ -287,13 +437,34 @@ export function buildEnvelope({
   status,
   errorStage,
   failingStepId,
-  attempts, // {n_primary, n_fallback}
+  attempts, // {n_primary, n_fallback, third_tier}
   thirdTierEnabled,
+  thirdTierActor, // resolved model id when the tier was invoked
+  thirdTierOutcome, // failed | no_proposal | errored | healed | null
+  escalation, // {event, reason, profile, disposition, ts} | null
+  outcomeHistory, // [{attempt, actor, outcome, ts}]
   recordPath,
   patch, // {stepId, oldLocator, newLocator, changed} | null
   nFailingTests,
   verified,
 }) {
+  const total = attempts.n_primary + attempts.n_fallback + attempts.third_tier;
+  // Presence rules (294): count 0 ⇒ actor/outcome null; count 1 ⇒ both set.
+  const invoked = attempts.third_tier === 1;
+  const block = {
+    enabled: thirdTierEnabled === true,
+    actor: invoked ? (thirdTierActor ?? null) : null,
+    outcome: invoked ? (thirdTierOutcome ?? null) : null,
+  };
+  if (block.enabled === false && attempts.third_tier !== 0) {
+    throw new Error(`third-tier presence rule broken: enabled == false requires attempts.third_tier == 0 (got ${attempts.third_tier})`);
+  }
+  if (invoked && (!block.actor || !block.outcome)) {
+    throw new Error("third-tier presence rule broken: attempts.third_tier == 1 requires actor and outcome");
+  }
+  if (!invoked && (block.actor !== null || block.outcome !== null)) {
+    throw new Error("third-tier presence rule broken: attempts.third_tier == 0 requires actor == null and outcome == null");
+  }
   return {
     contract_version: 2,
     command: 'heal',
@@ -305,8 +476,12 @@ export function buildEnvelope({
     attempts: {
       n_primary: attempts.n_primary,
       n_fallback: attempts.n_fallback,
-      third_tier: { enabled: thirdTierEnabled, actor: null, outcome: null },
+      total,
+      third_tier: attempts.third_tier,
     },
+    third_tier: block,
+    escalation: escalation ?? null,
+    outcome_history: outcomeHistory ?? [],
     patch: patch
       ? { step_id: patch.stepId, old_locator: patch.oldLocator, new_locator: patch.newLocator, changed: patch.changed }
       : null,

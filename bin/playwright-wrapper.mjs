@@ -36,11 +36,17 @@ Usage:
   playwright-wrapper heal <run-folder> [--drift-ok=<sha>]
 
 Consumes a self-locating run (the run folder holds results.json; its name
-carries the report's commit SHA), checks the drift guard, derives the
-outcome from the trace, takes one ladder rung (a fresh page snapshot and a
-{step_id, locator} proposal from the model), splices the proposal into the
-spec's single locator slot, and writes a .heal.md record beside results.json
-for every non-pass outcome. The contract_version 2 envelope prints on stdout.
+ carries the report's commit SHA), checks the drift guard, derives the
+outcome from the trace, and walks the heal ladder — budget N = 2: a fresh
+page snapshot, then the same snapshot plus why attempt 1 failed — asking the
+model for a {step_id, locator} proposal at each rung and splicing it into
+the spec's single locator slot. When the ladder exhausts, the escalation
+router fires (infra > non_retryable > fallback_exhausted > budget_exhausted;
+the test profile never produces non_retryable): with OPENAI_API_KEY present
+the third tier makes ONE rich-context GPT-5.6 attempt (same interface, no
+model fallback), and the one-shot guard forces the terminal with the
+original reason. A .heal.md record is written beside results.json for every
+non-pass outcome, and the contract_version 2 envelope prints on stdout.
 Exit code: healed / nothing_to_heal → 0; no_proposal / compile_failed → 1.
 The drift refusal never names its bypass; --drift-ok=<sha> is value-bearing.`,
   browse: `playwright-wrapper browse — planless ReAct loop ending in submit_extraction

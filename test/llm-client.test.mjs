@@ -6,7 +6,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
-import { complete, LlmError, MIN_COMPLETION_TOKENS } from "../src/llm-client.mjs";
+import { complete, completeThirdTier, LlmError, MIN_COMPLETION_TOKENS } from "../src/llm-client.mjs";
 import { loadConfig } from "../src/config.mjs";
 
 const KEY = "test-key-not-a-real-secret";
@@ -212,4 +212,110 @@ test("key never appears in transport error messages either", async (t) => {
     complete({ system: "s", user: "u", config: cfg, timeoutMs: 2000 }),
     (err) => !err.message.includes(KEY),
   );
+});
+
+// ------------------------------------------------ FYR-332: the third tier
+
+const TIER_KEY = "sk-third-tier-test-only-not-a-secret";
+
+function tierConfig(server, overrides = {}) {
+  const port = server.address().port;
+  return loadConfig({
+    ...process.env,
+    WRAPPER_OLLAMA_BASE_URL: "http://127.0.0.1:1/v1",
+    WRAPPER_OLLAMA_API_KEY: KEY,
+    WRAPPER_OPENAI_BASE_URL: `http://127.0.0.1:${port}/v1`,
+    ...overrides,
+  });
+}
+
+test("completeThirdTier: one call at the third-tier seam — tier config, OPENAI key, 512 cap, max effort", async (t) => {
+  process.env.OPENAI_API_KEY = TIER_KEY;
+  t.after(() => { delete process.env.OPENAI_API_KEY; });
+  let sawModel, sawAuth, sawMaxTokens, sawEffort;
+  const server = await startStub((req, res) => {
+    let body = "";
+    req.on("data", (d) => (body += d));
+    req.on("end", () => {
+      const parsed = JSON.parse(body);
+      sawModel = parsed.model;
+      sawMaxTokens = parsed.max_tokens;
+      sawEffort = parsed.reasoning_effort;
+      sawAuth = authOf(req);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(chatBody("locator json", "stop", "gpt-5.6-sol"));
+    });
+  });
+  t.after(() => server.close());
+
+  const res = await completeThirdTier({ system: "s", user: "u", config: tierConfig(server) });
+  assert.equal(res.content, "locator json");
+  assert.equal(sawModel, "gpt-5.6-sol", "the confirmed FYR-257 actor id is the default");
+  assert.equal(sawMaxTokens, 512, "the one-shot completion cap (FYR-294)");
+  assert.equal(sawEffort, "max", "the decision's (Max) reasoning effort");
+  assert.equal(sawAuth, TIER_KEY, "the OPENAI key authenticates the tier call");
+});
+
+test("completeThirdTier: 500 is transient → retried on the SAME call, never a model fallback", async (t) => {
+  process.env.OPENAI_API_KEY = TIER_KEY;
+  t.after(() => { delete process.env.OPENAI_API_KEY; });
+  const models = new Set();
+  let calls = 0;
+  const server = await startStub((req, res) => {
+    let body = "";
+    req.on("data", (d) => (body += d));
+    req.on("end", () => {
+      calls++;
+      models.add(JSON.parse(body).model);
+      res.writeHead(500).end('{"error":"outage"}');
+    });
+  });
+  t.after(() => server.close());
+
+  await assert.rejects(
+    completeThirdTier({ system: "s", user: "u", config: tierConfig(server) }),
+    (err) => {
+      assert.ok(err instanceof LlmError);
+      assert.ok(!err.message.includes(TIER_KEY), "the key never names itself");
+      return true;
+    },
+  );
+  assert.equal(calls, 2, "two bounded transport attempts, then the shot is spent");
+  assert.equal(models.size, 1, "no model fallback inside the tier");
+});
+
+test("completeThirdTier: empty content with finish length is budget-repaired once, then loud", async (t) => {
+  process.env.OPENAI_API_KEY = TIER_KEY;
+  t.after(() => { delete process.env.OPENAI_API_KEY; });
+  const budgets = [];
+  const server = await startStub((req, res) => {
+    let body = "";
+    req.on("data", (d) => (body += d));
+    req.on("end", () => {
+      const parsed = JSON.parse(body);
+      budgets.push(parsed.max_tokens);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ model: "gpt-5.6-sol", choices: [{ message: { role: "assistant", content: "" }, finish_reason: "length" }] }));
+    });
+  });
+  t.after(() => server.close());
+
+  await assert.rejects(
+    completeThirdTier({ system: "s", user: "u", config: tierConfig(server) }),
+    /reasoning prefix exhausted the third-tier budget/,
+  );
+  assert.deepEqual(budgets, [512, 1024], "one bounded doubling (the FYR-328 rule), then the shot is spent");
+});
+
+test("completeThirdTier: called without the key → loud refusal, zero requests", async (t) => {
+  delete process.env.OPENAI_API_KEY;
+  let calls = 0;
+  const server = await startStub((req, res) => { calls++; res.writeHead(200).end(chatBody("x")); });
+  t.after(() => server.close());
+
+  await assert.rejects(
+    completeThirdTier({ system: "s", user: "u", config: tierConfig(server) }),
+    /third tier disabled: OPENAI_API_KEY is not present/,
+  );
+  assert.equal(calls, 0, "the gate is key-presence; nothing was sent");
 });

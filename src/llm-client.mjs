@@ -18,14 +18,15 @@ import { loadConfig } from "./config.mjs";
 export class LlmError extends Error {
   /**
    * @param {string} message - names what failed; NEVER includes the key
-   * @param {object} [meta] - { phase: "main"|"fallback", cause?, attempts? }
+   * @param {object} [meta] - { phase: "main"|"fallback"|"third-tier", cause?, attempts?, budgetExhausted? }
    */
-  constructor(message, { phase, cause, attempts } = {}) {
+  constructor(message, { phase, cause, attempts, budgetExhausted } = {}) {
     super(message);
     this.name = "LlmError";
     this.phase = phase;
     this.cause = cause;
     this.attempts = attempts;
+    this.budgetExhausted = budgetExhausted === true;
   }
 }
 
@@ -157,6 +158,128 @@ async function callOnce({ baseUrl, apiKey, model, system, user, maxTokens, timeo
       throw new LlmError(cause, { phase: "main", attempts: { transport: cause === "timeout" } });
     }
     throw new LlmError(`transport failure: ${err.message}`, { phase: "main", attempts: { transport: true } });
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener("abort", onOuterAbort);
+  }
+}
+
+/**
+ * The third-tier call (FYR-257/294): ONE GPT-5.6 attempt, the top of the
+ * heal ladder. No model fallback — falling back to an exhausted Ollama model
+ * is a non-retry (294: violates input-must-differ). Bounded transport
+ * infra-retries on the SAME call are kept (429/5xx/timeout), consistent with
+ * the main client; a persistent error is the caller's `errored` outcome.
+ *
+ * Budget: the ~512-token completion cap (294) is the INITIAL budget. The
+ * reasoning-budget rule from FYR-328 applies unchanged — an empty content
+ * with finish_reason "length" is a mis-budgeted call, not a verdict, and is
+ * retried with a doubled budget (bounded, loud-fatal at the end). This is
+ * budget repair inside one logical attempt, never a model fallback and
+ * never a re-consult; persistent burn is v1 telemetry (294).
+ *
+ * Key hygiene: the OPENAI_API_KEY value never appears in logs or errors.
+ *
+ * @param {object} opts
+ * @param {string} opts.system
+ * @param {string} opts.user
+ * @param {number} [opts.maxTokens] - initial completion budget (default 512)
+ * @param {number} [opts.timeoutMs]
+ * @param {object} opts.config - pre-loaded config (thirdTier* fields)
+ * @param {AbortSignal} [opts.signal]
+ * @returns {Promise<{content: string, model: string, usage: object, raw: object}>}
+ */
+export async function completeThirdTier({ system, user, maxTokens = 512, timeoutMs = DEFAULT_TIMEOUT_MS, config, signal } = {}) {
+  const cfg = config || loadConfig();
+  // The third-tier key is read from the environment at call time — its value
+  // never enters the config object (FYR-326's presence-only surface) and
+  // never appears in logs or error messages.
+  const apiKey = typeof process.env.OPENAI_API_KEY === "string" ? process.env.OPENAI_API_KEY : "";
+  if (!cfg.thirdTierKeyPresent || apiKey.trim() === "") {
+    throw new LlmError("third tier disabled: OPENAI_API_KEY is not present — the gate is key-presence (FYR-257); this call should never have been reached", { phase: "third-tier" });
+  }
+  const model = cfg.thirdTierModel;
+  const budget = Math.max(maxTokens, MIN_COMPLETION_TOKENS);
+
+  const call = (maxTokens_, phase) =>
+    callThirdTierOnce({
+      baseUrl: cfg.thirdTierBaseUrl,
+      apiKey,
+      model,
+      system,
+      user,
+      maxTokens: maxTokens_,
+      timeoutMs,
+      signal,
+      phase,
+    });
+
+  let lastErr;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      return await call(budget, "third-tier");
+    } catch (err) {
+      lastErr = err;
+      // Reasoning-budget repair: empty content + finish length with room to
+      // double is a mis-budgeted call, not a model verdict (FYR-328 rule).
+      if (err instanceof LlmError && err.budgetExhausted && budget < 8192) {
+        return call(budget * 2, "third-tier");
+      }
+      if (!isTransient(err)) throw err;
+      await new Promise((r) => setTimeout(r, 500 * attempt));
+    }
+  }
+  throw lastErr;
+}
+
+async function callThirdTierOnce({ baseUrl, apiKey, model, system, user, maxTokens, timeoutMs, signal, phase }) {
+  const messages = [];
+  if (system) messages.push({ role: "system", content: system });
+  messages.push({ role: "user", content: user });
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(new Error("timeout")), timeoutMs);
+  const onOuterAbort = () => controller.abort(signal?.reason);
+  signal?.addEventListener("abort", onOuterAbort, { once: true });
+
+  try {
+    const res = await fetch(new URL("chat/completions", baseUrl), {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      // Chat Completions carries no tools here — `reasoning_effort: "max"` is
+      // safe with this endpoint shape (the tools incompatibility needs tools).
+      body: JSON.stringify({ model, messages, max_tokens: maxTokens, reasoning_effort: "max" }),
+    });
+
+    if (!res.ok) {
+      const status = res.status;
+      await res.text().catch(() => "");
+      throw new LlmError(`HTTP ${status} ${classifyHttp(status)}`, {
+        phase,
+        attempts: { transport: status === 429 || status >= 500 },
+      });
+    }
+    const data = await res.json();
+    const choice = data.choices?.[0];
+    if (!choice) throw new LlmError("response has no choices", { phase });
+
+    const content = choice.message?.content ?? "";
+    const finish = choice.finish_reason;
+    if (content === "" && finish === "length") {
+      throw new LlmError(`reasoning prefix exhausted the third-tier budget (${maxTokens} tokens) — empty content, finish_reason length`, { phase, budgetExhausted: true });
+    }
+    return { content, model: data.model || model, usage: data.usage || {}, raw: data };
+  } catch (err) {
+    if (err instanceof LlmError) throw err;
+    if (err?.name === "AbortError") {
+      const cause = signal?.aborted ? "caller abort" : "timeout";
+      throw new LlmError(cause, { phase, attempts: { transport: cause === "timeout" } });
+    }
+    throw new LlmError(`transport failure: ${err.message}`, { phase, attempts: { transport: true } });
   } finally {
     clearTimeout(timer);
     signal?.removeEventListener("abort", onOuterAbort);

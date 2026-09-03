@@ -1,6 +1,6 @@
-// `heal` subcommand (FYR-331): one ladder notch — trace → proposal → patch →
-// record, over a SELF-LOCATING run (the results file sits inside the run
-// folder; a human hands over nothing else).
+// `heal` subcommand (FYR-331 rung 1 + FYR-332 full ladder): trace → ladder →
+// escalation → record, over a SELF-LOCATING run (the results file sits inside
+// the run folder; a human hands over nothing else).
 //
 //   heal <run-folder> [--drift-ok=<sha>]
 //
@@ -10,13 +10,25 @@
 //      Playwright version known + major-coupled (FYR-249) → outcome routing
 //      (FYR-250: only not_pass enters; compile-stage never heals) →
 //      generator-shaped spec + stamped plan beside it (FYR-267/268).
-//   2. rung 1: fresh snapshot (the bridge warms BEFORE the LLM call) → the
-//      FYR-328 client asks the healer for {step_id, locator} data.
-//   3. the proposal is validated (lint), then spliced into the spec's single
-//      locator slot (text surgery) with a compile-stage safety net; on any
-//      compile failure the patch is REVERTED — a broken spec is never left.
-//   4. a .heal.md record lands beside results.json for every not_pass
-//      outcome; the contract_version 2 envelope prints on stdout.
+//   2. the heal ladder, budget N = 2 (FYR-250: an attempt is allowed only if
+//      its input differs from the previous attempt):
+//        rung 1: fresh snapshot (the bridge warms BEFORE the LLM call) →
+//                {step_id, locator} proposal from the main/fallback pair.
+//        rung 2: the same snapshot + WHY attempt 1 failed (data in hand).
+//   3. a validated proposal is spliced into the spec's single locator slot
+//      (text surgery) with a compile-stage safety net; on any compile failure
+//      the patch is REVERTED — a broken spec is never left.
+//   4. ladder exhausted → the escalation router (FYR-257) fills the
+//      disposition for the loop-derived reason (FYR-250 precedence, test
+//      profile: never non_retryable). On budget/fallback exhaustion with the
+//      key present the third tier fires ONCE (FYR-294): rich-context, same
+//      {step_id, locator} interface, no model fallback. The one-shot guard is
+//      loop-side: third-tier exhaustion forces the terminal with the ORIGINAL
+//      reason — no router re-consult, no new reason.
+//   5. exactly ONE escalation event fires, at the true terminal; a .heal.md
+//      record lands beside results.json for every non-pass outcome; the
+//      contract_version 2 envelope prints on stdout with the outcome_history
+//      invariant asserted before it leaves the loop.
 //
 // Honesty rules: the model's words enter the record only as classified
 // proposals; refusals are outcomes, not exceptions; nothing is repaired,
@@ -28,8 +40,12 @@ import { fileURLToPath } from "node:url";
 import { checkRunDrift } from "../../src/drift-guard.mjs";
 import { parseTrace, deriveOutcome, stripAnsi } from "../../src/trace-parse.mjs";
 import { parsePlan, lintSpec } from "../../src/plan-parse.mjs";
-import { HEALER_PROMPT, buildRungTurn, parseProposal, patchLocator, buildHealRecord, buildEnvelope } from "../../src/heal-core.mjs";
-import { complete, LlmError } from "../../src/llm-client.mjs";
+import {
+  HEALER_PROMPT, buildRungTurn, buildRungTwoTurn, buildThirdTierTurn,
+  parseProposal, patchLocator, buildHealRecord, buildEnvelope,
+  routeEscalation, deriveEscalationReason, historyEntry, expectedHistoryLength,
+} from "../../src/heal-core.mjs";
+import { complete, completeThirdTier, LlmError } from "../../src/llm-client.mjs";
 import { loadConfig } from "../../src/config.mjs";
 import { BrowserBridge } from "../../src/browser-bridge.mjs";
 
@@ -70,54 +86,99 @@ export function resolveBaseURL(repoRoot, env) {
 }
 
 /**
- * The heal body, injectable for tests: everything the bin path needs.
- * @param {object} opts
- * @param {string} opts.runFolder - path to the self-locating run folder
- * @param {string} [opts.driftOverride] - value-bearing --drift-ok=<sha>
- * @param {object} opts.config - pre-loaded LLM config
- * @param {NodeJS.ProcessEnv} [opts.env]
- * @param {string} [opts.cwd] - the consumer repo (drift guard resolves HEAD here)
- * @param {string} [opts.rawModelResponse] - canned response (tests): skip the
- *        LLM call but keep everything else
- * @param {string} [opts.cannedSnapshot] - snapshot for the canned path
- * @param {object} [opts.bridge] - injected bridge (tests); default = real one
+ * One ladder rung's LLM call, canned when a raw response is injected (tests).
+ * rawResponse: undefined = the real client path; null = canned call failure;
+ * string = canned content (the primary "answered").
+ * Returns {kind: 'content', content, viaFallback} | {kind: 'failed', message}.
  */
-/** The no-proposal terminal: record every not_pass outcome, exit non-zero. */
-function finishNoProposal({
-  runFolder,
-  outcome,
-  runId,
-  drift,
-  specPath,
-  planPath,
-  planStep,
-  rungs,
-  attempts,
-  targetUrl,
-  snapshotText,
-  config,
-}) {
-  const recordPath = path.join(runFolder, `${planFileSlug(planPath)}.heal.md`);
-  const recordText = buildHealRecord({
-    runId, reportSha: drift.runSha, headSha: drift.headSha, specPath, planPath,
-    outcome: "no_proposal", outcomeClass: outcome.outcomeClass, status: outcome.status,
-    errorStage: outcome.errorStage, failingStep: { id: outcome.failingStepId, action: planStep.action, errorMessage: outcome.errorMessage },
-    failedLocator: outcome.failedLocator, attemptedIds: outcome.attemptedIds,
-    rungs, attempts, targetUrl, snapshotText,
-  });
-  writeFileSync(recordPath, recordText);
-  return {
-    envelope: buildEnvelope({
-      outcome: "no_proposal", outcomeClass: outcome.outcomeClass, status: outcome.status, errorStage: outcome.errorStage,
-      failingStepId: outcome.failingStepId, attempts, thirdTierEnabled: config.thirdTierKeyPresent,
-      recordPath, patch: null, nFailingTests: outcome.nFailingTests, verified: false,
-    }),
-  };
+async function callRung({ system, user, config, rawResponse }) {
+  if (rawResponse === undefined) {
+    try {
+      const completion = await complete({ system, user, maxTokens: 2048, config });
+      return {
+        kind: "content",
+        content: completion.content,
+        viaFallback: Boolean(completion.fallbackFrom),
+      };
+    } catch (err) {
+      // Both tiers failed: the rung produced nothing — recorded, not retried.
+      return { kind: "failed", message: `llm_failed: ${err?.message ?? String(err)}`, viaFallback: true };
+    }
+  }
+  if (rawResponse === null) {
+    // Canned failure fixture: the call dies and the fallback was engaged.
+    return { kind: "failed", message: "llm_failed: canned llm failure fixture", viaFallback: true };
+  }
+  return { kind: "content", content: rawResponse, viaFallback: false };
 }
 
-/** The plan file's slug (its header `file:` value is derivable from the name). */
-function planFileSlug(planPath) {
-  return path.basename(planPath).replace(/\.plan\.md$/, "");
+/**
+ * The third tier's call (FYR-294), canned or real. One attempt, no model
+ * fallback — bounded transport retries live inside the client.
+ */
+async function callTier({ system, user, config, rawResponse }) {
+  if (rawResponse !== undefined && rawResponse !== null) {
+    return { kind: "content", content: rawResponse };
+  }
+  if (rawResponse === null) {
+    return { kind: "failed", message: "canned third-tier failure fixture" };
+  }
+  try {
+    const completion = await completeThirdTier({ system, user, maxTokens: 512, config });
+    return { kind: "content", content: completion.content, model: completion.model };
+  } catch (err) {
+    return { kind: "failed", message: `llm_failed: ${err?.message ?? String(err)}` };
+  }
+}
+
+/**
+ * Parse a rung's raw response into a proposal, enforcing the same-address
+ * rule: a proposal targeting any other step re-structures the failure
+ * address — refused as an outcome (banned).
+ */
+function judgeProposal(content, knownIds, failingStepId) {
+  const verdict = parseProposal(content, { knownIds });
+  if (!verdict.ok) return { ok: false, refusal: verdict.refusal };
+  if (verdict.proposal.stepId !== failingStepId) {
+    return {
+      ok: false,
+      refusal: {
+        class: "banned",
+        reason: `proposal targets ${verdict.proposal.stepId} but the trace failed at ${failingStepId} — a heal re-addresses the failing step`,
+      },
+    };
+  }
+  return { ok: true, proposal: verdict.proposal };
+}
+
+/**
+ * Patch + compile safety net. A patch that fails lint or compile is REVERTED
+ * (a broken spec is never left); the refusal text is an outcome.
+ */
+function applyPatch({ specSource, specPath, stepId, locator }) {
+  const patchRes = patchLocator(specSource, stepId, locator);
+  if (!patchRes.ok) return { ok: false, kind: "patch_refused", reason: patchRes.reason, patchRes: null };
+  const patchLint = lintSpec(patchRes.source);
+  if (!patchLint.ok) {
+    return { ok: false, kind: "patch_refused", reason: `patched spec failed the spec lint: ${patchLint.problems.join("; ")}`, patchRes };
+  }
+  writeFileSync(specPath, patchRes.source);
+  const check = spawnSync(process.execPath, ["--experimental-strip-types", "--check", specPath], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  if (check.status === 0) {
+    return { ok: true, kind: "healed", patchRes };
+  }
+  const compileError = stripAnsi(`${check.stderr ?? ""}${check.stdout ?? ""}`).trim();
+  writeFileSync(specPath, specSource); // safety net: never leave a broken spec
+  return {
+    ok: false,
+    kind: "compile_failed",
+    reason: `compile_failed: ${compileError.split("\n")[0].slice(0, 200)}`,
+    patchRes,
+    compileError,
+  };
 }
 
 export async function runHeal({
@@ -126,9 +187,12 @@ export async function runHeal({
   config,
   env = process.env,
   cwd = process.cwd(),
-  rawModelResponse = null,
+  rawModelResponse = undefined,
+  rawModelResponse2 = undefined,
+  rawThirdTierResponse = undefined,
   cannedSnapshot = null,
   bridge = null,
+  interactive = process.stdout?.isTTY === true,
 } = {}) {
   // ---- 1. Boundary validation — before any model call. --------------------
   if (!runFolder || !existsSync(runFolder) || !statSync(runFolder).isDirectory()) {
@@ -174,7 +238,15 @@ export async function runHeal({
   }
 
   if (outcome.outcomeClass === "pass") {
-    return { envelope: buildEnvelope({ outcome: "nothing_to_heal", outcomeClass: "pass", status: outcome.status, errorStage: null, failingStepId: null, attempts: { n_primary: 0, n_fallback: 0 }, thirdTierEnabled: config.thirdTierKeyPresent, recordPath: null, patch: null, nFailingTests: 0 }), writeNothing: true };
+    return {
+      envelope: buildEnvelope({
+        outcome: "nothing_to_heal", outcomeClass: "pass", status: outcome.status, errorStage: null,
+        failingStepId: null, attempts: { n_primary: 0, n_fallback: 0, third_tier: 0 },
+        thirdTierEnabled: config.thirdTierKeyPresent, escalation: null, outcomeHistory: [],
+        recordPath: null, patch: null, nFailingTests: 0, verified: false,
+      }),
+      writeNothing: true,
+    };
   }
   if (outcome.outcomeClass === "no_verdict") {
     throw new HealError(
@@ -221,7 +293,10 @@ export async function runHeal({
   const gotoPath = gotoStep ? gotoStep.value.match(/^literal '([^']*)'$/)[1] : "/";
   const targetUrl = new URL(gotoPath, baseURL).toString();
 
-  // ---- 2. Rung 1: fresh snapshot, then the healer call. --------------------
+  const recordPath = path.join(runFolder, `${plan.header.file}.heal.md`);
+  const failingStep = { id: outcome.failingStepId, action: planStep.action, errorMessage: outcome.errorMessage };
+
+  // ---- 2. The fresh snapshot — the ladder's page state. --------------------
   const own = bridge === null;
   const b = bridge ?? new BrowserBridge();
   let snapshotText;
@@ -231,134 +306,260 @@ export async function runHeal({
     snapshotText = cannedSnapshot ?? (await b.snapshot());
   } catch (err) {
     if (own) await b.close().catch(() => {});
-    throw new HealError(`browser bridge failed: ${err.message}`);
+    // Environment failure: reason `infra` (FYR-250 — built from loop-state,
+    // here the tool that failed is the browser itself). Disposition is
+    // Terminal(prompt) — the third tier is a capability valve, not an
+    // availability failover (FYR-257). No rung ran: attempts.total == 0 and
+    // outcome_history is empty (the FYR-250 presence rule).
+    return finishTerminal({
+      runOutcome: "no_proposal",
+      rungs: [],
+      attempts: { n_primary: 0, n_fallback: 0, third_tier: 0 },
+      thirdTier: null, escalationReason: "infra", history: [], patch: null,
+    });
   } finally {
     if (own) await b.close().catch(() => {});
   }
 
+  // ---- 3. The ladder, budget N = 2 (FYR-250). ------------------------------
   const rungs = [];
-  const attempts = { n_primary: 1, n_fallback: 0 };
-  let proposalResult;
-  if (rawModelResponse !== null) {
-    proposalResult = { content: rawModelResponse, model: "canned", fallbackFrom: null };
-  } else {
-    let completion;
-    try {
-      completion = await complete({
-        system: HEALER_PROMPT,
-        user: buildRungTurn(
-          {
-            id: outcome.failingStepId,
-            action: planStep.action,
-            locator: planStep.locator,
-            stage: outcome.errorStage,
-            errorMessage: outcome.errorMessage,
-          },
-          snapshotText,
-        ),
-        maxTokens: 2048,
-        config,
-      });
-    } catch (err) {
-      // Both tiers failed: the rung produced nothing — recorded, not retried.
-      attempts.n_fallback = 1;
-      rungs.push({ rung: 1, result: { class: "stuck", reason: `llm_failed: ${err instanceof LlmError ? err.message : err.message}` } });
-      return finishNoProposal({ runFolder, outcome, runId, drift, specPath, planPath, planStep, rungs, attempts, targetUrl, snapshotText, config });
-    }
-    proposalResult = completion;
-    if (completion.fallbackFrom) attempts.n_fallback = 1;
-  }
+  const attempts = { n_primary: 0, n_fallback: 0, third_tier: 0 };
+  const history = [];
+  const failedProposals = []; // what the pair proposed and how it was rejected
+  let whyFailed = null;       // rung 2's added context
+  let lastRunOutcome = "no_proposal";
+  let lastPatch = null;
+  let healed = false;
+  const pushHistory = (actor, histOutcome) => history.push(historyEntry(history.length + 1, actor, histOutcome));
 
-  rungs.push({ rung: 1, result: { proposal: null, ...proposalResult, raw: proposalResult.content } });
-  const verdict = parseProposal(proposalResult.content, { knownIds: knownIds });
-  rungs[rungs.length - 1].result = verdict.ok
-    ? { proposal: { stepId: verdict.proposal.stepId, locator: verdict.proposal.locator } }
-    : { refusal: verdict.refusal };
-
-  if (!verdict.ok) {
-    return finishNoProposal({ runFolder, outcome, runId, drift, specPath, planPath, planStep, rungs, attempts, targetUrl, snapshotText, config });
-  }
-
-  // The model may address a different step than the one that failed — that is
-  // a restructure of the failure address, refused as an outcome.
-  if (verdict.proposal.stepId !== outcome.failingStepId) {
-    rungs[rungs.length - 1].result = {
-      refusal: { class: "banned", reason: `proposal targets ${verdict.proposal.stepId} but the trace failed at ${outcome.failingStepId} — a heal re-addresses the failing step` },
+  for (let rung = 1; rung <= 2 && !healed; rung++) {
+    const step = {
+      id: outcome.failingStepId,
+      action: planStep.action,
+      locator: planStep.locator,
+      stage: outcome.errorStage,
+      errorMessage: outcome.errorMessage,
     };
-    return finishNoProposal({ runFolder, outcome, runId, drift, specPath, planPath, planStep, rungs, attempts, targetUrl, snapshotText, config });
-  }
+    const user =
+      rung === 1
+        ? buildRungTurn(step, snapshotText)
+        : buildRungTwoTurn(step, snapshotText, whyFailed);
 
-  // ---- 3. Patch: text surgery + compile-stage safety net. ------------------
-  const patchRes = patchLocator(specSource, outcome.failingStepId, verdict.proposal.locator);
-  if (!patchRes.ok) {
-    rungs[rungs.length - 1].result = { class: "stuck", reason: patchRes.reason };
-    return finishNoProposal({ runFolder, outcome, runId, drift, specPath, planPath, planStep, rungs, attempts, targetUrl, snapshotText, config });
-  }
+    const raw = rung === 1 ? rawModelResponse : (rawModelResponse2 === undefined ? rawModelResponse : rawModelResponse2);
+    const call = await callRung({ system: HEALER_PROMPT, user, config, rawResponse: raw });
+    attempts.n_primary += 1;
 
-  const recordPath = path.join(runFolder, `${plan.header.file}.heal.md`);
-  const patchLint = lintSpec(patchRes.source);
-  let patched = false;
-  let compileError = null;
-  if (!patchLint.ok) {
-    compileError = patchLint.problems.join("; ");
-  } else {
-    writeFileSync(specPath, patchRes.source);
-    const check = spawnSync(process.execPath, ["--experimental-strip-types", "--check", specPath], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-    });
-    if (check.status === 0) {
-      patched = true;
-    } else {
-      compileError = stripAnsi(`${check.stderr ?? ""}${check.stdout ?? ""}`).trim();
-      writeFileSync(specPath, specSource); // safety net: never leave a broken spec
+    if (call.kind === "failed") {
+      // Both tiers died on this rung: the primary errored and the fallback
+      // was engaged (and errored). No content — rung 2's input will differ.
+      attempts.n_fallback += 1;
+      pushHistory("primary", "errored");
+      pushHistory("fallback", "errored");
+      rungs.push({ rung, result: { class: "stuck", reason: call.message } });
+      whyFailed = `attempt ${rung}'s model call failed (${call.message})`;
+      continue;
     }
+
+    const actor = call.viaFallback ? "fallback" : "primary";
+    if (call.viaFallback) attempts.n_fallback += 1;
+
+    const judged = judgeProposal(call.content, knownIds, outcome.failingStepId);
+    let histOutcome;
+    if (!judged.ok) {
+      histOutcome = "no_proposal";
+      rungs.push({ rung, result: { refusal: judged.refusal } });
+      whyFailed = `attempt ${rung} answered but the proposal was refused (${judged.refusal.class}: ${judged.refusal.reason})`;
+    } else {
+      const proposal = judged.proposal;
+      const patch = applyPatch({ specSource, specPath, stepId: proposal.stepId, locator: proposal.locator });
+      histOutcome = patch.kind; // healed | patch_refused | compile_failed
+      if (patch.ok) {
+        rungs.push({ rung, result: { proposal: { stepId: proposal.stepId, locator: proposal.locator }, changed: patch.patchRes.changed } });
+        lastPatch = {
+          stepId: proposal.stepId, oldLocator: patch.patchRes.oldLocator,
+          newLocator: proposal.locator, changed: patch.patchRes.changed,
+        };
+        lastRunOutcome = "healed";
+        healed = true;
+      } else {
+        rungs.push({
+          rung,
+          result: {
+            proposal: { stepId: proposal.stepId, locator: proposal.locator },
+            reason: patch.reason,
+            compileError: patch.compileError ?? null,
+          },
+        });
+        lastPatch = {
+          stepId: proposal.stepId, oldLocator: patch.patchRes?.oldLocator ?? null,
+          newLocator: proposal.locator, changed: patch.patchRes?.changed ?? false,
+        };
+        lastRunOutcome = patch.kind;
+        whyFailed = patch.kind === "compile_failed"
+          ? `attempt ${rung}'s proposal ${proposal.locator} was spliced in but the patched spec failed to compile (${patch.reason.replace("compile_failed: ", "")})`
+          : `attempt ${rung} proposed ${proposal.locator} but the patcher refused (${patch.reason})`;
+        failedProposals.push({ actor, stepId: proposal.stepId, locator: proposal.locator, verdict: patch.reason });
+      }
+    }
+    pushHistory(actor, histOutcome);
   }
 
-  rungs[rungs.length - 1].result = patched
-    ? { proposal: { stepId: verdict.proposal.stepId, locator: verdict.proposal.locator }, changed: patchRes.changed }
-    : { proposal: { stepId: verdict.proposal.stepId, locator: verdict.proposal.locator }, changed: patchRes.changed, compileError };
+  if (healed) {
+    // Success — no escalation event exists on this path (FYR-294); the
+    // ladder's story is audited in the record.
+    return finishTerminal({
+      runOutcome: "healed", rungs, attempts, thirdTier: null,
+      escalationReason: null, history, patch: lastPatch,
+    });
+  }
 
-  if (!patched) {
+  // ---- 4. Ladder exhausted → the escalation router (FYR-250/257). ----------
+  const reason = deriveEscalationReason({ fallbackEngaged: attempts.n_fallback > 0 });
+  const route = routeEscalation({ reason, thirdTierEnabled: config.thirdTierKeyPresent });
+  if (!route.retryThirdTier && route.disposition === null) {
+    // Loud-fatal (Q3): a contract gap fails the run — never a silent default.
+    throw new HealError(
+      `escalation reason "${reason}" has no disposition in the test profile (FYR-257: non_retryable is owned by browsing) — halting loudly instead of guessing`,
+    );
+  }
+
+  if (route.retryThirdTier) {
+    // FYR-294: ONE rich-context GPT-5.6 attempt, same healer interface, no
+    // model fallback. The one-shot guard is loop-side: whatever happens, the
+    // loop forces the terminal with the ORIGINAL reason afterwards — no
+    // router re-consult, no new reason.
+    if (!config.thirdTierModel) {
+      throw new HealError(
+        "third tier is enabled (OPENAI_API_KEY present) but the config carries no third-tier model id — the actor must be resolvable before the shot is spent",
+      );
+    }
+    attempts.third_tier = 1;
+    const tierUser = buildThirdTierTurn(
+      { id: outcome.failingStepId, action: planStep.action, locator: planStep.locator, stage: outcome.errorStage, errorMessage: outcome.errorMessage },
+      snapshotText,
+      whyFailed ?? "(the ladder produced no verdicts)",
+      failedProposals,
+    );
+    const tierCall = await callTier({ system: HEALER_PROMPT, user: tierUser, config, rawResponse: rawThirdTierResponse });
+    const tierActor = tierCall.model || config.thirdTierModel;
+
+    if (tierCall.kind === "failed") {
+      // Errored: invoked, no usable run — the history deficit case.
+      return finishTerminal({
+        runOutcome: lastRunOutcome, rungs, attempts,
+        thirdTier: { actor: tierActor, outcome: "errored", error: tierCall.message },
+        escalationReason: reason, history, patch: null,
+      });
+    }
+
+    const judged = judgeProposal(tierCall.content, knownIds, outcome.failingStepId);
+    if (!judged.ok) {
+      // 294's outcome vocabulary: a STUCK refusal means the tier returned
+      // nothing usable → `no_proposal` (invoked, no usable run — the history
+      // deficit case). A BANNED refusal means it answered out-of-contract →
+      // the tier's `failed` (a real attempt, a history entry).
+      if (judged.refusal.class === "stuck") {
+        return finishTerminal({
+          runOutcome: "no_proposal", rungs, attempts,
+          thirdTier: { actor: tierActor, outcome: "no_proposal", refusal: judged.refusal },
+          escalationReason: reason, history, patch: null,
+        });
+      }
+      pushHistory("third_tier", "failed");
+      return finishTerminal({
+        runOutcome: "no_proposal", rungs, attempts,
+        thirdTier: { actor: tierActor, outcome: "failed", refusal: judged.refusal },
+        escalationReason: reason, history, patch: null,
+      });
+    }
+
+    const proposal = judged.proposal;
+    const patch = applyPatch({ specSource, specPath, stepId: proposal.stepId, locator: proposal.locator });
+    if (!patch.ok) {
+      // Answered, but the remediation did not take → the tier's `failed`.
+      pushHistory("third_tier", "failed");
+      return finishTerminal({
+        runOutcome: patch.kind, rungs, attempts,
+        thirdTier: {
+          actor: tierActor, outcome: "failed",
+          proposal: { stepId: proposal.stepId, locator: proposal.locator },
+          refusal: patch.kind === "compile_failed" ? undefined : { class: "stuck", reason: patch.reason },
+          compileError: patch.compileError,
+          patch: {
+            stepId: proposal.stepId, oldLocator: patch.patchRes?.oldLocator ?? null,
+            newLocator: proposal.locator, changed: patch.patchRes?.changed ?? false,
+          },
+        },
+        escalationReason: reason, history, patch: null,
+      });
+    }
+
+    // The tier healed it — success produces NO escalation event (FYR-294);
+    // it is audited in the record.
+    pushHistory("third_tier", "healed");
+    return finishTerminal({
+      runOutcome: "healed", rungs, attempts,
+      thirdTier: {
+        actor: tierActor, outcome: "healed",
+        proposal: { stepId: proposal.stepId, locator: proposal.locator },
+        patch: {
+          stepId: proposal.stepId, oldLocator: patch.patchRes.oldLocator,
+          newLocator: proposal.locator, changed: patch.patchRes.changed,
+        },
+      },
+      escalationReason: null, history,
+      patch: {
+        stepId: proposal.stepId, oldLocator: patch.patchRes.oldLocator,
+        newLocator: proposal.locator, changed: patch.patchRes.changed,
+      },
+    });
+  }
+
+  // ---- 5. No-key terminal (or any terminating disposition): prompt/defer. --
+  return finishTerminal({
+    runOutcome: lastRunOutcome, rungs, attempts, thirdTier: null,
+    escalationReason: reason, history, patch: null,
+  });
+
+  /** The one terminal builder: record + envelope, exactly one escalation. */
+  function finishTerminal({ runOutcome, rungs, attempts, thirdTier, escalationReason, history, patch }) {
+    const disposition = interactive ? "prompt" : "defer";
+    const escalation = escalationReason
+      ? {
+          event: "escalation",
+          reason: escalationReason,
+          profile: "test",
+          disposition,
+          ts: new Date().toISOString(),
+        }
+      : null;
     const recordText = buildHealRecord({
       runId, reportSha: drift.runSha, headSha: drift.headSha, specPath, planPath,
-      outcome: "compile_failed", outcomeClass: outcome.outcomeClass, status: outcome.status,
-      errorStage: outcome.errorStage, failingStep: { id: outcome.failingStepId, action: planStep.action, errorMessage: outcome.errorMessage },
+      outcome: runOutcome, outcomeClass: outcome.outcomeClass, status: outcome.status,
+      errorStage: outcome.errorStage, failingStep,
       failedLocator: outcome.failedLocator, attemptedIds: outcome.attemptedIds,
-      rungs, attempts, targetUrl, snapshotText,
+      rungs, attempts, targetUrl, snapshotText, thirdTier, escalation,
     });
     writeFileSync(recordPath, recordText);
-    return {
-      envelope: buildEnvelope({
-        outcome: "compile_failed", outcomeClass: outcome.outcomeClass, status: outcome.status, errorStage: outcome.errorStage,
-        failingStepId: outcome.failingStepId, attempts, thirdTierEnabled: config.thirdTierKeyPresent,
-        recordPath, patch: { stepId: verdict.proposal.stepId, oldLocator: patchRes.oldLocator, newLocator: verdict.proposal.locator, changed: patchRes.changed },
-        nFailingTests: outcome.nFailingTests, verified: false,
-      }),
-    };
+    const envelope = buildEnvelope({
+      outcome: runOutcome, outcomeClass: outcome.outcomeClass, status: outcome.status,
+      errorStage: outcome.errorStage, failingStepId: outcome.failingStepId,
+      attempts, thirdTierEnabled: config.thirdTierKeyPresent,
+      thirdTierActor: thirdTier?.actor ?? null, thirdTierOutcome: thirdTier?.outcome ?? null,
+      escalation, outcomeHistory: history, recordPath,
+      patch: patch ?? null,
+      nFailingTests: outcome.nFailingTests, verified: false,
+    });
+    // The invariant is a presence rule, asserted here so a broken loop cannot
+    // print a lying envelope (FYR-294's refinement of FYR-250).
+    const expected = expectedHistoryLength(envelope.attempts, envelope.third_tier.outcome);
+    if (envelope.outcome_history.length !== expected) {
+      throw new Error(
+        `outcome-history invariant broken: history has ${envelope.outcome_history.length} entries, expected ${expected} (attempts.total = ${envelope.attempts.total}, third_tier.outcome = ${envelope.third_tier.outcome})`,
+      );
+    }
+    return { envelope, snapshot: snapshotText };
   }
-
-  // ---- 4. Record + envelope. ----------------------------------------------
-  const recordText = buildHealRecord({
-    runId, reportSha: drift.runSha, headSha: drift.headSha, specPath, planPath,
-    outcome: "healed", outcomeClass: outcome.outcomeClass, status: outcome.status,
-    errorStage: outcome.errorStage, failingStep: { id: outcome.failingStepId, action: planStep.action, errorMessage: outcome.errorMessage },
-    failedLocator: outcome.failedLocator, attemptedIds: outcome.attemptedIds,
-    rungs, attempts, targetUrl, snapshotText,
-  });
-  writeFileSync(recordPath, recordText);
-
-  return {
-    envelope: buildEnvelope({
-      outcome: "healed", outcomeClass: outcome.outcomeClass, status: outcome.status, errorStage: outcome.errorStage,
-      failingStepId: outcome.failingStepId, attempts, thirdTierEnabled: config.thirdTierKeyPresent,
-      recordPath,
-      patch: { stepId: verdict.proposal.stepId, oldLocator: patchRes.oldLocator, newLocator: verdict.proposal.locator, changed: patchRes.changed },
-      nFailingTests: outcome.nFailingTests,
-      verified: false,
-    }),
-    snapshot: snapshotText,
-  };
 }
 
 export async function healMain(argv) {
