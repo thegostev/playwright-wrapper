@@ -110,63 +110,28 @@ export class BrowserBridge {
     return this.#call('browser_click', { element: elementDescription ?? `element ${ref}`, target: ref });
   }
 
-  /** Exposed tool descriptors (introspection surface; schemas included). */
-  async listTools() {
-    await this.warmContext();
-    const { tools } = await this.#client.listTools();
-    return tools;
-  }
-
   /**
    * Click recovery (the known browser_click network-idle gotcha, FYR-325):
-   * when a click errors or never settles (timedOut), navigate the link's href
-   * directly — the click's navigation DID happen or the href still lands right.
-   * `target="_blank"` dead-ends recover the same way.
-   *
-   * Inputs, in preference order:
-   *   - href: the `/url:` value read from the snapshot BEFORE the click (the
-   *     caller has it in hand; after a stuck click the page has already
-   *     navigated, so the fresh snapshot no longer carries the ref).
-   *   - baseUrl: the Page URL the click started from (resolve relative hrefs).
-   *   - ref: fallback — read the href from a FRESH snapshot (works when the
-   *     click failed without navigating, e.g. the actionability TimeoutError).
-   * Returns { recovered, via, text }.
+   * if the click errored or timed out (never settled), take a fresh snapshot,
+   * read the ref's href, and navigate directly. `target="_blank"` dead-ends
+   * recover the same way. Returns { recovered, via, text }.
    */
-  async recoverByHref(input, clickResult = null) {
-    // Preferred form: recoverByHref({ href, baseUrl, ref }) — href from the
-    // snapshot taken BEFORE the click (after a stuck click the page has already
-    // navigated, so the fresh snapshot no longer carries the ref), baseUrl the
-    // Page URL the click started from. ref alone falls back to a fresh
-    // snapshot lookup (works for non-navigating failures like the
-    // actionability TimeoutError). The legacy positional form
-    // (ref, clickResponseText) is still accepted.
+  async recoverByHref(ref, clickResult = null) {
     let href = null;
-    let baseUrl = null;
-    if (typeof input === 'string') {
-      href = hrefOfRef(await this.snapshot(), input);
-      baseUrl = typeof clickResult === 'string' ? currentUrl(clickResult) : null;
-    } else {
-      href = input.href ?? null;
-      baseUrl = input.baseUrl ?? null;
-      if (!href && input.ref) href = hrefOfRef(await this.snapshot(), input.ref);
-      if (!baseUrl && input.from) baseUrl = currentUrl(input.from);
+    try {
+      href = hrefOfRef(await this.snapshot(), ref);
+    } catch {
+      // fall through to the click's own response text
+    }
+    if (!href && clickResult) {
+      href = clickResult.match(/https?:\/\/\S+/)?.[0] ?? null;
     }
     if (!href) {
       return { recovered: false, via: null, text: 'no href recoverable for the failed click' };
     }
-    const url = resolveHref(baseUrl, href);
-    try {
-      const text = await this.navigate(url);
-      return { recovered: true, via: url, text };
-    } catch (err) {
-      // Navigating the href can itself hit the gotcha (the target page may be
-      // the never-settling one). The navigation still happened — verify arrival
-      // with a fresh snapshot instead of failing.
-      if (!err.timedOut) throw err;
-      const snap = await this.snapshot();
-      const landed = currentUrl(snap);
-      return { recovered: true, via: url, text: `navigated to ${landed ?? url} (navigate timed out on the unsettled page; snapshot confirms arrival)\n${snap}` };
-    }
+    const url = resolveHref(currentUrl(clickResult ?? ''), href);
+    const text = await this.navigate(url);
+    return { recovered: true, via: url, text };
   }
 
   /** Parse `[ref=eN]` tokens from a snapshot. */
