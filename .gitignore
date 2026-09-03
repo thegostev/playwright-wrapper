@@ -2,3 +2,5 @@ node_modules/
 .playwright-mcp/
 .DS_Store
 *.log
+test-results/
+spike/step-id-roundtrip/consumer/
