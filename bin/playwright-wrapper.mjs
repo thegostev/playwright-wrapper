@@ -55,7 +55,7 @@ function printHelp(toStdout = true) {
  * @param {string[]} argv - process.argv.slice(2)
  * @param {NodeJS.ProcessEnv} env
  */
-export function run(argv, env = process.env) {
+export async function run(argv, env = process.env) {
   const [first, ...rest] = argv;
 
   if (first === "-h" || first === "--help" || first === undefined) {
@@ -75,6 +75,14 @@ export function run(argv, env = process.env) {
   if (rest.includes("-h") || rest.includes("--help")) {
     process.stdout.write(SUBCOMMAND_USAGE[first] + "\n");
     return 0;
+  }
+
+  // generate is model-free: it consumes approved plan bytes. The LLM config
+  // gate is irrelevant here — dispatch BEFORE the config validation, since
+  // a test consumer has no Ollama key.
+  if (first === "generate") {
+    const { generateMain } = await import("./lib/generate.mjs");
+    return generateMain();
   }
 
   // Startup validation: cheap and loud, before any subcommand work.
@@ -103,5 +111,5 @@ export function run(argv, env = process.env) {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  process.exit(run(process.argv.slice(2)));
+  run(process.argv.slice(2)).then((code) => process.exit(code));
 }
