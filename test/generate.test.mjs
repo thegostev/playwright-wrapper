@@ -84,8 +84,9 @@ test("generate: fixture plan bytes → stamped pair written, git-trackable, stam
   assert.ok(spec.includes("const E2E_USER = process.env.E2E_USER;"));
   assert.ok(spec.includes("if (!E2E_USER) throw"));
 
-  // git-tracked-able: status shows the two files as untracked, nothing else.
-  const status = git(repo, "status", "--porcelain");
+  // git-tracked-able: both files show as untracked (new dir collapses to "?? tests/"
+  // in porcelain, so check with -uall to enumerate individual files).
+  const status = git(repo, "status", "--porcelain", "-uall");
   assert.equal(status.split("\n").filter(Boolean).length, 2);
   assert.match(status, /tests\/user-can-sign-in\.spec\.ts/);
   assert.match(status, /tests\/user-can-sign-in\.plan\.md/);
@@ -165,10 +166,16 @@ test("regen: same action text keeps ids; edited plan reassigns; healed locator r
   assert.equal(code, 0, stderr);
 
   const spec = readFileSync(specPath, "utf8");
-  // s2's action changed → the email step got a FRESH id (s7 from next_id high-water); s1..s5 kept.
-  assert.ok(spec.includes("[s1] go to the login page"));
-  assert.ok(spec.includes("[s2] type the email address"), "renamed action keeps its id by action-text match");
-  assert.ok(spec.includes("[s6] sign out"));
+  // Renamed action (s2 -> "type the email address") no longer matches by
+  // action text → FRESH id s7; surviving actions keep s1/s3/s4/s5; the
+  // appended step takes s6; s2 is dead (never reused).
+  assert.ok(spec.includes("[s1] go to the login page"), "unchanged action keeps its id");
+  assert.ok(spec.includes("[s6] type the email address"), "renamed action mints the next fresh id (allocation order: first unmatched wins)");
+  assert.ok(!spec.includes("[s2]"), "dead id s2 is not reused");
+  assert.ok(spec.includes("[s3] fill the password field"));
+  assert.ok(spec.includes("[s4] submit the form"));
+  assert.ok(spec.includes("[s5] assert the dashboard heading is shown"));
+  assert.ok(spec.includes("[s7] sign out"), "appended step takes the following fresh id");
   // Healed locator reset: the regen re-emits the plan's locator, not the healed one.
   assert.ok(spec.includes("getByLabel('Email')"), "healed locator reset on regen");
   assert.ok(!spec.includes("getByLabel('Login email')"));

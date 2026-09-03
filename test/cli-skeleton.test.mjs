@@ -13,7 +13,7 @@ import path from "node:path";
 const BIN = fileURLToPath(new URL("../bin/playwright-wrapper.mjs", import.meta.url));
 const ROOT = path.dirname(path.dirname(BIN));
 
-function spawnBin(args, envOverrides = {}) {
+function spawnBin(args, envOverrides = {}, stdinText) {
   const env = {
     ...process.env,
     WRAPPER_OLLAMA_API_KEY: "test-key-not-a-real-secret",
@@ -25,6 +25,8 @@ function spawnBin(args, envOverrides = {}) {
     let stderr = "";
     child.stdout.on("data", (d) => (stdout += d));
     child.stderr.on("data", (d) => (stderr += d));
+    if (stdinText !== undefined) child.stdin.write(stdinText);
+    child.stdin.end(); // always close stdin — generate reads it to EOF
     child.on("close", (code) => resolve({ code, stdout, stderr }));
   });
 }
@@ -37,7 +39,10 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
   const port = server.address().port;
   const baseUrl = `http://127.0.0.1:${port}/v1`;
 
-  for (const sub of ["plan", "generate", "heal", "browse"]) {
+  // generate is no longer a stub (FYR-330): it consumes plan bytes on stdin
+  // and is model-free, so the config-OK announcement does not apply. The
+  // other three subcommands remain routing stubs announcing config OK.
+  for (const sub of ["plan", "heal", "browse"]) {
     const { code, stdout } = await spawnBin([sub], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
     assert.equal(code, 0, `${sub} exits 0`);
     assert.match(stdout, new RegExp(`playwright-wrapper ${sub}: config OK`), `${sub} announces config OK`);
@@ -46,6 +51,10 @@ test("stub server receives no LLM call from skeleton subcommands, bin routes + v
     assert.match(stdout, /fallback glm-5\.3/);
     assert.ok(!stdout.includes("test-key-not-a-real-secret"), "key value never appears in stdout");
   }
+  // generate with empty stdin is a usage error (no plan piped), never an LLM call.
+  const gen = await spawnBin(["generate"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
+  assert.equal(gen.code, 2, "generate without stdin plan exits with the usage error");
+  assert.match(gen.stderr, /no plan on stdin/);
   assert.equal(hits, 0, "skeleton stubs make no HTTP calls");
 });
 
