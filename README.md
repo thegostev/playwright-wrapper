@@ -41,8 +41,8 @@ Each subcommand is a routed stub in this slice — correct usage text and exit c
 | Variable | Meaning | Default |
 |---|---|---|
 | `WRAPPER_OLLAMA_BASE_URL` | OpenAI-compatible endpoint base URL; tests point it at a stub server (the interception seam, FYR-325) | `https://ollama.com/v1` |
-| `WRAPPER_MODEL_MAIN` | Main model id | `glm-5.3-flash:cloud` |
-| `WRAPPER_MODEL_FALLBACK` | Fallback model id — engaged on failure only, never on a validating output (`n_fallback = 1`) | `glm-5.3:cloud` |
+| `WRAPPER_MODEL_MAIN` | Main model id | `glm-5.3-flash` |
+| `WRAPPER_MODEL_FALLBACK` | Fallback model id — engaged on failure only, never on a validating output (`n_fallback = 1`) | `glm-5.3` |
 | `WRAPPER_OLLAMA_API_KEY` | Ollama Cloud API key (required; never printed or persisted) | — |
 | `OPENAI_API_KEY` | Presence only (value unread) gates the third-tier escalation valve (FYR-257) | — |
 
