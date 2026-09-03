@@ -88,9 +88,9 @@ test("browse (canned): schema violations → schema_failed with failed_fields (A
   assert.equal(env.outcome_class, "not_pass");
   const fields = env.schema.failed_fields.map((f) => f.field).join(" ");
   assert.match(fields, /expected pattern \^https\?:\/\//);
-  // minItems floor: an empty array violates it
-  const env2 = await runBrowseLoop({ spec, schema: SCHEMA, cannedResponses: [subCall({ roles: [] })] });
-  assert.match(env2.schema.failed_fields[0].field, /expected at least 1 items/);
+  // minItems floor: an empty array is now an EMPTY CLAIM (FYR-334) and enters
+  // the three-state empty path — the floor-as-empty_schema_conflict case is
+  // proven in test/browse-oracle.test.mjs.
   assert.ok(env.schema.failed_fields[0].raw_truncated === false);
 });
 
@@ -266,14 +266,14 @@ function subCall(data) {
   return JSON.stringify({ tool: "submit_extraction", data });
 }
 
-function spawnBrowse(args, envOverrides = {}) {
+function spawnBrowse(args, envOverrides = {}, opts = {}) {
   const env = {
     ...process.env,
     WRAPPER_OLLAMA_API_KEY: "test-key-not-a-real-secret",
     ...envOverrides,
   };
   return new Promise((resolve) => {
-    const child = spawn(process.execPath, [BIN, "browse", ...args], { env, cwd: ROOT });
+    const child = spawn(process.execPath, [BIN, "browse", ...args], { env, cwd: opts.cwd ?? ROOT });
     let stdout = "";
     let stderr = "";
     child.stdout.on("data", (d) => (stdout += d));
@@ -282,3 +282,371 @@ function spawnBrowse(args, envOverrides = {}) {
     child.on("close", (code) => resolve({ code, stdout, stderr }));
   });
 }
+
+// --- FYR-334: the oracle hardening (stub transcripts; probe + judge injected) ----
+
+const EMPTY_SPEC = { header: { profile: "browsing", target: "https://example.test/jobs", taskId: null }, goal: "list the open roles" };
+
+test("browse (canned): marker-found empty claim → empty_confirmed (pass); recheck skipped", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  let rechecks = 0;
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    cannedResponses: [subCall({ roles: [] })],
+    schema: { type: "object", properties: { roles: { type: "array", minItems: 0 } }, required: ["roles"] },
+    pageProbe: {
+      readPageText: async () => "Sorry — No Open Positions match your filters.",
+      recheck: async () => {
+        rechecks += 1;
+        return "";
+      },
+    },
+  });
+  assert.equal(env.outcome, "empty_confirmed");
+  assert.equal(env.outcome_class, "pass");
+  assert.deepEqual(env.empty, { marker_found: true, marker_text: "no open positions", recheck_attempted: false });
+  assert.equal(rechecks, 0, "a first-read marker needs no recheck");
+  assert.equal(env.trace_path, null, "canned runs never persist a trace");
+});
+
+test("browse (canned): marker-unconfirmed → empty_unconfirmed (not_pass) after ONE fixed recheck", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  let reads = 0;
+  let rechecks = 0;
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    cannedResponses: [subCall({ roles: [] })],
+    allowEmpty: true,
+    pageProbe: {
+      readPageText: async () => {
+        reads += 1;
+        return "Welcome to the careers hub";
+      },
+      recheck: async () => {
+        rechecks += 1;
+        return "Welcome to the careers hub (scrolled to end)";
+      },
+    },
+  });
+  assert.equal(env.outcome, "empty_unconfirmed");
+  assert.equal(env.outcome_class, "not_pass", "never auto-pass an unconfirmed empty");
+  assert.deepEqual(env.empty, { marker_found: false, marker_text: null, recheck_attempted: true });
+  assert.equal(reads, 1);
+  assert.equal(rechecks, 1, "the recheck is ONE fixed scroll + re-snapshot");
+});
+
+test("browse (canned): empty claim under a minItems floor → empty_schema_conflict with BOTH blocks", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    cannedResponses: [subCall({ roles: [] })],
+    schema: { type: "object", properties: { roles: { type: "array", minItems: 1 } }, required: ["roles"] },
+    pageProbe: {
+      readPageText: async () => "no jobs found",
+      recheck: async () => "",
+    },
+  });
+  assert.equal(env.outcome, "empty_schema_conflict");
+  assert.equal(env.outcome_class, "not_pass");
+  assert.ok(env.empty.marker_found);
+  assert.equal(env.schema.failed_fields[0].field, "minItems", "the schema floor is the contradicted contract");
+});
+
+test("browse (canned): a failed empty-path page read is honest tool_error (stage recheck)", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    cannedResponses: [subCall({ roles: [] })],
+    allowEmpty: true,
+    pageProbe: { readPageText: async () => { throw new Error("page crashed"); }, recheck: async () => "" },
+  });
+  assert.equal(env.outcome, "tool_error");
+  assert.equal(env.outcome_class, "not_pass");
+  assert.equal(env.error.stage, "recheck");
+  assert.match(env.error.message, /empty-path page read failed: page crashed/);
+  assert.equal(env.empty, null, "an errored run carries neither payload block");
+});
+
+test("browse (canned): identity judge PASS keeps the structural verdict and records semantic", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const seen = {};
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    identityQuestion: "Is this the open-roles board?",
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- heading "Open roles" [ref=e1]\n- list "roles"' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+    judge: async (input) => {
+      Object.assign(seen, input);
+      return { pass: true, confidence: 0.87 };
+    },
+  });
+  assert.equal(env.outcome, "verified");
+  assert.equal(env.outcome_class, "pass");
+  assert.equal(env.semantic.ran, true);
+  assert.equal(env.semantic.pass, true);
+  assert.equal(env.semantic.confidence, 0.87, "recorded for humans — never used for routing");
+  assert.equal(seen.question, "Is this the open-roles board?");
+  assert.equal(seen.url, "https://example.test/jobs");
+  assert.match(seen.snapshotText, /Open roles/, "the judge's input is the snapshot");
+  assert.doesNotMatch(seen.snapshotText, /Engineer/, "…and NEVER the submit payload");
+  assert.equal(seen.payload, undefined, "the payload never reaches the judge");
+});
+
+test("browse (canned): identity judge REJECT → semantic_rejected; the structural verdict survives as structural_outcome", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    identityQuestion: "Is this the open-roles board?",
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- heading "Pricing" [ref=e1]' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+    judge: async () => ({ pass: false, reason: "this is the pricing page, not the roles board" }),
+  });
+  assert.equal(env.outcome, "semantic_rejected");
+  assert.equal(env.outcome_class, "not_pass");
+  assert.equal(env.structural_outcome, "verified", "structural classification preserved for the audit");
+  assert.deepEqual(env.semantic, {
+    question: "Is this the open-roles board?",
+    ran: true,
+    pass: false,
+    reason: "this is the pricing page, not the roles board",
+  });
+  assert.equal(env.pagination, null);
+});
+
+test("browse (canned): a judge ERROR never overrides — structural stands, semantic {ran:false}", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    identityQuestion: "Is this the open-roles board?",
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- heading "Open roles"' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+    judge: async () => {
+      throw new Error("judge model 500");
+    },
+  });
+  assert.equal(env.outcome, "verified", "the structural verdict stands");
+  assert.equal(env.outcome_class, "pass");
+  assert.equal(env.semantic.ran, false);
+  assert.match(env.semantic.error, /judge model 500/);
+});
+
+test("browse (canned): the judge is NOT invoked on a not_pass structural outcome", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  let judgeCalls = 0;
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    identityQuestion: "Is this the open-roles board?",
+    cannedResponses: [subCall({ roles: [{ title: "Engineer", link: "not-a-url" }] })],
+    judge: async () => {
+      judgeCalls += 1;
+      return { pass: true };
+    },
+  });
+  assert.equal(env.outcome, "schema_failed");
+  assert.equal(judgeCalls, 0, "no page-identity opinion is spent on an already-failed run");
+});
+
+test("browse (canned): a COMPLETED pager (k == n, no live Next) does not fire the gate", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- paragraph "Page 1 of 2" [ref=e1]\n- link "Next" [ref=e9]' },
+      { tool: "browser_click", target: "e9", element: "Next" },
+      { tool: "browser_snapshot", text: '- paragraph "Page 2 of 2" [ref=e1]' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+  });
+  assert.equal(env.outcome, "verified");
+  assert.equal(env.pagination, null, "telemetry-only when nothing fired");
+  assert.equal(env.coverage.stated_total_parsed, null);
+});
+
+test("browse (canned): a Next the model never followed stays telemetry-only (verified)", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- heading "Roles" [ref=e1]\n- link "Next" [ref=e9]' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+  });
+  assert.equal(env.outcome, "verified", "a present-but-unused Next is not a cue");
+  assert.equal(env.pagination, null);
+});
+
+test("browse (canned): followed Next + a live Next on the terminal snapshot → coverage_incomplete (not_pass)", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- paragraph "Page 1 of 2" [ref=e1]\n- link "Next" [ref=e9]' },
+      { tool: "browser_click", target: "e9", element: "Next" },
+      { tool: "browser_snapshot", text: '- paragraph "Page 2 of 2" [ref=e1]\n- link "Next" [ref=e19]' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+  });
+  assert.equal(env.outcome, "coverage_incomplete", "contradictory cues: the pager said done, a live Next says otherwise");
+  assert.equal(env.outcome_class, "not_pass");
+  assert.equal(env.structural_outcome, "verified");
+  assert.ok(env.pagination.class_evidence.pager_parse);
+  assert.equal(env.pagination.class_evidence.followed_next.length, 1);
+  assert.equal(env.pagination.terminal_evidence.live_next.length, 1);
+});
+
+test("browse (canned): freshest k < n fires the gate even without a live terminal Next", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- paragraph "Page 1 of 3" [ref=e1]\n- link "Next" [ref=e9]' },
+      { tool: "browser_click", target: "e9", element: "Next" },
+      { tool: "browser_snapshot", text: '- paragraph "Page 2 of 3" [ref=e1]' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+  });
+  assert.equal(env.outcome, "coverage_incomplete", "the model stopped at page 2 of 3 and submitted");
+  assert.equal(env.outcome_class, "not_pass");
+  assert.equal(env.pagination.terminal_evidence.pager_parse.k, 2);
+  assert.equal(env.pagination.terminal_evidence.pager_parse.n, 3);
+});
+
+test("browse (canned): fabricated stated_total in the model's notes cannot satisfy any gate", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  // The page states NO row total; the model's notes claim "all 66 jobs". Only
+  // the harness's parse of page text counts — claims are not evidence.
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- heading "Roles" [ref=e1]\n- list "roles"' },
+      { tool: "submit_extraction", data: { roles: [{ title: "E", link: "https://x/1" }] }, notes: "scraped all 66 jobs on the page" },
+    ],
+  });
+  assert.equal(env.outcome, "verified");
+  assert.equal(env.coverage.stated_total_parsed, null, "no page-text total → no arithmetic");
+  assert.equal(env.coverage.stated_total_reported, null, "model-authored numbers never enter the harness's field");
+  assert.equal(env.coverage.stated_total_disagreement, null);
+});
+
+test("browse (canned): rows below 0.9 of the page-stated total → coverage_suspect (pass_with_warning)", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const many = Array.from({ length: 10 }, (_, i) => ({ title: `Role ${i}`, link: `https://x/${i}` }));
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- text "Results 1–10 of 66 jobs"' },
+      subCall({ roles: many }),
+    ],
+  });
+  assert.equal(env.outcome, "coverage_suspect");
+  assert.equal(env.outcome_class, "pass_with_warning");
+  assert.equal(env.structural_outcome, "verified");
+  assert.equal(env.coverage.rows_extracted, 10);
+  assert.equal(env.coverage.stated_total_parsed, 66, "the PARSED total, not any model claim");
+});
+
+test("browse (canned): an infinite-scroll run (clicks, no pager cues) never fires the gate", async () => {
+  const { runBrowseLoop } = await import("../src/browse-core.mjs");
+  const env = await runBrowseLoop({
+    spec: EMPTY_SPEC,
+    schema: SCHEMA,
+    cannedResponses: [
+      { tool: "browser_snapshot", text: '- heading "Feed" [ref=e1]' },
+      { tool: "browser_click", target: "e5", element: "Load more" },
+      { tool: "browser_snapshot", text: '- heading "Feed" [ref=e1]\n- list "more items"' },
+      { tool: "browser_click", target: "e5", element: "Load more" },
+      { tool: "browser_snapshot", text: '- heading "Feed" [ref=e1]\n- list "even more items"' },
+      subCall({ roles: [{ title: "Engineer", link: "https://x/1" }] }),
+    ],
+  });
+  assert.equal(env.outcome, "verified", "infinite scroll stays telemetry-only (FYR-259)");
+  assert.equal(env.pagination, null);
+});
+
+test("browse (bin, real browser + stub LLM): the execution trace persists and stays auditable (FYR-334)", async (t) => {
+  const { mkdtempSync, writeFileSync, rmSync, readdirSync, readFileSync, existsSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const INDEX_HTML = `<!doctype html><html><body>
+  <main>
+    <h1>Jobs board</h1>
+    <ul>
+      <li><a href="/jobs/1">Engineer — Berlin</a></li>
+    </ul>
+  </main>
+</body></html>`;
+  const site = createServer((req, res) => {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(INDEX_HTML);
+  });
+  await new Promise((r) => site.listen(0, "127.0.0.1", r));
+  const dir = mkdtempSync(path.join(tmpdir(), "fyr334-trace-"));
+  const specPath = path.join(dir, "spec.txt");
+  writeFileSync(specPath, `profile: browsing\ntarget: http://127.0.0.1:${site.address().port}/\n\nlist the open roles with title and link\n`);
+  t.after(() => {
+    site.close();
+    rmSync(dir, { recursive: true });
+  });
+
+  const turns = [
+    { tool: "browser_snapshot" },
+    { submit: { data: { roles: [{ title: "Engineer — Berlin", link: "/jobs/1" }] }, notes: "read from the snapshot" } },
+  ];
+  let callIdx = 0;
+  const stub = createServer((req, res) => {
+    let body = "";
+    req.on("data", (d) => (body += d));
+    req.on("end", () => {
+      const turn = turns[Math.min(callIdx++, turns.length - 1)];
+      const toolCalls = turn.tool
+        ? [{ id: "c1", type: "function", function: { name: turn.tool, arguments: "{}" } }]
+        : [{ id: "c2", type: "function", function: { name: "submit_extraction", arguments: JSON.stringify(turn.submit) } }];
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(
+        JSON.stringify({
+          id: "stub",
+          object: "chat.completion",
+          created: 0,
+          model: "stub-model",
+          choices: [{ index: 0, message: { role: "assistant", content: "", tool_calls: toolCalls, reasoning_content: "r".repeat(150) }, finish_reason: "tool_calls" }],
+          usage: { prompt_tokens: 10, completion_tokens: 300, total_tokens: 310 },
+        }),
+      );
+    });
+  });
+  await new Promise((r) => stub.listen(0, "127.0.0.1", r));
+  t.after(() => stub.close());
+
+  // cwd = the temp dir → the project name falls back to the directory basename
+  // (no git remote) and the trace lands inside the cleaned-up temp tree.
+  const { code, stdout, stderr } = await spawnBrowse([specPath], {
+    WRAPPER_OLLAMA_BASE_URL: `http://127.0.0.1:${stub.address().port}/v1`,
+  }, { cwd: dir });
+  assert.equal(code, 0, `exit 0 on pass (stderr: ${stderr})`);
+  const envelope = JSON.parse(stdout);
+  assert.equal(typeof envelope.trace_path, "string");
+  assert.match(envelope.trace_path, /playwright-output\/fyr334-trace-[^/]+\/browse\/[^/]+\/trace\.json$/);
+  assert.ok(existsSync(envelope.trace_path), `trace persisted at ${envelope.trace_path}`);
+
+  const persisted = JSON.parse(readFileSync(envelope.trace_path, "utf8"));
+  const persistedText = JSON.stringify(persisted);
+  assert.match(persistedText, /Jobs board/, "the snapshot text survives in the trace (the cues are auditable)");
+  assert.match(persistedText, /Engineer — Berlin/, "the submit payload survives too");
+  const runDirs = readdirSync(path.join(dir, "playwright-output", readdirSync(path.join(dir, "playwright-output"))[0], "browse"));
+  assert.equal(runDirs.length, 1, "one run, one trace directory");
+});
