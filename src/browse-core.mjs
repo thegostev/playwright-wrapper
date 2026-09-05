@@ -93,18 +93,29 @@ Rules:
 /**
  * Build the OpenAI tool list from the bridge's real tool schemas (avoids the
  * target-vs-ref gotcha — the real schema tells the model what to send) plus
- * the terminal submit_extraction.
+ * the terminal submit_extraction. When the spec declares an output schema,
+ * that same schema types the submit tool's `data` parameter: a description
+ * alone leaves the model free to stringify the payload ("data: expected type
+ * object, got string" — live-probed), and the declared shape belongs at the
+ * tool boundary, not just in the system prompt.
  */
-export function buildToolList(bridgeTools) {
+export function buildToolList(bridgeTools, schema = null) {
   const tools = bridgeTools
     .filter((t) => BROWSER_ALLOW.has(t.name))
     .map((t) => ({ type: "function", function: { name: t.name, description: t.description, parameters: t.inputSchema } }));
+  const dataNode = schema
+    ? { ...schema, description: "The extracted payload — must conform to this schema exactly (a real object/array, never a JSON-encoded string)." }
+    : SUBMIT_SCHEMA.properties.data;
   tools.push({
     type: "function",
     function: {
       name: "submit_extraction",
       description: "Submit the final extracted data and finish the run. Call this ONCE when you have collected what the goal asks for.",
-      parameters: SUBMIT_SCHEMA,
+      parameters: {
+        type: "object",
+        properties: { data: dataNode, notes: SUBMIT_SCHEMA.properties.notes },
+        required: ["data"],
+      },
     },
   });
   return tools;
@@ -563,7 +574,7 @@ export async function runBrowseLoop({
     await b.navigate(spec.header.target);
 
     const bridgeTools = await b.listTools();
-    const tools = buildToolList(bridgeTools);
+    const tools = buildToolList(bridgeTools, schema);
     const messages = [
       { role: "system", content: browseSystemPrompt(schema, spec.goal) },
       { role: "user", content: `Browse and extract now. Start from the page you are on. Goal: ${spec.goal}` },
@@ -727,6 +738,7 @@ function recordCannedTurn(turn) {
 function recordLiveTurn({ step, name, args, resultText }) {
   const entry = { step, tool: name, ok: true };
   if (name === "browser_snapshot") entry.text = resultText;
+  if (name === "browser_navigate") entry.url = args.url ?? null;
   if (name === "browser_click") {
     entry.target = args.target ?? null;
     entry.element = args.element ?? null;
@@ -743,6 +755,7 @@ function finish(classified, { attempts, history, trace, persistOpts }) {
     if (entry.model !== undefined) return { step: entry.step, model: entry.model, finish: entry.finish, tool_calls: entry.tool_calls };
     const out = { step: entry.step, tool: entry.tool, ok: entry.ok };
     if (entry.error !== undefined) out.error = entry.error;
+    if (entry.url !== undefined) out.url = entry.url;
     if (entry.target !== undefined) out.target = entry.target;
     if (entry.element !== undefined) out.element = entry.element;
     return out;
