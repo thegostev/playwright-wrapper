@@ -33,6 +33,11 @@ const { createConnection } = require('@playwright/mcp');
 // may take before we treat it as the network-idle gotcha and recover.
 const CALL_TIMEOUT_MS = 5_000;
 
+// The warm-up call's own window: it pays the lazy browser boot, which must not
+// be squeezed into the tight gotcha window above (a cold start plus a settling
+// page can blow past 5s and look like the gotcha when it is only first-boot).
+const WARM_TIMEOUT_MS = 60_000;
+
 export class BridgeError extends Error {
   constructor(message, { tool, cause } = {}) {
     super(message);
@@ -66,6 +71,16 @@ export class BrowserBridge {
     this.#client = new Client({ name: 'playwright-wrapper', version: '1.0.0' });
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
     await Promise.all([this.#server.connect(serverTransport), this.#client.connect(clientTransport)]);
+    // The MCP server starts the browser lazily on the first tool call, so wire
+    // warm-up alone does NOT move the cold start off the LLM loop's critical
+    // path — the first navigate would pay browser boot inside the 5s gotcha
+    // window. A throwaway about:blank navigation pays that boot cost HERE,
+    // under WARM_TIMEOUT_MS, so real calls only ever time out on a live page.
+    await this.#client.callTool(
+      { name: 'browser_navigate', arguments: { url: 'about:blank' } },
+      undefined,
+      { timeout: WARM_TIMEOUT_MS },
+    );
   }
 
   /**
