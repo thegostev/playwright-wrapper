@@ -3,6 +3,9 @@
 // the env-only LLM config at startup — cheap and loud, before anything else.
 // Subcommands are stubs in this slice: correct usage text + exit codes.
 
+import { realpathSync } from "node:fs";
+import { pathToFileURL } from "node:url";
+
 import { loadConfig, USAGE, ConfigError } from "../src/config.mjs";
 
 const SUBCOMMANDS = ["plan", "generate", "heal", "browse", "skill"];
@@ -164,6 +167,15 @@ export async function run(argv, env = process.env) {
   return 0;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Compare realpaths: ESM realspaths import.meta.url, but argv[1] keeps the
+// invoked path — under `npm link` the two differ and the old template-literal
+// compare silently skipped the entry (exit 0, no output).
+let entryIsMain = false;
+try {
+  entryIsMain = import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href;
+} catch {
+  // argv[1] missing (node -e / REPL) — not the main entry.
+}
+if (entryIsMain) {
   run(process.argv.slice(2)).then((code) => process.exit(code));
 }
