@@ -115,7 +115,7 @@ async function callOnce({ baseUrl, apiKey, model, system, user, maxTokens, timeo
   signal?.addEventListener("abort", onOuterAbort, { once: true });
 
   try {
-    const res = await fetch(new URL("chat/completions", baseUrl), {
+    const res = await fetch(endpointUrl(baseUrl, "chat/completions"), {
       method: "POST",
       signal: controller.signal,
       headers: {
@@ -243,7 +243,7 @@ async function callThirdTierOnce({ baseUrl, apiKey, model, system, user, maxToke
   signal?.addEventListener("abort", onOuterAbort, { once: true });
 
   try {
-    const res = await fetch(new URL("chat/completions", baseUrl), {
+    const res = await fetch(endpointUrl(baseUrl, "chat/completions"), {
       method: "POST",
       signal: controller.signal,
       headers: {
@@ -291,6 +291,17 @@ function classifyHttp(status) {
   if (status === 429) return "rate limited";
   if (status >= 500) return "endpoint error";
   return "request rejected";
+}
+
+/**
+ * Join the configured base URL and the endpoint path. new URL's relative
+ * resolution replaces the last path segment, so a base without a trailing
+ * slash (the default, https://ollama.com/v1) would silently drop the /v1 and
+ * POST to https://ollama.com/chat/completions — HTTP 404 on every call.
+ */
+function endpointUrl(baseUrl, path) {
+  // config hands us a URL object; complete()/browse pass it straight through.
+  return new URL(`${String(baseUrl).replace(/\/+$/, "")}/${path}`);
 }
 
 /**
@@ -343,7 +354,7 @@ async function callChatOnce({ baseUrl, apiKey, model, messages, tools, maxTokens
   if (tools) body.tools = tools;
 
   try {
-    const res = await fetch(new URL("chat/completions", baseUrl), {
+    const res = await fetch(endpointUrl(baseUrl, "chat/completions"), {
       method: "POST",
       signal: controller.signal,
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
