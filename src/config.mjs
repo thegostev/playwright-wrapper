@@ -1,21 +1,21 @@
-// Config surface for the playwright-wrapper CLI (FYR-326).
+// Config surface for the playwright-wrapper CLI (LAG-478).
 //
 // The entire LLM configuration comes from the environment — base URL, model
 // ids, API key. Validation is cheap and loud, and it runs before anything
 // else. Key values are never logged, never persisted, never echoed: errors
 // name the env var, never the value.
 //
-// Defaults per FYR-325: hosted Ollama Cloud endpoint, main
+// Defaults per LAG-262: hosted Ollama Cloud endpoint, main
 // `glm-5.3-flash`, fallback `glm-5.3` (fallback-on-failure only).
 
 const DEFAULT_BASE_URL = "https://ollama.com/v1";
 // Hosted endpoint ids (live-verified 2026-09-03): /v1/models lists bare ids —
 // `:cloud`-suffixed ids 404 (the earlier ":cloud live-confirmed" note was
-// stale). Both models answer; main/fallback per FYR-248 discipline.
+// stale). Both models answer; main/fallback per LAG-352 discipline.
 const DEFAULT_MODEL_MAIN = "glm-5.3-flash";
 const DEFAULT_MODEL_FALLBACK = "glm-5.3";
 
-// Third tier (FYR-257/294): the one GPT-5.6 escalation valve, behind
+// Third tier (LAG-494/294): the one GPT-5.6 escalation valve, behind
 // OPENAI_API_KEY presence. Model id confirmed against the live API docs
 // (2026-09-03): `gpt-5.6-sol` speaks v1/chat/completions; the alias `gpt-5.6`
 // routes to the same model. "(Max)" in the decision names the reasoning
@@ -73,7 +73,7 @@ export function loadConfig(env = process.env) {
     );
   }
 
-  // Third tier (FYR-257): key-presence gate only. The VALUE is never read
+  // Third tier (LAG-494): key-presence gate only. The VALUE is never read
   // here and never enters the config object — the client reads it from the
   // environment at call time (completeThirdTier), and it is never logged.
   const thirdTierKeyPresent =
@@ -125,6 +125,8 @@ Subcommands:
             proposing {step_id, locator} patches; write .heal.md records.
   browse    Run the planless ReAct browsing loop ending in submit_extraction;
             emit the contract-version 2 outcome envelope on stdout.
+  skill     Install the Claude Code skill shipped with this package into
+            ~/.claude/skills/, stamped with the package version.
 
 Options:
   -h, --help   Show this help, or help for a subcommand.

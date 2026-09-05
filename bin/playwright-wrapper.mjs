@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// playwright-wrapper bin (FYR-326): routes the four subcommands and validates
+// playwright-wrapper bin (LAG-478, +LAG-574 skill): routes the five subcommands and validates
 // the env-only LLM config at startup — cheap and loud, before anything else.
 // Subcommands are stubs in this slice: correct usage text + exit codes.
 
 import { loadConfig, USAGE, ConfigError } from "../src/config.mjs";
 
-const SUBCOMMANDS = ["plan", "generate", "heal", "browse"];
+const SUBCOMMANDS = ["plan", "generate", "heal", "browse", "skill"];
 
 const SUBCOMMAND_USAGE = {
   plan: `playwright-wrapper plan — emit a candidate plan from a live page snapshot
@@ -16,7 +16,7 @@ Usage:
 
 Reads the task spec (profile + target header, NL goal body), drives the target
 page in a real Chromium via the in-process Playwright MCP bridge, snapshots
-it, and has the main model emit a keyed-line plan (the FYR-267 grammar). The
+it, and has the main model emit a keyed-line plan (the LAG-276 grammar). The
 raw response is validated unmodified and ids are re-keyed by the harness; on
 pass the plan prints to stdout for review; on any grammar violation the
 problems print with line numbers and the exit is non-zero — no repair, no
@@ -62,6 +62,19 @@ tools, and ends only on the terminal submit_extraction call. The payload
 is classified against the declared schema (verified | asserted) and the
 contract-version 2 outcome envelope prints on stdout. Exit code: pass → 0,
 not_pass → 1. No plan is ever created for the browsing profile.`,
+  skill: `playwright-wrapper skill — install the Claude Code skill
+
+Usage:
+  playwright-wrapper skill install [--force] [--print]
+
+Copies the skill shipped inside this package to
+~/.claude/skills/playwright-wrapper/SKILL.md, creating the directory, and
+stamps the installed copy with the package version so drift between the skill
+and the bin it documents is detectable rather than silent. Re-running after a
+package upgrade replaces an unedited copy and names both versions; a copy that
+has been edited locally is never overwritten without --force. --print writes
+the stamped skill to stdout instead, for a target that is not ~/.claude.
+Exit code: 0 ok, 1 error, 2 usage.`,
 };
 
 function printHelp(toStdout = true) {
@@ -102,6 +115,14 @@ export async function run(argv, env = process.env) {
   if (first === "generate") {
     const { generateMain } = await import("./lib/generate.mjs");
     return generateMain();
+  }
+
+  // skill install is model-free too: it copies bytes into ~/.claude/skills.
+  // Dispatch BEFORE the config gate — installing the skill on a fresh machine
+  // must not require the LLM key to be set yet.
+  if (first === "skill") {
+    const { skillMain } = await import("./lib/skill.mjs");
+    return skillMain(rest);
   }
 
   // Startup validation: cheap and loud, before any subcommand work.

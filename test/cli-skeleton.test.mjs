@@ -1,5 +1,5 @@
-// FYR-326 smoke + seam tests: the bin spawned end to end against a stub API
-// server. This is the seam later tickets (FYR-328+) reuse — tests point the
+// LAG-478 smoke + seam tests: the bin spawned end to end against a stub API
+// server. This is the seam later tickets (LAG-328+) reuse — tests point the
 // client at a stub by overriding WRAPPER_OLLAMA_BASE_URL and assert on
 // stdout/exit only. No loop internals, no prompt strings.
 
@@ -39,7 +39,7 @@ test("every subcommand is real: bare invocations are usage errors, no LLM call f
   const port = server.address().port;
   const baseUrl = `http://127.0.0.1:${port}/v1`;
 
-  // No routing stubs remain (FYR-330/FYR-329/FYR-331/FYR-333): generate
+  // No routing stubs remain (LAG-449/LAG-500/LAG-364/LAG-551): generate
   // consumes plan bytes on stdin (model-free); plan, heal, and browse need an
   // argument and drive the bridge or the trace. A bare invocation is that
   // subcommand's own usage error, never an LLM call or browser.
@@ -58,6 +58,11 @@ test("every subcommand is real: bare invocations are usage errors, no LLM call f
   const browse = await spawnBin(["browse"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
   assert.equal(browse.code, 2, "browse without a spec argument exits with the usage error");
   assert.match(browse.stderr, /missing spec argument/);
+  // skill (LAG-574) is model-free like generate: a bare invocation is its own
+  // usage error. Its install path is covered in test/skill-install.test.mjs.
+  const skill = await spawnBin(["skill"], { WRAPPER_OLLAMA_BASE_URL: baseUrl });
+  assert.equal(skill.code, 2, "skill without an action exits with the usage error");
+  assert.match(skill.stderr, /missing action/);
   assert.equal(hits, 0, "no subcommand makes an HTTP call on a bare invocation");
 });
 
@@ -94,7 +99,7 @@ test("usage: --help exits 0 with the usage text on stdout; -h works per subcomma
   const help = await spawnBin(["--help"]);
   assert.equal(help.code, 0);
   assert.match(help.stdout, /Usage:/);
-  for (const sub of ["plan", "generate", "heal", "browse"]) {
+  for (const sub of ["plan", "generate", "heal", "browse", "skill"]) {
     assert.ok(help.stdout.includes(sub), `usage lists ${sub}`);
   }
   const planHelp = await spawnBin(["plan", "--help"]);
@@ -106,7 +111,7 @@ test("unknown subcommand: usage error, exit 2, message on stderr", async () => {
   const { code, stderr } = await spawnBin(["frobnicate"]);
   assert.equal(code, 2);
   assert.match(stderr, /unknown subcommand "frobnicate"/);
-  assert.match(stderr, /plan, generate, heal, browse/);
+  assert.match(stderr, /plan, generate, heal, browse, skill/);
 });
 
 test("bare invocation: usage on stderr, exit 2", async () => {
@@ -117,7 +122,7 @@ test("bare invocation: usage on stderr, exit 2", async () => {
 });
 
 test("third-tier gate: key presence is presence-only, surfaced on the heal envelope", async () => {
-  // The stub announcement is gone (FYR-331 made heal real): the third-tier
+  // The stub announcement is gone (LAG-364 made heal real): the third-tier
   // valve now surfaces as the envelope's attempts.third_tier.enabled — the
   // key's VALUE is never read, only its presence. The config surface computes
   // it; the heal envelope carries it (asserted in test/heal.test.mjs).
@@ -129,10 +134,10 @@ test("third-tier gate: key presence is presence-only, surfaced on the heal envel
   assert.equal(offCfg.thirdTierKeyPresent, false);
 });
 
-test("third-tier config surface: base URL + model id, validated loud (FYR-332)", async () => {
+test("third-tier config surface: base URL + model id, validated loud (LAG-405)", async () => {
   const { loadConfig } = await import("../src/config.mjs");
   const cfg = loadConfig({ WRAPPER_OLLAMA_API_KEY: "k", OPENAI_API_KEY: "sk-x" });
-  assert.equal(cfg.thirdTierBaseUrl.href, "https://api.openai.com/v1", "the confirmed FYR-257 endpoint");
+  assert.equal(cfg.thirdTierBaseUrl.href, "https://api.openai.com/v1", "the confirmed LAG-494 endpoint");
   assert.equal(cfg.thirdTierModel, "gpt-5.6-sol", "the confirmed actor id");
   const moved = loadConfig({ WRAPPER_OLLAMA_API_KEY: "k", WRAPPER_OPENAI_BASE_URL: "http://127.0.0.1:9/v1" });
   assert.equal(moved.thirdTierBaseUrl.href, "http://127.0.0.1:9/v1", "the endpoint is env-overridable (test seam)");
@@ -146,7 +151,7 @@ test("third-tier config surface: base URL + model id, validated loud (FYR-332)",
   );
 });
 
-test("seam: config surface feeds a stub URL — env override reaches the bin (contract for FYR-328+)", async (t) => {
+test("seam: config surface feeds a stub URL — env override reaches the bin (contract for LAG-328+)", async (t) => {
   // A stub that records the User-Agent-less GET proves the URL override is
   // honored verbatim; the skeleton itself makes no calls, so assert the env
   // surface by loading config directly with the stub URL.
