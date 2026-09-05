@@ -6,4 +6,6 @@ test-results/
 playwright-output/
 .scratch-fyr*/
 spike/step-id-roundtrip/consumer/
+spike/login-cost/consumer/
+spike/login-cost/results/
 linear-mcp-tokens.json
