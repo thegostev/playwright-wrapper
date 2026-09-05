@@ -1,5 +1,5 @@
 {
-  "name": "playwright-wrapper",
+  "name": "playwright-wrapper-by-gostev",
   "version": "1.0.0",
   "description": "Playwright for agentic efficiency. Use cases from browsing and scraping to E2E tests.",
   "type": "module",
@@ -7,20 +7,26 @@
   "bin": {
     "playwright-wrapper": "./bin/playwright-wrapper.mjs"
   },
+  "files": [
+    "bin/",
+    "src/",
+    "skill/",
+    "README.md"
+  ],
   "scripts": {
     "test": "node --test --test-force-exit"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thegostev/playwright-wrapper.git"
+    "url": "git+https://github.com/thegostev/playwright-wrapper-by-gostev.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/thegostev/playwright-wrapper/issues"
+    "url": "https://github.com/thegostev/playwright-wrapper-by-gostev/issues"
   },
-  "homepage": "https://github.com/thegostev/playwright-wrapper#readme",
+  "homepage": "https://github.com/thegostev/playwright-wrapper-by-gostev#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
     "@playwright/mcp": "^0.0.79"
